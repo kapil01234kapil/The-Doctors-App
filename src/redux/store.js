@@ -1,20 +1,36 @@
-// store/store.js
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
-import { persistReducer } from "redux-persist";
+import { persistStore, persistReducer } from "redux-persist";
+// This is safe for Next.js app directory
+import createWebStorage from "redux-persist/lib/storage/createWebStorage";
+
 import authSlice from "./authSlice";
 import scheduleSlice from "./scheduleSlice";
 import notificationSlice from "./notificationSlice";
 import adminSlice from "./adminSlice";
 
-let storage;
-if (typeof window !== "undefined") {
-  storage = require("redux-persist/lib/storage").default; // localStorage only in browser
-}
+const createNoopStorage = () => {
+  return {
+    getItem(_key) {
+      return Promise.resolve(null);
+    },
+    setItem(_key, value) {
+      return Promise.resolve(value);
+    },
+    removeItem(_key) {
+      return Promise.resolve();
+    },
+  };
+};
+
+const storage =
+  typeof window !== "undefined"
+    ? createWebStorage("local")
+    : createNoopStorage();
 
 const persistConfig = {
   key: "root",
-  storage: storage || undefined,
-  whitelist: ["auth"], // only auth slice persisted
+  storage,
+  whitelist: ["auth"],
 };
 
 const rootReducer = combineReducers({
@@ -37,8 +53,4 @@ export const store = configureStore({
   devTools: process.env.NODE_ENV !== "production",
 });
 
-export let persistor;
-if (typeof window !== "undefined") {
-  const { persistStore } = require("redux-persist");
-  persistor = persistStore(store);
-}
+export const persistor = persistStore(store);
