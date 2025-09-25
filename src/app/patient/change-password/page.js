@@ -1,4 +1,4 @@
-import PasswordSecuritySettings from "@/components/doctor/ChangePassword/ChangePassword";
+import PasswordSecuritySettings from "@/components/doctor/ChangePassword/ChangePasswordDoctor";
 import React from "react";
 
 const page = () => {

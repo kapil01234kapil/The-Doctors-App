@@ -1,4 +1,6 @@
-import PasswordSecuritySettings from '@/components/doctor/ChangePassword/ChangePassword'
+"use client"
+
+import PasswordSecuritySettings from '@/components/doctor/ChangePassword/ChangePasswordDoctor'
 import React from 'react'
 
 const page = () => {

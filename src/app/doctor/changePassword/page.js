@@ -1,4 +1,4 @@
-import PasswordSecuritySettings from '@/components/doctor/ChangePassword/ChangePassword'
+import PasswordSecuritySettings from '@/components/doctor/ChangePassword/ChangePasswordDoctor'
 import DoctorLayout from '@/components/doctor/DoctorLayout'
 import React from 'react'
 
