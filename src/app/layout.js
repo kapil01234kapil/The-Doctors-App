@@ -1,15 +1,10 @@
-import { Geist, Geist_Mono } from "next/font/google";
+import ReduxProvider from "@/components/shared/ReduxProvider";
 import "./globals.css";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+import { Toaster } from "react-hot-toast";
+import Footer from "@/components/shared/Footer";
+import PatientWrapper from "@/components/patient/PatientWrapper";
+import FinalLayout from "@/components/shared/FinalLayout";
+// import BackgroundWrapper from "@/components/shared/BackgroundWrapper";
 
 export const metadata = {
   title: "Create Next App",
@@ -19,10 +14,52 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
+      <body className="min-h-screen">
+        {/* <BackgroundWrapper> */}
+          <ReduxProvider>
+            <FinalLayout>
+
+            
+            {children}
+            <Toaster
+              position="top-right"
+              toastOptions={{
+                style: {
+                  background: "#fff",
+                  color: "#333",
+                  borderRadius: "10px",
+                  padding: "12px 16px",
+                  boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+                },
+                success: {
+                  style: {
+                    background: "#e6f4ff",
+                    border: "1px solid #1195FF",
+                    color: "#1195FF",
+                    fontWeight: "500",
+                  },
+                  iconTheme: {
+                    primary: "#1195FF",
+                    secondary: "#fff",
+                  },
+                },
+                error: {
+                  style: {
+                    background: "#ffe6e6",
+                    border: "1px solid #ff4d4f",
+                    color: "#ff4d4f",
+                    fontWeight: "500",
+                  },
+                  iconTheme: {
+                    primary: "#ff4d4f",
+                    secondary: "#fff",
+                  },
+                },
+              }}
+            />
+            </FinalLayout>
+          </ReduxProvider>
+        {/* </BackgroundWrapper> */}
       </body>
     </html>
   );
