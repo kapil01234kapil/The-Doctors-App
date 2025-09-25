@@ -1,10 +1,9 @@
-import ReduxProvider from "@/components/shared/ReduxProvider";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
 import Footer from "@/components/shared/Footer";
 import PatientWrapper from "@/components/patient/PatientWrapper";
 import FinalLayout from "@/components/shared/FinalLayout";
-// import BackgroundWrapper from "@/components/shared/BackgroundWrapper";
+import ClientReduxProvider from "@/components/shared/ClientReduxProvider";
 
 export const metadata = {
   title: "Create Next App",
@@ -15,11 +14,8 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className="min-h-screen">
-        {/* <BackgroundWrapper> */}
-          <ReduxProvider>
-            <FinalLayout>
-
-            
+        <ClientReduxProvider>
+          <FinalLayout>
             {children}
             <Toaster
               position="top-right"
@@ -57,9 +53,8 @@ export default function RootLayout({ children }) {
                 },
               }}
             />
-            </FinalLayout>
-          </ReduxProvider>
-        {/* </BackgroundWrapper> */}
+          </FinalLayout>
+        </ClientReduxProvider>
       </body>
     </html>
   );

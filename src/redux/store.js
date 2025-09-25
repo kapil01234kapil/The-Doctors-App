@@ -1,19 +1,22 @@
-import { configureStore, combineReducers } from '@reduxjs/toolkit';
-import { persistStore, persistReducer } from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
-import authSlice from './authSlice';
-import scheduleSlice from './scheduleSlice';
-import notificationSlice from './notificationSlice';
-import adminSlice from './adminSlice';
+// store/store.js
+import { configureStore, combineReducers } from "@reduxjs/toolkit";
+import { persistReducer } from "redux-persist";
+import authSlice from "./authSlice";
+import scheduleSlice from "./scheduleSlice";
+import notificationSlice from "./notificationSlice";
+import adminSlice from "./adminSlice";
 
-// Persist configuration
+let storage;
+if (typeof window !== "undefined") {
+  storage = require("redux-persist/lib/storage").default; // localStorage only in browser
+}
+
 const persistConfig = {
-  key: 'root',
-  storage,
-  whitelist: ['auth'],
+  key: "root",
+  storage: storage || undefined,
+  whitelist: ["auth"], // only auth slice persisted
 };
 
-// Combine reducers
 const rootReducer = combineReducers({
   auth: authSlice,
   schedule: scheduleSlice,
@@ -21,23 +24,21 @@ const rootReducer = combineReducers({
   admin: adminSlice,
 });
 
-// Create persisted reducer
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
-// Configure store
 export const store = configureStore({
   reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
-        ignoredActions: ['persist/PERSIST', 'persist/REHYDRATE'],
+        ignoredActions: ["persist/PERSIST", "persist/REHYDRATE"],
       },
     }),
-  devTools: process.env.NODE_ENV !== 'production',
+  devTools: process.env.NODE_ENV !== "production",
 });
 
-// ⚡ Only create persistor in browser
 export let persistor;
-if (typeof window !== 'undefined') {
+if (typeof window !== "undefined") {
+  const { persistStore } = require("redux-persist");
   persistor = persistStore(store);
 }
