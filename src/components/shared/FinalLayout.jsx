@@ -11,7 +11,6 @@ import Footer from "./Footer";
 
 const FinalLayout = ({ children }) => {
   const { user } = useSelector((store) => store.auth);
-  const [activeTab, setActiveTab] = React.useState("dashboard");
 
   return (
     <>
@@ -38,7 +37,7 @@ const FinalLayout = ({ children }) => {
         <div className="flex min-h-screen">
           {/* Sidebar */}
           <aside className="hidden lg:block fixed top-0 left-0 z-40 h-screen overflow-y-auto scrollbar-hide w-64">
-            <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
+            <Sidebar  />
           </aside>
 
           {/* Main content */}
