@@ -72,7 +72,7 @@ const BookingConfirmed = () => {
         }
 
         const options = {
-          key: process.env.NEXT_PUBLIC_RAZORPAY_API_KEY,
+          key: "rzp_test_RESUioZgG90aU9",
           amount: res.data.order.amount,
           currency: "INR",
           name: "Your App Name",
