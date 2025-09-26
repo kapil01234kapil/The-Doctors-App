@@ -1,40 +1,14 @@
+"use client"
+
+import useGetAllAppointments from '@/hooks/admin/useGetAllAppointments';
 import { CheckCircle, XCircle, Clock } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { useSelector } from 'react-redux';
 
 const RecentAppointments = () => {
-  const appointments = [
-    {
-      id: 'APT-1234',
-      patient: 'Rahul Sharma',
-      doctor: 'Dr. Priya Patel',
-      date: '2023-10-15',
-      time: '10:30 AM',
-      status: 'Completed',
-    },
-    {
-      id: 'APT-1235',
-      patient: 'Ananya Singh',
-      doctor: 'Dr. Vikram Desai',
-      date: '2023-10-15',
-      time: '11:45 AM',
-      status: 'Cancelled',
-    },
-    {
-      id: 'APT-1236',
-      patient: 'Amit Kumar',
-      doctor: 'Dr. Neha Gupta',
-      date: '2023-10-15',
-      time: '2:15 PM',
-      status: 'Upcoming',
-    },
-    {
-      id: 'APT-1237',
-      patient: 'Priya Mehta',
-      doctor: 'Dr. Rajesh Khanna',
-      date: '2023-10-16',
-      time: '9:00 AM',
-      status: 'Upcoming',
-    },
-  ];
+  useGetAllAppointments()
+  const {adminAllAppointments}  = useSelector((store) => store.admin);
+ const router = useRouter()
 
   const getStatusIcon = (status) => {
     switch (status) {
@@ -66,7 +40,7 @@ const RecentAppointments = () => {
     <div className="bg-white rounded-lg shadow p-4">
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-lg font-semibold">Recent Appointments</h2>
-        <button className="text-sm text-[#4d91ff] hover:underline">View All</button>
+        <button onClick={() => router.push("/admin/appointments")} className="text-sm text-[#4d91ff] hover:underline">View All</button>
       </div>
 
       <div className="overflow-x-auto">
@@ -84,14 +58,14 @@ const RecentAppointments = () => {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200">
-            {appointments.map((appointment) => (
+            {adminAllAppointments.map((appointment) => (
               <tr key={appointment.id} className="hover:bg-gray-50">
-                <td className="px-4 py-3 text-sm text-gray-900">{appointment.id}</td>
-                <td className="px-4 py-3 text-sm text-gray-900">{appointment.patient}</td>
-                <td className="px-4 py-3 text-sm text-gray-900">{appointment.doctor}</td>
+                <td className="px-4 py-3 text-sm text-gray-900">{appointment._id}</td>
+                <td className="px-4 py-3 text-sm text-gray-900">{appointment?.patientProfile?.name}</td>
+                <td className="px-4 py-3 text-sm text-gray-900">{appointment?.doctor?.fullName}</td>
                 <td className="px-4 py-3 text-sm text-gray-900">
-                  {appointment.date} <br />
-                  <span className="text-xs text-gray-500">{appointment.time}</span>
+                  {appointment.appointmentDate?.split("T")[0]} <br />
+                  <span className="text-xs text-gray-500">{appointment?.bookedSlot}</span>
                 </td>
                 <td className="px-4 py-3 text-sm">
                   <span

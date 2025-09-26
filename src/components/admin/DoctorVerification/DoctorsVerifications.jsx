@@ -31,15 +31,11 @@ const DoctorVerification = () => {
       if (res.data.success) {
         toast.success(res.data.message || "Doctor approved successfully!");
 
-        // ✅ Filter out the approved doctor from Redux state
         const updatedDoctors = unverifiedDoctors.filter(
           (doc) => doc._id !== res.data.existingDoctor._id
         );
-        console.log("Updated Doctors List:", updatedDoctors);
-        // ✅ Dispatch plain object (no function)
         dispatch(setUnverifiedDoctors(updatedDoctors));
-          setSelectedDoctor(null);
-
+        setSelectedDoctor(null);
       } else {
         toast.error(res.data.message);
       }
@@ -92,37 +88,45 @@ const DoctorVerification = () => {
               />
             </div>
           </div>
+
+          {/* ✅ Show message if no unverified doctors */}
           <div className="divide-y divide-gray-200 max-h-[calc(100vh-300px)] overflow-y-auto">
-            {unverifiedDoctors?.map((doctor) => (
-              <div
-                key={doctor._id}
-                className={`p-4 cursor-pointer hover:bg-gray-50 ${
-                  selectedDoctor?._id === doctor._id ? "bg-blue-50" : ""
-                }`}
-                onClick={() => setSelectedDoctor(doctor)}
-              >
-                <div className="flex items-center">
-                  <img
-                    src={doctor.profilePhoto || "/default-doctor.png"}
-                    alt={doctor.fullName}
-                    className="w-10 h-10 rounded-full object-cover"
-                  />
-                  <div className="ml-3">
-                    <p className="text-sm font-medium text-gray-900">
-                      {doctor.fullName}
-                    </p>
+            {unverifiedDoctors?.length === 0 ? (
+              <div className="p-6 text-center text-gray-500">
+                🎉 All doctors are verified. No pending requests.
+              </div>
+            ) : (
+              unverifiedDoctors?.map((doctor) => (
+                <div
+                  key={doctor._id}
+                  className={`p-4 cursor-pointer hover:bg-gray-50 ${
+                    selectedDoctor?._id === doctor._id ? "bg-blue-50" : ""
+                  }`}
+                  onClick={() => setSelectedDoctor(doctor)}
+                >
+                  <div className="flex items-center">
+                    <img
+                      src={doctor.profilePhoto || "/default-doctor.png"}
+                      alt={doctor.fullName}
+                      className="w-10 h-10 rounded-full object-cover"
+                    />
+                    <div className="ml-3">
+                      <p className="text-sm font-medium text-gray-900">
+                        {doctor.fullName}
+                      </p>
+                      <p className="text-xs text-gray-500">
+                        {doctor.doctorsProfile?.specializations}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="mt-2 flex items-center justify-between">
                     <p className="text-xs text-gray-500">
-                      {doctor.doctorsProfile?.specializations}
+                      Joined: {new Date(doctor.createdAt).toLocaleDateString()}
                     </p>
                   </div>
                 </div>
-                <div className="mt-2 flex items-center justify-between">
-                  <p className="text-xs text-gray-500">
-                    Joined: {new Date(doctor.createdAt).toLocaleDateString()}
-                  </p>
-                </div>
-              </div>
-            ))}
+              ))
+            )}
           </div>
         </div>
 
