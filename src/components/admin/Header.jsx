@@ -1,9 +1,21 @@
-import { BellIcon, UserIcon, SearchIcon } from 'lucide-react';
+"use client";
 
-const Header = () => {
+import { BellIcon, UserIcon, SearchIcon, Menu } from "lucide-react";
+
+const Header = ({ onMenuClick }) => {
   return (
-    <header className="bg-white shadow-sm px-4 py-3 flex items-center justify-between">
+    <header className="bg-white  shadow-sm px-4 py-3 flex items-center justify-between">
+      {/* Left section */}
       <div className="flex items-center w-1/3">
+        {/* Mobile Hamburger */}
+        <button
+          className="mr-3 lg:hidden p-2 rounded-md hover:bg-gray-100"
+          onClick={onMenuClick}
+        >
+          <Menu size={22} className="text-gray-700" />
+        </button>
+
+        {/* Search */}
         <div className="relative w-full">
           <input
             type="text"
@@ -14,6 +26,7 @@ const Header = () => {
         </div>
       </div>
 
+      {/* Right section */}
       <div className="flex items-center space-x-4">
         <div className="relative">
           <button className="p-1 rounded-full hover:bg-gray-100">
