@@ -353,7 +353,27 @@ const DoctorsProfile = () => {
           </div>
 
           <div className="flex flex-col lg:flex-row gap-5 w-full">
-            <div className="w-full lg:w-2/3 bg-red-500">hello</div>
+<div className="w-full  lg:w-2/3  p-5 rounded-lg flex flex-col gap-3">
+  <h2 className=" font-bold text-xl">Today's Summary</h2>
+  <p className=" text-sm">
+    Here’s a quick overview of your work today. Stay informed and keep track of your consultations.
+  </p>
+  <div className="grid grid-cols-2 gap-4">
+    <div className="bg-white rounded-lg p-3 flex flex-col items-center">
+      <h3 className="font-bold text-lg">{todaysConsultations.length}</h3>
+      <p className="text-sm text-gray-600">Consultations</p>
+    </div>
+    <div className="bg-white rounded-lg p-3 flex flex-col items-center">
+      <h3 className="font-bold text-lg">
+        <IndianRupee size={16} /> {calcEarnings(todaysConsultations)}
+      </h3>
+      <p className="text-sm text-gray-600">Earnings</p>
+    </div>
+  </div>
+  <p className=" text-xs mt-3">
+    Keep your schedule updated for a smooth workflow. You can view all appointments or change your schedule using the Quick Actions panel.
+  </p>
+</div>
             <div className="rounded-lg border border-slate-300 w-full lg:w-1/3 flex flex-col p-4 gap-4">
               <h1 className="font-semibold">Quick Actions</h1>
               <Button
