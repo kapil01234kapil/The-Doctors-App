@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import SideBar from "../doctor/SideBar";
 import DoctorNavabr from "../doctor/DoctorNavabr";
@@ -12,21 +12,32 @@ import Footer from "./Footer";
 const FinalLayout = ({ children }) => {
   const { user } = useSelector((store) => store.auth);
   const sidebarRef = useRef();
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+
+  const closeSidebar = () => {
+    setIsSidebarOpen(false);
+  };
 
   return (
     <>
       {user?.role === "doctor" ? (
         <div className="flex min-h-screen">
           {/* Doctor Sidebar */}
-          <aside className="fixed top-0 left-0 z-40 h-screen bg-[#4D91FF] overflow-y-auto scrollbar-hide
-            w-1/4 sm:w-1/5 md:w-1/6 lg:w-1/6">
-            <SideBar />
+          <aside className="fixed top-0 left-0 z-40 h-screen w-64">
+            <SideBar 
+              isOpen={isSidebarOpen}
+              onClose={closeSidebar}
+            />
           </aside>
 
           {/* Doctor Main content */}
-          <div className="flex-1 flex flex-col ml-[25%] sm:ml-[20%] md:ml-[16.6667%] min-h-screen">
+          <div className="flex-1 flex flex-col md:ml-64">
             <header className="w-full sticky top-0 z-50">
-              <DoctorNavabr />
+              <DoctorNavabr onMenuClick={toggleSidebar} />
             </header>
             <main className="flex-1 p-4">{children}</main>
           </div>

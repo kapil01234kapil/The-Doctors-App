@@ -1,6 +1,6 @@
 "use client";
 
-import { Bell, ChevronDown, Sun } from "lucide-react";
+import { Bell, ChevronDown, Sun, Menu } from "lucide-react";
 import React from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import {
@@ -14,10 +14,11 @@ import { setUser } from "@/redux/authSlice";
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 
-const DoctorNavabr = () => {
+const DoctorNavabr = ({ onMenuClick }) => {
   const dispatch = useDispatch()
   const {user} = useSelector((store) => store.auth)
   const router = useRouter()
+  
   const logoutHandler = async () => {
     try {
       const res = await axios.post('/api/logout',{},{withCredentials:true})
@@ -32,10 +33,19 @@ const DoctorNavabr = () => {
       
     }
   }
+  
   return (
     <div className="w-full h-16 bg-white shadow-md flex items-center px-4 sm:px-6 justify-between">
       {/* Left Section */}
       <div className="flex items-center gap-2 sm:gap-3">
+        {/* Hamburger Menu - Only visible on mobile/tablet */}
+        <button 
+          onClick={onMenuClick}
+          className="md:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors"
+        >
+          <Menu className="w-5 h-5" />
+        </button>
+        
         <h1 className="text-sm sm:text-base font-medium">Good Morning</h1>
         <Sun className="text-orange-400 w-4 h-4 sm:w-5 sm:h-5" />
       </div>

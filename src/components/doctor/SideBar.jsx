@@ -15,6 +15,7 @@ import {
   Phone,
   Stethoscope,
   BadgeIndianRupee,
+  X,
 } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
@@ -33,8 +34,8 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 
-const SideBar = () => {
-    const { user } = useSelector((store) => store.auth);
+const SideBar = ({ isOpen, onClose }) => {
+  const { user } = useSelector((store) => store.auth);
 
   const pathname = usePathname();
   const [selected, setSelected] = useState("Dashboard");
@@ -68,8 +69,6 @@ const SideBar = () => {
       { name: "Profile", icon: <User size={16} />, path: "/doctor/profile" },
       { name: "Change Password", icon: <Lock size={16} />, path: "/doctor/change-password" },
       { name: "Add Recovery Email", icon: <Mail size={16} />, path: "/doctor/add-recovery-email" },
-      // conditionally add verification status here
-      
       { name: "Logout", icon: <LogOut size={16} />, path: null },
     ],
   },
@@ -112,32 +111,58 @@ const SideBar = () => {
     }
   };
 
+  const handleLinkClick = (path, name) => {
+    setSelected(name);
+    // Close sidebar on mobile when a link is clicked
+    if (window.innerWidth < 768) {
+      onClose();
+    }
+  };
+
   return (
     <>
+      {/* Overlay for mobile */}
+      {isOpen && (
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-50 z-30 md:hidden"
+          onClick={onClose}
+        />
+      )}
+
       <div
-        className="
-          fixed md:static top-0 left-0 z-40 bg-[#4D91FF] flex flex-col gap-1
-          pt-4 pl-4 pr-2 h-full min-h-screen transition-all
-          w-20 sm:w-24 md:w-56 lg:w-64
-        "
+        className={`
+          fixed top-0 left-0 z-40 bg-[#4D91FF] flex flex-col gap-1
+          pt-4 pl-4 pr-2 h-screen transition-transform duration-300
+          w-64
+          ${isOpen ? 'translate-x-0' : '-translate-x-full'}
+          md:translate-x-0
+        `}
       >
+        {/* Close button for mobile */}
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 text-white md:hidden"
+        >
+          <X size={20} />
+        </button>
+
         {/* Logo */}
-        <div className="flex gap-1 sm:gap-2 items-center mb-4 whitespace-nowrap">
+        <div className="flex gap-2 items-center mb-4 whitespace-nowrap">
           <Stethoscope className="text-white" size={16} />
-          <p className="font-bold text-white text-[8px] sm:text-sm md:text-base lg:text-base">
+          <p className="font-bold text-white text-base">
             DOCTORS.ONLINE
           </p>
         </div>
 
         {/* Menu Sections */}
-        <div className="flex-1 flex flex-col gap-4 text-white text-xs sm:text-sm md:text-sm overflow-x-auto overflow-y-auto scrollbar-hide">
+        <div className="flex-1 flex flex-col gap-4 text-white text-sm overflow-x-auto overflow-y-auto scrollbar-hide">
           {menu.map((section, idx) => (
             <div key={idx} className="flex flex-col gap-2">
               <div
-                className="flex gap-1 sm:gap-2 items-center cursor-pointer select-none px-2 py-1"
+                className="flex gap-2 items-center cursor-pointer select-none px-2 py-1"
                 onClick={section.toggle}
               >
-                <p className="font-semibold text-[10px] sm:text-sm md:text-base">{section.section}</p>
+                <p className="font-semibold text-base">{section.section}</p>
                 {section.open ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
               </div>
 
@@ -148,7 +173,7 @@ const SideBar = () => {
                       <div
                         key={i}
                         onClick={() => setLogoutDialog(true)}
-                        className={`flex gap-1 sm:gap-2 items-center cursor-pointer px-2 py-1 rounded transition-all
+                        className={`flex gap-2 items-center cursor-pointer px-2 py-1 rounded transition-all
                           ${selected === item.name ? "bg-white text-[#1195FF]" : "hover:bg-blue-400 text-white"}`}
                       >
                         {item.icon}
@@ -158,8 +183,8 @@ const SideBar = () => {
                       <Link
                         key={i}
                         href={item.path}
-                        onClick={() => setSelected(item.name)}
-                        className={`flex gap-1 sm:gap-2 items-center cursor-pointer px-2 py-1 rounded transition-all
+                        onClick={() => handleLinkClick(item.path, item.name)}
+                        className={`flex gap-2 items-center cursor-pointer px-2 py-1 rounded transition-all
                           ${selected === item.name ? "bg-white text-[#1195FF]" : "hover:bg-blue-400 text-white"}`}
                       >
                         {item.icon}
