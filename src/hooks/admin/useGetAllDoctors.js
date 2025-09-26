@@ -12,13 +12,11 @@ const useGetAllDoctors = () => {
                 const res = await axios.get('/api/admin/getAllDoctors',{withCredentials : true});
                 if(res.data.success){
                     dispatch(setAllDoctors(res.data.doctors));
-                    toast.success(res.data.message)
                 } else{
-                    toast.error(res.data.message)
+                    console.log(res.data.message);
                 }
             } catch (error) {
                 console.log(error);
-                toast.error(error.response?.data.message)
             }
         }
         fetchAllDoctors()

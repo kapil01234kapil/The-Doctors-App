@@ -12,10 +12,8 @@ const useGetAllDoctorsAppointments = () => {
             const res = await axios.get('/api/doctor/getAllAppointments',{withCredentials:true})
             console.log("All the confirmed appointments",res.data.appointments)
             dispatch(setAllAppointments(res.data.appointments));
-            toast.success(res.data.message)
         } catch (error) {
             console.log(error);
-            toast.error(error?.response?.data?.message || "Something went wrong")
         }
     }
     fetchAllAppointments()

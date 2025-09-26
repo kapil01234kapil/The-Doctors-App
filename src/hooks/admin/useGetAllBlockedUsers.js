@@ -12,13 +12,11 @@ const useGetAllBlockedUsers = () => {
                 const res = await axios.get('/api/admin/getAllBlockedUsers',{withCredentials : true});
                 if(res.data.success){
                     dispatch(setBlockedUsers(res.data.allBlockedUsers));
-                    toast.success(res.data.message)
                 } else{
-                    toast.error(res.data.message)
+                    console.log(res.data.message);
                 }
             } catch (error) {
                 console.log(error);
-                toast.error(error.response?.data.message)
             }
         }
         fetchAllBlockedUsers()

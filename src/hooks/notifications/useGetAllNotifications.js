@@ -15,13 +15,10 @@ const useGetAllNotifications = () => {
         });
         if (res.data.success) {
           dispatch(setAllNotifications(res.data.allNotifications));
-          toast.success(res.data.message);
         } else {
-          toast.error(res.data.message || "Failed to fetch notifications");
-        }
+          console.log(res.data.message);}
       } catch (error) {
         console.error(error);
-        toast.error(error?.response?.data?.message || "Something went wrong");
       }
     };
     fetchAllNotifications();

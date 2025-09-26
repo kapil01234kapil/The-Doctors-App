@@ -15,10 +15,8 @@ const useGetCountUnreadNotifications = (user, pathname) => {
         const res = await axios.get('/api/notifications/getAllUnreadNotificationsCount', { withCredentials: true });
         if (res.data.success) {
           dispatch(setUnreadNotificationsCount(res.data.unreadCount));
-          toast.success(res.data.message);
         } else {
-            console.log("some error came ")
-        }
+          console.log(res.data.message);}
       } catch (error) {
         console.log(error);
       }

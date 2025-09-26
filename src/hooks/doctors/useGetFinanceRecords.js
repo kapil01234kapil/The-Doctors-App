@@ -12,13 +12,10 @@ const useGetFinanceRecords = () => {
                 const res = await axios.get('/api/doctor/getFinanceRecord',{withCredentials: true});
                 if(res.data.success){
                     dispatch(setDoctorFinanceRecords(res.data.financialRecords));
-                    toast.success(res.data.message)
                 } else{
-                    toast.error(res.data.message)
-                }
+                    console.log(res.data.message);}
             } catch (error) {
                 console.log(error);
-                toast.error(error?.response?.data?.message || "Something went wrong")
             }
         }
         fetchFinanceRecords()

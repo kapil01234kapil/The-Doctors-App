@@ -14,15 +14,12 @@ const useGetDoctorsWeeklySchedule = () => {
           withCredentials: true,
         });
         if(res.data.success){
-          console.log("hello")
             dispatch(setWeeklySchedule(res.data.weeklySchedule))
 
         }else{
-            toast.error(res.data.message)
-        }
+            console.log(res.data.message);}
       } catch (error) {
         console.log(error);
-        toast.error(res.data.message);
       }
     };
     fetchWeeklySchedule()

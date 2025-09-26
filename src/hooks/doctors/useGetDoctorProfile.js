@@ -13,11 +13,9 @@ const useGetDoctorProfile = (id) => {
                 if(res.data.success){
                    dispatch(setSelectedDoctor(res.data.doctor)) 
                 } else{
-                    toast.error(res.data.message)
-                }
+                    console.log(res.data.message);}
             } catch (error) {
                 console.log(error);
-                toast.error(res.data.message)
             }
         }
         fetchDoctorProfile()

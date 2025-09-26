@@ -16,7 +16,6 @@ const useGetAllAvailableSlots = (id) => {
                 }
             } catch (error) {
                 console.log(error);
-                toast.error(error.response?.data?.message || "Something Went Wrong")
             }
         }
         fetchAllAvailableSlots()

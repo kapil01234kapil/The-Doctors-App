@@ -14,13 +14,10 @@ const useGetAllPatientsAppointments = () => {
         });
         if (res.data.success) {
           dispatch(setAllAppointments(res.data.confirmedAppointments));
-          toast.success(res.data.message);
         } else{
-        toast.error(error?.response?.data?.message || "Something went wrong");
-        }
+          console.log(res.data.message);}
       } catch (error) {
         console.log(error);
-        toast.error(error?.response?.data?.message || "Something went wrong");
       }
     };
     fetchAllAppointments();

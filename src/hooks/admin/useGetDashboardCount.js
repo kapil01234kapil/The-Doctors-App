@@ -14,13 +14,10 @@ const useGetDashboardCount = () => {
         });
         if (res.data.success) {
           dispatch(setDashboardCount(res.data.count));
-          toast.success(res.data.message);
         } else{
-            toast.error(res.data.message)
-        }
+          console.log(res.data.message);}
       } catch (error) {
         console.log(error);
-        toast.error(error?.response?.data?.message || "Something went wrong");
       }
     };
     fetchDashboardCount();
