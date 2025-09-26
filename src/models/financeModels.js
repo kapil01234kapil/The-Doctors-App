@@ -2,7 +2,7 @@ import mongoose, { Schema } from "mongoose";
 
 const financeSchema = new Schema(
   {
-    doctor: { type: Schema.Types.ObjectId, ref: "Doctor", required: true },
+    doctor: { type: Schema.Types.ObjectId, ref: "User", required: true },
     weekStart: { type: Date, required: true },
     weekEnd: { type: Date, required: true },
     appointments: [{ type: Schema.Types.ObjectId, ref: "Appointment" }],

@@ -1,7 +1,7 @@
 import { connectDB } from "@/lib/db";
 import { getUserIdFromRequest } from "@/lib/getUserIdFromRequest";
+import { Finance } from "@/models/financeModels";
 import userModels from "@/models/userModels";
-import { Finance } from "@/models/financeModel";
 import { NextResponse } from "next/server";
 
 export async function GET(request) {
@@ -31,16 +31,27 @@ export async function GET(request) {
     const allFinanceRecords = await Finance.find()
       .sort({ weekEnd: -1 })
       .populate({
-        path: "doctor",
-        select: "fullName profilePhoto email contactDetails"
+        path: "appointments",
+        populate: [
+          { path: "patient", select: "fullName profilePhoto email contactDetails" },
+          { path: "doctor", select: "fullName profilePhoto email contactDetails" }
+        ]
       })
       .lean();
 
-    // Filter to get only the latest record for each doctor
+    if (!allFinanceRecords || allFinanceRecords.length === 0) {
+      return NextResponse.json(
+        { message: "No finance records found", success: false },
+        { status: 404 }
+      );
+    }
+
+    // Filter to keep only latest record per doctor
     const latestFinanceRecordsMap = new Map();
 
     for (const record of allFinanceRecords) {
-      const doctorId = record.doctor._id.toString();
+      const doctorId = record.doctor?.toString();
+      if (!doctorId) continue;
       if (!latestFinanceRecordsMap.has(doctorId)) {
         latestFinanceRecordsMap.set(doctorId, record);
       }
@@ -49,9 +60,9 @@ export async function GET(request) {
     const latestFinanceRecords = Array.from(latestFinanceRecordsMap.values());
 
     return NextResponse.json({
-        message: "Latest Finance Records fetched successfully",
+      message: "Latest finance records fetched successfully",
       success: true,
-       latestFinanceRecords
+      latestFinanceRecords,
     }, { status: 200 });
 
   } catch (error) {

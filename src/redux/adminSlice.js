@@ -12,6 +12,7 @@ const adminSlice = createSlice({
         blockedUsers : [],
         allFeedbacks : [],
         allQueries : [],
+        allDoctorsFinances : []
 
     },
     reducers : {
@@ -42,13 +43,16 @@ const adminSlice = createSlice({
         setAllQueries : (state,action) => {
             state.allQueries = action.payload
         },
+        setAllDoctorsFinances : (state,action) => {
+            state.allDoctorsFinances = action.payload
+        }
        
         
     }
 })
 
 // Export actions
-export const { setAdmin,setDashboardCount,setAllDoctors,setAllPatients,setUnverifiedDoctors,setAdminAllAppointments,setBlockedUsers ,setAllFeedback,setAllQueries} = adminSlice.actions
+export const { setAdmin,setDashboardCount,setAllDoctors,setAllPatients,setUnverifiedDoctors,setAdminAllAppointments,setBlockedUsers ,setAllFeedback,setAllQueries,setAllDoctorsFinances} = adminSlice.actions
 
 // Export reducer
 export default adminSlice.reducer
