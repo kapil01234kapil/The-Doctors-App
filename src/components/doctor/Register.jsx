@@ -94,14 +94,14 @@ export default function DoctorRegister() {
         {/* Top Toggle Buttons */}
         <div className="flex w-full">
           <Link href="/register/doctor" className="w-1/2">
-            <Button className="w-full rounded-none rounded-tl-2xl bg-[#1195FF] text-white hover:bg-blue-600">
+            <Button className="w-full rounded-none rounded-tl-2xl bg-[#4d91ff] text-white hover:bg-blue-600">
               Register
             </Button>
           </Link>
           <Link href="/login/doctor" className="w-1/2">
             <Button
               variant="outline"
-              className="w-full rounded-none rounded-tr-2xl border-gray-200 text-gray-700 hover:text-[#1195FF]"
+              className="w-full rounded-none rounded-tr-2xl border-gray-200 text-gray-700 hover:text-[#4d91ff]"
             >
               Login
             </Button>
@@ -110,7 +110,7 @@ export default function DoctorRegister() {
 
         {/* Doctor Register Form */}
         <CardHeader>
-          <CardTitle className="text-center text-xl font-bold text-[#1195FF]">
+          <CardTitle className="text-center text-xl font-bold text-[#4d91ff]">
             Doctor Registration
           </CardTitle>
         </CardHeader>
@@ -189,7 +189,7 @@ export default function DoctorRegister() {
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-[#1195FF]"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-[#4d91ff]"
               >
                 {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
               </button>
@@ -216,7 +216,7 @@ export default function DoctorRegister() {
             ) : (
               <Button
                 type="submit"
-                className="w-full bg-[#1195FF] hover:bg-blue-600"
+                className="w-full bg-[#4d91ff] hover:bg-blue-600"
               >
                 Register
               </Button>
@@ -229,7 +229,7 @@ export default function DoctorRegister() {
               Are you a Patient?{" "}
               <Link
                 href="/register/patient"
-                className="font-semibold text-[#1195FF] hover:underline"
+                className="font-semibold text-[#4d91ff] hover:underline"
               >
                 Register here
               </Link>

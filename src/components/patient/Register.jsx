@@ -62,7 +62,7 @@ export default function PatientRegister() {
         {/* Top Toggle Buttons */}
         <div className="flex w-full">
           <Link href="/register/patient" className="w-1/2">
-            <Button className="w-full rounded-none rounded-tl-2xl bg-[#1195FF] text-white hover:bg-blue-600">
+            <Button className="w-full rounded-none rounded-tl-2xl bg-[#4d91ff] text-white hover:bg-blue-600">
               Register
             </Button>
           </Link>
@@ -78,7 +78,7 @@ export default function PatientRegister() {
 
         {/* Patient Register Form */}
         <CardHeader>
-          <CardTitle className="text-center text-xl font-bold text-[#1195FF]">
+          <CardTitle className="text-center text-xl font-bold text-[#4d91ff]">
             Patient Registration
           </CardTitle>
         </CardHeader>
@@ -123,7 +123,7 @@ export default function PatientRegister() {
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-[#1195FF]"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-[#4d91ff]"
               >
                 {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
               </button>
@@ -144,7 +144,7 @@ export default function PatientRegister() {
             ) : (
               <Button
                 type="submit"
-                className="w-full bg-[#1195FF] hover:bg-blue-600"
+                className="w-full bg-[#4d91ff] hover:bg-blue-600"
               >
                 Register
               </Button>
@@ -157,7 +157,7 @@ export default function PatientRegister() {
               Are you a Doctor?{" "}
               <Link
                 href="/register/doctor"
-                className="font-semibold text-[#1195FF] hover:underline"
+                className="font-semibold text-[#4d91ff] hover:underline"
               >
                 Register here
               </Link>

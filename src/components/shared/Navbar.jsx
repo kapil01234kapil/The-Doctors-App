@@ -155,14 +155,14 @@ const Navbar = () => {
                     <Button
                       variant="ghost"
                       onClick={() => router.push("/patient/profile")}
-                      className="justify-start"
+                      className="justify-start cursor-pointer"
                     >
                       Update Profile
                     </Button>
                     <Button
                       variant="ghost"
                       onClick={() => router.push("/patient/myAppointments")}
-                      className="justify-start"
+                      className="justify-start cursor-pointer"
                     >
                       My Appointments
                     </Button>
@@ -170,7 +170,7 @@ const Navbar = () => {
                      <Button
                       variant="ghost"
                       onClick={() => router.push("/patient/refer-earn")}
-                      className="justify-start"
+                      className="justify-start cursor-pointer"
                     >
                       Refer & Earn
                     </Button>
@@ -178,7 +178,7 @@ const Navbar = () => {
                     <Button
                       variant="ghost"
                       onClick={() => router.push("/patient/change-password")}
-                      className="justify-start"
+                      className="justify-start cursor-pointer"
                     >
                       Change Password
                     </Button>
@@ -186,7 +186,7 @@ const Navbar = () => {
                     <Button
                       variant="ghost"
                       onClick={() => router.push("/patient/add-recovery-email")}
-                      className="justify-start"
+                      className="justify-start cursor-pointer"
                     >
                       Add A Recovery Email
                     </Button>
@@ -194,7 +194,7 @@ const Navbar = () => {
                     <Button
                       variant="ghost"
                       onClick={() => router.push("/patient/feedback")}
-                      className="justify-start"
+                      className="justify-start cursor-pointer"
                     >
                       Feedback
                     </Button>
@@ -202,14 +202,14 @@ const Navbar = () => {
                     <Button
                       variant="ghost"
                       onClick={() => router.push("/patient/contact-admin")}
-                      className="justify-start"
+                      className="justify-start cursor-pointer"
                     >
                       Contact Admin
                     </Button>
                     <Button
                       variant="ghost"
                       onClick={handleLogout}
-                      className="justify-start text-red-500"
+                      className="justify-start cursor-pointer  text-red-500"
                     >
                       Logout
                     </Button>
