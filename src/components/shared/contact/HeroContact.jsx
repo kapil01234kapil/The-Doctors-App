@@ -27,7 +27,7 @@ const HeroContact = () => {
         {/* Main content section */}
         <div className="w-full flex flex-col lg:flex-row justify-center  gap-10">
           {/* Map Section */}
-          <div className="w-full lg:w-1/2 flex justify-center">
+          <div className="w-full lg:w-1/3 flex justify-center">
             <Image
               src="/map.png"
               width={600}
@@ -81,7 +81,7 @@ const HeroContact = () => {
   <CardFooter className="flex justify-center">
     <Button
       variant="outline"
-      className="bg-blue-700 text-white w-full"
+      className="bg-blue-700 cursor-pointer text-white w-full"
       onClick={() =>
         user ? router.push("/patient/feedback") : router.push("/login/patient")
       }
@@ -105,7 +105,7 @@ const HeroContact = () => {
   <CardFooter className="flex justify-center">
     <Button
       variant="outline"
-      className="bg-blue-700 text-white w-full"
+      className="bg-blue-700 cursor-pointer text-white w-full"
       onClick={() =>
         user ? router.push("/patient/contact-admin") : router.push("/login/patient")
       }
@@ -136,7 +136,7 @@ const HeroContact = () => {
                 {" "}
                 <Button
                   variant="outline"
-                  className="bg-blue-700 p-2  text-xs text-white w-full"
+                  className="bg-blue-700 p-2 cursor-pointer text-xs text-white w-full"
                 >
                   privacydoctoronline336@gmail.com
                 </Button>
@@ -159,7 +159,7 @@ const HeroContact = () => {
               <Link href="https://wa.me/9027226881" target="_blank">
                 <Button
                   variant="outline"
-                  className="bg-green-600 text-white w-full"
+                  className="bg-green-600 cursor-pointer text-white w-full"
                 >
                   Chat on WhatsApp
                 </Button>

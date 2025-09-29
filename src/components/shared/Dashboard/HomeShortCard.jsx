@@ -1,27 +1,29 @@
 "use client";
 import { useState } from "react";
 
-export default function HomeShortCard({ Icon, title, desc }) {
+export default function HomeShortCard({ Icon, title, desc, color }) {
   const [active, setActive] = useState(false);
 
   return (
     <div className="flex justify-center">
       <div
         onClick={() => setActive(!active)}
-        className={`relative w-64 sm:w-72 md:w-80 lg:w-96 min-h-60 rounded-xl mt-10 shadow-md p-6 text-center cursor-pointer transition-all duration-300 ${
-          active ? "bg-[#1195FF] text-white" : "bg-white text-gray-800"
-        }`}
+        className={`relative w-64 sm:w-72 md:w-80 lg:w-96 min-h-60 rounded-xl mt-10 p-6 text-center cursor-pointer transition-all duration-300
+          ${
+            active
+              ? "bg-[#1195FF] text-white shadow-2xl border border-[#1195FF]/30"
+              : "bg-white text-gray-800 shadow-lg border border-gray-200"
+          }`}
       >
         {/* Circle Icon */}
-        <div className="absolute   -top-10 left-1/2 transform -translate-x-1/2">
+        <div className="absolute -top-10 left-1/2 transform -translate-x-1/2">
           <div
-            className={`w-20 h-20 bg-white  rounded-full shadow-md flex items-center justify-center transition-all duration-300 ${
-              active ? "bg-white" : "bg-[#1195FF]/10"
-            }`}
+            className={`w-20 h-20 rounded-full flex items-center justify-center transition-all duration-300 shadow-md
+              ${active ? "bg-white" : "bg-white border border-gray-200"}`}
           >
             <Icon
               size={36}
-              className={active ? "text-[#1195FF]" : "text-[#1195FF]"}
+              className={`${color} ${active ? "!text-[#1195FF]" : ""}`}
             />
           </div>
         </div>

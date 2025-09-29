@@ -65,33 +65,42 @@ const Faq = () => {
 
   const [showAll, setShowAll] = useState(false);
 
+  // Decide which FAQs to display
+  const displayedFaqs = showAll ? faqs : faqs.slice(0, 6);
+
   return (
     <div className="w-full mt-10 flex p-4 flex-col bg-white justify-center items-center gap-6 px-4 sm:px-6 lg:px-10">
-      {/* Title stays center */}
+      {/* Title */}
       <h1 className="p-4 text-2xl font-bold text-center">
         Frequently Asked Questions
       </h1>
 
-      {/* Grid always left-aligned */}
+      {/* Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full max-w-5xl">
-        {(showAll ? faqs : faqs.slice(0, 4)).map((faq, idx) => (
-          <div
-            key={idx}
-            className="flex gap-3 p-4  hover:shadow-md transition"
-          >
-            <faq.icon className="text-blue-500 w-6 h-6 shrink-0 mt-1" />
-            <div className="flex flex-col text-left">
-              <h2 className="font-semibold">{faq.question}</h2>
-              <p className="text-sm text-gray-600">{faq.answer}</p>
+        {displayedFaqs.map((faq, idx) => {
+          // Faded only for 5th & 6th when not showing all
+          const faded = !showAll && (idx === 4 || idx === 5);
+          return (
+            <div
+              key={idx}
+              className={`flex gap-3 p-4 hover:shadow-md transition rounded-lg ${
+                faded ? "opacity-50" : "opacity-100"
+              }`}
+            >
+              <faq.icon className="text-blue-500 w-6 h-6 shrink-0 mt-1" />
+              <div className="flex flex-col text-left">
+                <h2 className="font-semibold">{faq.question}</h2>
+                <p className="text-sm text-gray-600">{faq.answer}</p>
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
       {/* Toggle button */}
       <button
         onClick={() => setShowAll(!showAll)}
-        className="mt-4 cursor-pointer px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition"
+        className="mt-4 cursor-pointer px-6 py-2 bg-white text-black border-[#4d91ff] border-2 rounded-lg hover:bg-[#4d91ff] hover:text-white transition"
       >
         {showAll ? "View Less" : "View More"}
       </button>

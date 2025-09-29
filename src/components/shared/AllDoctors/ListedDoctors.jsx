@@ -17,11 +17,11 @@ const DoctorsListPage = () => {
   const { user } = useSelector((store) => store.auth);
   const { allDoctors } = useSelector((store) => store.auth);
   return (
-    <div className="w-full min-h-screen  px-6 py-10">
+    <div className="w-full  min-h-screen  px-6 py-10">
       {/* Search bar */}
 
       {/* Doctors grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4  gap-6">
         {allDoctors.map((doctor, index) => (
           <DoctorProfileCard
             onClick={() => {

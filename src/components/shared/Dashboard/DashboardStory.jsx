@@ -6,7 +6,7 @@ const DashboardStory = () => {
       <div className="flex flex-col gap-10 justify-center items-center px-20">
         <h1 className="font-bold text-4xl">Get To Know Our Story</h1>
         <div className="flex flex-col">
-          <p>
+          <p className="text-justify">
             Doctor.online began as a simple but powerful idea in the mind of a
             19-year-old named Kapil in 2024. One day, Kapil accompanied his
             mother to a hospital to get her medicine. What he expected to be a

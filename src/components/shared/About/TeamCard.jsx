@@ -28,7 +28,7 @@ const TeamCard = () => (
             idx !== 0 ? "-ml-8 sm:-ml-10 md:-ml-12" : ""
           }`}
         >
-          <Avatar className="w-16 h-16 md:w-20 md:h-20 lg:w-30 lg:h-30 border-4 border-white shadow-lg">
+          <Avatar className="w-16 h-16 md:w-20 md:h-18 lg:w-25 lg:h-22  border-4 border-white shadow-lg">
             <AvatarImage src={src} alt={`Member ${idx + 1}`} />
             <AvatarFallback>{avatarFallbacks[idx]}</AvatarFallback>
           </Avatar>
