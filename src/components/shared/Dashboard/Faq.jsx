@@ -66,7 +66,7 @@ const Faq = () => {
   const [showAll, setShowAll] = useState(false);
 
   return (
-    <div className="w-full mt-10 flex p-4 flex-col  justify-center items-center gap-6 px-4 sm:px-6 lg:px-10">
+    <div className="w-full mt-10 flex p-4 flex-col bg-white justify-center items-center gap-6 px-4 sm:px-6 lg:px-10">
       {/* Title stays center */}
       <h1 className="p-4 text-2xl font-bold text-center">
         Frequently Asked Questions
@@ -77,7 +77,7 @@ const Faq = () => {
         {(showAll ? faqs : faqs.slice(0, 4)).map((faq, idx) => (
           <div
             key={idx}
-            className="flex gap-3 p-4 border rounded-lg bg-gray-50 hover:shadow-md transition"
+            className="flex gap-3 p-4  hover:shadow-md transition"
           >
             <faq.icon className="text-blue-500 w-6 h-6 shrink-0 mt-1" />
             <div className="flex flex-col text-left">
@@ -91,7 +91,7 @@ const Faq = () => {
       {/* Toggle button */}
       <button
         onClick={() => setShowAll(!showAll)}
-        className="mt-4 px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition"
+        className="mt-4 cursor-pointer px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition"
       >
         {showAll ? "View Less" : "View More"}
       </button>

@@ -1,8 +1,15 @@
 import React from 'react'
 import Navbar from '../Navbar'
 import Link from 'next/link'
+import { Calendar, Search } from 'lucide-react'
+import { Pacifico } from 'next/font/google'
 
+ const pacifico = Pacifico({
+  weight: "400",
+  subsets: ["latin"],
+})
 const HeroDashboard = () => {
+ 
   return (
     <div>
       {/* Main Content */}
@@ -21,46 +28,28 @@ const HeroDashboard = () => {
           </p>
 
           {/* Search and Book Section */}
-          <div className="flex flex-col sm:flex-row gap-3 max-w-lg mx-auto lg:mx-0">
-            <div className="flex-1 relative">
-              <input
-                type="text"
-                placeholder="Tell Your Doctor Something"
-                className="w-full px-4 py-2.5 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 text-base pl-10"
-              />
-              <svg
-                className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+         <div className="w-full max-w-lg mx-auto lg:mx-0">
+            <div className="flex items-center bg-white shadow-md rounded-full overflow-hidden border border-gray-200">
+              {/* Input */}
+              <div className="relative flex-1">
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
+                <input
+                  type="text"
+                  placeholder="Tell Your Doctor Something"
+                  className="w-full pl-12 pr-4 py-3 text-sm sm:text-base text-gray-700 placeholder-gray-400 focus:outline-none"
                 />
-              </svg>
+              </div>
+
+              {/* Button */}
+              <Link href="/allDoctors">
+                <button className="bg-[#4D91FF] hover:bg-blue-600 text-white text-sm sm:text-base font-medium px-5 sm:px-7 py-3 flex items-center gap-2 transition-colors duration-200 rounded-full">
+                  Book Appointment
+                  <Calendar className="w-5 h-5" />
+                </button>
+              </Link>
             </div>
-            <Link href="/allDoctors">
-              <button className="bg-[#4D91FF] hover:bg-blue-600 text-white px-6 py-2.5 rounded-full font-medium flex items-center justify-center gap-2 transition-colors duration-200 mx-auto sm:mx-0">
-                Book Appointment
-                <svg
-                  className="w-5 h-5"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2 2v12a2 2 0 002 2z"
-                  />
-                </svg>
-              </button>
-            </Link>
           </div>
+
         </div>
 
         {/* Right Content */}
@@ -75,7 +64,7 @@ const HeroDashboard = () => {
 
             {/* Welcome Bubble - only for large screens */}
             <div className="hidden lg:block absolute top-1/3 -left-28 rounded-2xl p-3 w-80">
-              <p className="text-gray-900 text-xl font-bold italic leading-tight text-center">
+              <p className={`${pacifico.className} text-gray-900 text-xl leading-tight text-center`}>
                 Welcome, I'm here to care for you on Doctor.Online
               </p>
             </div>
@@ -124,17 +113,20 @@ const HeroDashboard = () => {
       <div className="mt-6 lg:mt-0"></div>
 
       {/* Offers Section */}
-      <div className="bg-[#4D91FF] text-white py-4 lg:py-6">
-        <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-4 px-4">
-          <h2 className="text-lg lg:text-xl font-bold">Offers :</h2>
-          <div className="flex flex-col sm:flex-row gap-3 w-full lg:w-auto">
-            <button className="border-2 border-white px-4 py-2 rounded-full hover:bg-white hover:text-blue-500 transition-colors text-sm whitespace-nowrap">
+      <div className="bg-[#4D91FF] text-white py-3 lg:py-3">
+        <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-center gap-18  px-4">
+          <h2 className="text-lg lg:text-xl font-bold">OFFERS :</h2>
+          <div className="flex flex-col sm:flex-row gap-7 w-full lg:w-auto">
+            <button className="border-2 border-white px-4 py-4 rounded-lg hover:bg-white hover:text-blue-500 transition-colors text-sm whitespace-nowrap">
               Earn On our Referral Program
             </button>
-            <button className="border-2 border-white px-4 py-2 rounded-full hover:bg-white hover:text-blue-500 transition-colors text-sm whitespace-nowrap">
+            <button className="border-2 border-white px-4 py-2 rounded-lg hover:bg-white hover:text-blue-500 transition-colors text-sm whitespace-nowrap">
               50% off on Manual Therapy
             </button>
-            <button className="border-2 border-white px-4 py-2 rounded-full hover:bg-white hover:text-blue-500 transition-colors text-sm whitespace-nowrap">
+            <button className="border-2 border-white px-4 py-2 rounded-lg hover:bg-white hover:text-blue-500 transition-colors text-sm whitespace-nowrap">
+              50% off on Manual Therapy
+            </button>
+            <button className="border-2 border-white px-4 py-2 rounded-lg hover:bg-white hover:text-blue-500 transition-colors text-sm whitespace-nowrap">
               50% off on Manual Therapy
             </button>
           </div>

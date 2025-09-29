@@ -101,6 +101,7 @@ const DashboardSecond = () => {
                   className="pl-2 md:pl-4 basis-full sm:basis-1/2 lg:basis-1/4"
                 >
                   <HomeShortCard
+                  
                     Icon={item.icon}
                     title={item.title}
                     desc={item.description}

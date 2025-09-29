@@ -84,31 +84,31 @@ const Navbar = () => {
   return (
     <div>
       {/* Desktop and Tablet Layout */}
-      <div className="hidden md:flex justify-around items-center w-full">
+      <div className="hidden md:flex justify-between px-14 items-center w-full">
         {/* Logo */}
         <div
           onClick={() => router.push("/")}
-          className="flex gap-2 items-center cursor-pointer"
+          className="flex gap-2 mt-5 items-center cursor-pointer"
         >
-          <Stethoscope className="text-[#1195FF]" />
+          <Stethoscope className="text-[#4d91ff]" />
           <p className="font-bold text-lg">DOCTORS.ONLINE</p>
         </div>
 
         {/* Navigation Menu */}
-        <div className="bg-white border-6 mt-4 border-[#1195ff] rounded-4xl shadow-xl lg:w-1/2 md:w-3/5 p-4 lg:p-6 flex justify-between items-center">
+        <div className="bg-white border-6 mt-4 border-[#4d91ff] rounded-full shadow-xl lg:w-1/2 md:w-3/5 p-4 lg:pl-15 flex justify-between items-center">
           <div className="flex gap-2 lg:gap-4">
             {navLinks.map((link) => (
               <Link
                 key={link.name}
                 href={link.href}
                 onClick={() => handleLinkClick(link.name)}
-                className={`relative pb-1 text-sm lg:text-base transition-colors duration-200 hover:text-[#1195FF] ${
-                  activeLink === link.name ? "text-[#1195FF]" : "text-gray-700"
+                className={`relative pb-1 text-sm lg:text-base transition-colors duration-200 hover:text-[#4d91ff] ${
+                  activeLink === link.name ? "text-[#4d91ff]" : "text-gray-700"
                 }`}
               >
                 {link.name}
                 {activeLink === link.name && (
-                  <span className="absolute bottom-0 left-0 w-full h-0.5 bg-[#1195FF] transition-all duration-300"></span>
+                  <span className="absolute bottom-0 left-0 w-full h-0.5 bg-[#4d91ff] transition-all duration-300"></span>
                 )}
               </Link>
             ))}
@@ -120,7 +120,7 @@ const Navbar = () => {
             <Button
               variant="outline"
               onClick={() => router.push("/register/patient")}
-              className="bg-[#1195FF] cursor-pointer text-white rounded-2xl text-sm lg:text-base px-4 lg:px-6"
+              className="bg-[#4d91ff] lg:h-12 rounded-full cursor-pointer text-white  text-sm lg:text-base px-4 lg:px-6"
             >
               Login / Register
             </Button>
@@ -129,7 +129,7 @@ const Navbar = () => {
               {/* Notification Bell Icon */}
               <button
                 onClick={() => router.push("/patient/notifications")}
-                className="relative text-gray-700 hover:text-[#1195FF]"
+                className="relative text-gray-700 hover:text-[#4d91ff]"
               >
                 <Bell size={24} />
 
@@ -227,7 +227,7 @@ const Navbar = () => {
         <div className="flex justify-between items-center">
           {/* Logo */}
           <div className="flex gap-2 items-center">
-            <Stethoscope className="text-[#1195FF]" size={20} />
+            <Stethoscope className="text-[#4d91ff]" size={20} />
             <p className="font-bold text-base">DOCTORS.ONLINE</p>
           </div>
 
@@ -236,7 +236,7 @@ const Navbar = () => {
             {!user ? (
               <Button
                 onClick={() => router.push("/register/patient")}
-                className="bg-[#1195FF] text-white rounded-xl text-xs px-3 py-1"
+                className="bg-[#4d91ff] text-white rounded-xl text-xs px-3 py-1"
               >
                 Login/Register
               </Button>
@@ -321,7 +321,7 @@ const Navbar = () => {
             {/* Mobile Menu Button */}
             <button
               onClick={toggleMobileMenu}
-              className="p-2 text-gray-700 hover:text-[#1195FF] transition-colors"
+              className="p-2 text-gray-700 hover:text-[#4d91ff] transition-colors"
             >
               {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
@@ -337,15 +337,15 @@ const Navbar = () => {
                   key={link.name}
                   href={link.href}
                   onClick={() => handleLinkClick(link.name)}
-                  className={`relative pb-2 text-sm transition-colors duration-200 hover:text-[#1195FF] ${
+                  className={`relative pb-2 text-sm transition-colors duration-200 hover:text-[#4d91ff] ${
                     activeLink === link.name
-                      ? "text-[#1195FF]"
+                      ? "text-[#4d91ff]"
                       : "text-gray-700"
                   }`}
                 >
                   {link.name}
                   {activeLink === link.name && (
-                    <span className="absolute bottom-0 left-0 w-full h-0.5 bg-[#1195FF] transition-all duration-300"></span>
+                    <span className="absolute bottom-0 left-0 w-full h-0.5 bg-[#4d91ff] transition-all duration-300"></span>
                   )}
                 </Link>
               ))}

@@ -59,7 +59,7 @@ const FinalLayout = ({ children }) => {
         </div>
       ) : (
         <div
-          className="min-h-screen h-full bg-blue-50 w-full bg-cover bg-center bg-no-repeat relative flex flex-col"
+          className="min-h-screen h-full bg-white w-full bg-cover bg-center bg-no-repeat relative flex flex-col"
           style={{ backgroundImage: "url('/curve-lines.png')" }}
         >
           <Navbar />
