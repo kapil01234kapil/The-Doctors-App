@@ -232,7 +232,7 @@ const BookingConfirmed = () => {
             />
             <div className="flex flex-col justify-center">
               <p className="text-slate-500 text-xs">27 June</p>
-              <p className="font-bold text-md">{selectedDoctor?.fullName}</p>
+              <p className="font-bold text-lg">Dr. {selectedDoctor?.fullName}</p>
               <p className="text-sm flex font-bold">
                 <IndianRupee className="h-4 w-4" />
                 <span>{selectedDoctor?.doctorsProfile?.consultationFees}</span>
@@ -293,7 +293,7 @@ const BookingConfirmed = () => {
               onClick={handleBooking}
               disabled={!isTermsChecked || loading}
               variant="outline"
-              className={`bg-[#4d7ded] h-10 text-lg text-white ${
+              className={`bg-[#4d91ff] h-10 text-lg text-white ${
                 !isTermsChecked || loading
                   ? "opacity-50 cursor-not-allowed"
                   : ""

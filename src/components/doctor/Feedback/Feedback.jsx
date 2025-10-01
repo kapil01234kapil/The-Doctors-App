@@ -58,7 +58,7 @@ const Feedback = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="w-full max-w-3xl mx-auto bg-white rounded-md p-4 sm:p-6 md:p-8 flex flex-col gap-6"
+      className="w-full  mx-auto bg-white rounded-md p-4 sm:p-6 md:p-8 flex flex-col gap-6"
     >
       <h1 className="font-bold text-2xl sm:text-3xl">Customer Feedback</h1>
       <p className="text-gray-600 text-sm sm:text-base">
@@ -104,7 +104,7 @@ const Feedback = () => {
       {loading ? (
         <Button
           type="submit"
-          className="bg-blue-600 w-full sm:w-1/2 h-12 text-white flex items-center justify-center gap-2"
+          className="bg-[#4d91ff] w-full sm:w-1/2 h-12 text-white flex items-center justify-center gap-2"
           variant="outline"
           disabled
         >
@@ -114,7 +114,7 @@ const Feedback = () => {
       ) : (
         <Button
           type="submit"
-          className="bg-blue-600 w-full sm:w-1/2 h-12 text-white"
+          className="bg-[#4d91ff] w-full sm:w-1/2 h-12 text-white"
           variant="outline"
         >
           Submit Feedback

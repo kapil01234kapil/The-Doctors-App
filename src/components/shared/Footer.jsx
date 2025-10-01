@@ -6,7 +6,7 @@ const Footer = () => {
   const { user } = useSelector((store) => store.auth);
 
   return (
-    <footer className="bg-[#4d91ff] text-white w-full mt-10">
+    <footer className="bg-[#4d91ff] text-white w-full ">
       {/* Top Section */}
       <div className="max-w-7xl mx-auto px-6 py-10 flex flex-col md:flex-row md:justify-between md:items-start text-center md:text-left gap-10">
         {/* Brand Section */}

@@ -14,40 +14,43 @@ import toast from "react-hot-toast";
 import { Loader2 } from "lucide-react";
 import { setExistingAppointment } from "@/redux/authSlice";
 
-// helper to map date -> weekday string like "Monday"
 const getDayName = (date) =>
   date.toLocaleDateString("en-US", { weekday: "long" });
 
 const HeroDoctorInside = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const { id } = useParams();
   useGetDoctorProfile(id);
   useGetAllAvailableSlots(id);
 
-  const { selectedDoctor,existingAppointment } = useSelector((store) => store.auth);
-  useEffect(() => {
-  if (existingAppointment) {
-    (async () => {
-      try {
-        const res = await axios.post('/api/patient/getUnpaidAppointments', 
-           {appointmentId: existingAppointment },
-          {withCredentials: true},
-        );
+  const { selectedDoctor, existingAppointment } = useSelector(
+    (store) => store.auth
+  );
 
-        if (res.data.success) {
-          toast.success("You have an existing unpaid appointment. Redirecting to payment page.");
-          router.push(`/patient/confirmBooking/${res.data.id}`);
-        } else {
-          console.log(res.data.message);
+  useEffect(() => {
+    if (existingAppointment) {
+      (async () => {
+        try {
+          const res = await axios.post(
+            "/api/patient/getUnpaidAppointments",
+            { appointmentId: existingAppointment },
+            { withCredentials: true }
+          );
+
+          if (res.data.success) {
+            toast.success(
+              "You have an existing unpaid appointment. Redirecting to payment page."
+            );
+            router.push(`/patient/confirmBooking/${res.data.id}`);
+          }
+        } catch (error) {
+          console.log(error);
         }
-      } catch (error) {
-        console.log(error);
-      }
-    })();
-  }
-}, [existingAppointment, router]);
+      })();
+    }
+  }, [existingAppointment, router]);
 
   const { allAvailableSlots } = useSelector((store) => store.schedule);
 
@@ -57,7 +60,6 @@ const HeroDoctorInside = () => {
 
   const today = new Date();
 
-  // Next 7 days
   const availableDates = useMemo(() => {
     return Array.from({ length: 7 }, (_, i) => {
       const d = new Date(today);
@@ -66,7 +68,6 @@ const HeroDoctorInside = () => {
     });
   }, [today]);
 
-  // Format for header
   const formatDateDisplay = (date) =>
     date.toLocaleDateString("en-US", {
       weekday: "long",
@@ -74,17 +75,13 @@ const HeroDoctorInside = () => {
       day: "numeric",
     });
 
-  // Is date selectable
   const isDateSelectable = (date) =>
     availableDates.some((d) => d.toDateString() === date.toDateString());
 
-  // Find slots for the currently selected date’s day name
   const currentDayName = getDayName(selectedDate);
   const currentDaySlots =
     allAvailableSlots.find((slotObj) => slotObj.day === currentDayName)
       ?.slots || [];
-
-  // ---- Submit Handler ----
 
   const handleBookAppointment = async () => {
     try {
@@ -96,23 +93,25 @@ const HeroDoctorInside = () => {
         bookedSlot: selectedSlot,
         consultationFees: selectedDoctor?.doctorsProfile?.consultationFees,
       };
-      console.log(body);
 
-      const res = await axios.post(`/api/patient/bookAppointment/${id}`, body, {
-        withCredentials: true,
-      });
+      const res = await axios.post(
+        `/api/patient/bookAppointment/${id}`,
+        body,
+        { withCredentials: true }
+      );
 
       if (res.data.success) {
         toast.success(res.data.message);
-        console.log(res.data.newAppointment?._id);
         dispatch(setExistingAppointment(res.data.newAppointment?._id));
-        router.push(`/patient/confirmBooking/${res.data.newAppointment?._id}`); // redirect to appointments page maybe
+        router.push(
+          `/patient/confirmBooking/${res.data.newAppointment?._id}`
+        );
       } else {
         toast.error(res.data.message);
       }
     } catch (error) {
       console.error(error);
-      toast.error(res.data.message);
+      toast.error("Something went wrong");
     } finally {
       setLoading(false);
     }
@@ -123,64 +122,77 @@ const HeroDoctorInside = () => {
       {/* Top Section */}
       <div className="w-full flex flex-col lg:flex-row justify-center mt-10 gap-8">
         {/* Doctor Image */}
-        <div className="w-full lg:w-1/3 flex justify-center items-center">
-          <Image
-            height={600}
-            width={400}
-            alt="Doctor's photo"
-            className="rounded-3xl object-cover w-full h-auto max-w-sm"
-            src={selectedDoctor?.profilePhoto}
-          />
+        <div className="w-full lg:w-1/3 flex justify-center">
+          <div className="w-full max-w-sm">
+            <Image
+              height={400}
+              width={300}
+              alt="Doctor's photo"
+              className="rounded-3xl object-contain w-full max-h-[400px]"
+              src={selectedDoctor?.profilePhoto}
+            />
+          </div>
         </div>
 
         {/* Doctor Details */}
         <div className="flex flex-col w-full lg:w-2/3 gap-6">
-          <h1 className="font-bold text-2xl">{selectedDoctor?.fullName}</h1>
+          <h1 className="font-bold text-4xl">Dr.{selectedDoctor?.fullName}</h1>
           <p className="text-lg text-gray-700">
             {selectedDoctor?.doctorsProfile?.qualifications?.join(", ")}
           </p>
-          <p className="pb-3 border-b-2 border-dashed border-gray-400">
+          <p className="border-b-2 pb-6 border-dashed border-gray-400">
             Speciality in{" "}
             <span className="font-medium">
               {selectedDoctor?.doctorsProfile?.specializations}
             </span>
           </p>
           <p className="text-gray-600 text-lg">Working At</p>
-          <h1 className="text-lg font-medium">
+          <h1 className="text-lg font-medium border-b-2 border-dashed border-gray-400 pb-6">
             {selectedDoctor?.doctorsProfile?.clinic?.[0]?.clinicName},{" "}
             {selectedDoctor?.doctorsProfile?.clinic?.[0]?.city}
           </h1>
-          <h1 className="font-bold text-xl">
-            Consultation Fees: ₹
-            {selectedDoctor?.doctorsProfile?.consultationFees}
+          <h1 className="font-bold text-2xl">
+            Consultation Fees:{" "}
+            <span className="text-[#4d91ff] ml-3">
+              ₹{selectedDoctor?.doctorsProfile?.consultationFees}{" "}
+              <span className="font-semibold"> per consultation</span>
+            </span>
           </h1>
         </div>
       </div>
 
-      {/* Stats Section */}
-      <div className="w-full flex justify-center mt-10">
-        <div className="w-full lg:w-4/5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 bg-white p-6 rounded-xl gap-6 shadow-sm">
-          <div className="flex flex-col gap-2">
-            <h1 className="text-gray-600 font-medium">Total Experience</h1>
-            <h1 className="font-bold text-xl">{selectedDoctor?.doctorsProfile?.experience}+ Years</h1>
-          </div>
+    {/* Stats Section */}
+<div className="w-full flex justify-center mt-10">
+  <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 bg-[#F7FAFB] p-6 rounded-xl shadow-sm">
+    
+    {/* Total Experience */}
+    <div className="flex flex-col gap-2 px-6 lg:border-r lg:border-dotted lg:border-slate-700">
+      <h1 className="text-gray-600 font-medium">Total Experience</h1>
+      <h1 className="font-bold text-xl">
+        {selectedDoctor?.doctorsProfile?.experience}+ Years
+      </h1>
+    </div>
 
-          <div className="flex flex-col gap-2">
-            <h1 className="text-gray-600 font-medium">Contact Details</h1>
-            <h1 className="font-bold text-xl">{selectedDoctor?.contactDetails}</h1>
-          </div>
+    {/* Contact Details */}
+    <div className="flex flex-col gap-2 px-6 lg:border-r lg:border-dotted lg:border-slate-700">
+      <h1 className="text-gray-600 font-medium">Contact Details</h1>
+      <h1 className="font-bold text-xl">{selectedDoctor?.contactDetails}</h1>
+    </div>
 
-          <div className="flex flex-col gap-2">
-            <h1 className="text-gray-600 font-medium">Rating</h1>
-            <h1 className="font-bold text-xl">4.8 / 5</h1>
-          </div>
+    {/* Rating */}
+    <div className="flex flex-col gap-2 px-6 lg:border-r lg:border-dotted lg:border-slate-700">
+      <h1 className="text-gray-600 font-medium">Rating</h1>
+      <h1 className="font-bold text-xl">{selectedDoctor?.overAllRating} / 5</h1>
+    </div>
 
-          <div className="flex flex-col gap-2">
-            <h1 className="text-gray-600 font-medium">Languages</h1>
-            <h1 className="font-bold text-xl">English, Hindi</h1>
-          </div>
-        </div>
-      </div>
+    {/* Languages */}
+    <div className="flex flex-col gap-2 px-6">
+      <h1 className="text-gray-600 font-medium">Languages</h1>
+      <h1 className="font-bold text-xl">English, Hindi</h1>
+    </div>
+  </div>
+</div>
+
 
       {/* Booking Section */}
       <div className="w-full flex flex-col lg:flex-row justify-center items-start gap-6 p-4 lg:p-6 xl:p-10">
@@ -193,7 +205,7 @@ const HeroDoctorInside = () => {
             onSelect={(date) => {
               if (date && isDateSelectable(date)) {
                 setSelectedDate(date);
-                setSelectedSlot(null); // reset slot on date change
+                setSelectedSlot(null);
               }
             }}
             disabled={(date) => !isDateSelectable(date)}
@@ -220,47 +232,43 @@ const HeroDoctorInside = () => {
           </h2>
 
           {currentDaySlots.length > 0 ? (
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-2 gap-3">
+            <div className="max-h-[300px] overflow-y-auto pr-2 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-2 gap-3">
               {currentDaySlots
-  .filter((s) => {
-    if (s.isBooked) return false;
-
-    // If the selected date is today, remove past slots
-    const isToday =
-      selectedDate.toDateString() === new Date().toDateString();
-
-    if (isToday) {
-      const now = new Date();
-      const [slotHour, slotMinute] = s.startTime.split(":").map(Number);
-      const slotDateTime = new Date(
-        selectedDate.getFullYear(),
-        selectedDate.getMonth(),
-        selectedDate.getDate(),
-        slotHour,
-        slotMinute
-      );
-
-      return slotDateTime > now;
-    }
-
-    return true; // for future dates, keep all slots
-  })
-  .map((slot, idx) => (
-    <Badge
-      key={idx}
-      onClick={() => setSelectedSlot(slot)}
-      className={`w-full h-10 cursor-pointer flex items-center justify-center text-sm lg:text-base font-medium transition-colors
-        ${
-          selectedSlot?._id === slot._id
-            ? "bg-blue-500 text-white"
-            : "bg-white text-blue-500 hover:bg-blue-50"
-        }`}
-      variant="outline"
-    >
-      {slot.startTime} - {slot.endTime}
-    </Badge>
-  ))}
-
+                .filter((s) => {
+                  if (s.isBooked) return false;
+                  const isToday =
+                    selectedDate.toDateString() === new Date().toDateString();
+                  if (isToday) {
+                    const now = new Date();
+                    const [slotHour, slotMinute] = s.startTime
+                      .split(":")
+                      .map(Number);
+                    const slotDateTime = new Date(
+                      selectedDate.getFullYear(),
+                      selectedDate.getMonth(),
+                      selectedDate.getDate(),
+                      slotHour,
+                      slotMinute
+                    );
+                    return slotDateTime > now;
+                  }
+                  return true;
+                })
+                .map((slot, idx) => (
+                  <Badge
+                    key={idx}
+                    onClick={() => setSelectedSlot(slot)}
+                    className={`w-full h-12 cursor-pointer flex items-center justify-center text-sm lg:text-base font-medium transition-colors
+                    ${
+                      selectedSlot?._id === slot._id
+                        ? "bg-blue-500 text-white"
+                        : "bg-white text-blue-500 hover:bg-blue-50"
+                    }`}
+                    variant="outline"
+                  >
+                    {slot.startTime} - {slot.endTime}
+                  </Badge>
+                ))}
             </div>
           ) : (
             <p className="text-gray-500 text-center mt-4">
@@ -272,7 +280,7 @@ const HeroDoctorInside = () => {
 
       {/* Message box */}
       <div className="flex justify-center">
-        <div className="flex flex-col w-2/3 justify-center gap-5">
+        <div className="flex flex-col w-full sm:w-3/4 lg:w-2/3 justify-center gap-5">
           <h1 className="font-bold">Message For The Doctor</h1>
           <Textarea
             className="bg-white h-30"
@@ -283,7 +291,7 @@ const HeroDoctorInside = () => {
       </div>
 
       {/* Button */}
-      <div className="flex justify-center w-full mt-6">
+      <div className="flex justify-center pb-10 w-full mt-6">
         {loading ? (
           <Button
             className="text-white h-10 rounded-2xl w-[70%] sm:w-[50%] md:w-[40%] lg:w-[30%] bg-[#4d91ff]"
@@ -294,9 +302,10 @@ const HeroDoctorInside = () => {
           </Button>
         ) : (
           <Button
-            className="text-white h-10 rounded-2xl w-[70%] sm:w-[50%] md:w-[40%] lg:w-[30%] bg-[#4d91ff] disabled:opacity-50 disabled:cursor-not-allowed"
+            className="text-white h-10 cursor-pointer rounded-2xl w-[70%] sm:w-[50%] md:w-[40%] lg:w-[30%] bg-[#4d91ff] disabled:opacity-50 disabled:cursor-not-allowed"
             disabled={!selectedSlot}
             onClick={handleBookAppointment}
+            variant = "outline"
           >
             BOOK APPOINTMENT NOW
           </Button>

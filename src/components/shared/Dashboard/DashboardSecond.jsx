@@ -22,8 +22,10 @@ import {
 } from "@/components/ui/carousel";
 import DashboardCard from "./DashboardCard";
 import { useSelector } from "react-redux";
+import useGetAllDoctors from "@/hooks/patients/useGetAllDoctors";
 
 const DashboardSecond = () => {
+  useGetAllDoctors()
   const { allDoctors } = useSelector((store) => store.auth);
 
   const medicalProfessions = [

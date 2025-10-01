@@ -290,7 +290,7 @@ const handleSubmit = async () => {
                 {loading ? (
                   <Button
                     disabled
-                    className="w-full h-12 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-full transition-colors duration-200"
+                    className="w-full h-12 bg-[#4d91ff] hover:bg-blue-700 text-white font-medium rounded-full transition-colors duration-200"
                     variant="outline"
                   ><Loader2 className="animate-spin mr-2 h-4 w-4"/>Submitting</Button>
                 ) : (
@@ -298,7 +298,7 @@ const handleSubmit = async () => {
                     type="button"
                     variant="outline"
                     onClick={handleSubmit}
-                    className="w-full h-12 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-full transition-colors duration-200"
+                    className="w-full h-12 bg-[#4d91ff] hover:bg-blue-700 text-white font-medium rounded-full transition-colors duration-200"
                     size="lg"
                   >
                     Submit Form

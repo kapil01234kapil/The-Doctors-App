@@ -84,7 +84,7 @@ const ReferredDoctorsTable = () => {
       <div className="overflow-x-auto">
         <table className="w-full">
           <thead>
-            <tr className="border-b border-gray-200">
+            <tr className="border-b bg-gray-200 border-gray-200">
               <th className="text-left py-3 px-4 text-sm font-medium text-gray-600">Doctor</th>
               <th className="text-left py-3 px-4 text-sm font-medium text-gray-600">Date Referred</th>
               <th className="text-left py-3 px-4 text-sm font-medium text-gray-600">Bookings</th>

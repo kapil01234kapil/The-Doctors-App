@@ -11,6 +11,8 @@ import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { setUser } from "@/redux/authSlice";
+import { motion } from "framer-motion";
+
 
 export default function PatientRegister() {
   const router = useRouter();
@@ -57,19 +59,23 @@ export default function PatientRegister() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center px-4">
+    <motion.div  initial={{ opacity: 0, y: 15 }}
+  animate={{ opacity: 1, y: 0 }}
+  exit={{ opacity: 0, y: -15 }}
+  transition={{ duration: 0.4 }}
+  className="flex min-h-screen items-center justify-center px-4">
       <Card className="w-full max-w-md rounded-2xl shadow-lg">
         {/* Top Toggle Buttons */}
         <div className="flex w-full">
           <Link href="/register/patient" className="w-1/2">
-            <Button className="w-full rounded-none rounded-tl-2xl bg-[#4d91ff] text-white hover:bg-blue-600">
+            <Button className="w-full cursor-pointer rounded-none rounded-tl-2xl bg-[#4d91ff] text-white hover:bg-blue-600">
               Register
             </Button>
           </Link>
           <Link href="/login/patient" className="w-1/2">
             <Button
               variant="outline"
-              className="w-full rounded-none rounded-tr-2xl border-gray-200 text-gray-700 hover:text-[#1195FF]"
+              className="w-full rounded-none cursor-pointer rounded-tr-2xl border-gray-200 text-gray-700 hover:text-[#1195FF]"
             >
               Login
             </Button>
@@ -144,7 +150,7 @@ export default function PatientRegister() {
             ) : (
               <Button
                 type="submit"
-                className="w-full bg-[#4d91ff] hover:bg-blue-600"
+                className="w-full cursor-pointer bg-[#4d91ff] hover:bg-blue-600"
               >
                 Register
               </Button>
@@ -165,6 +171,6 @@ export default function PatientRegister() {
           </div>
         </CardContent>
       </Card>
-    </div>
+    </motion.div>
   );
 }

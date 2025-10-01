@@ -16,6 +16,7 @@ import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "@/redux/authSlice";
 import useGetAllPatientsAppointments from "@/hooks/patients/useGetAllPatientAppointments";
+import Image from "next/image";
 
 export default function PatientProfilePage() {
   const dispatch = useDispatch();
@@ -118,19 +119,27 @@ export default function PatientProfilePage() {
       {/* Profile Header */}
       <div className="bg-white shadow rounded-2xl p-6 flex flex-col md:flex-row items-center gap-6">
         {/* Profile Photo */}
-        <div className="relative">
-          <img
-            src={user?.profilePhoto || "/defaultUserImage.jpg"}
-            alt="Profile"
-            className="w-32 h-32 rounded-full object-cover border-4 border-[#4d91ff]"
-          />
-          <button
-            onClick={() => setEditingPhoto(!editingPhoto)}
-            className="absolute bottom-0 right-0 bg-[#4d91ff] p-2 rounded-full text-white"
-          >
-            <Pencil size={18} />
-          </button>
-        </div>
+<div className="relative w-32 h-32">
+  {/* Rounded container with border */}
+  <div className="w-full h-full p-4 rounded-full border-2 border-[#4d91ff] overflow-hidden bg-white">
+    <Image
+      height={128}
+      width={128}
+      src={user?.profilePhoto || "/defaultUserImage.jpg"}
+      alt="Profile"
+      className="w-full h-full object-contain" 
+    />
+  </div>
+
+  {/* Edit Button */}
+  <button
+    onClick={() => setEditingPhoto(!editingPhoto)}
+    className="absolute bottom-0 right-0 bg-[#4d91ff] p-2 rounded-full text-white shadow"
+  >
+    <Pencil size={18} />
+  </button>
+</div>
+
 
         {editingPhoto && (
           <div className="flex flex-col items-start gap-2">

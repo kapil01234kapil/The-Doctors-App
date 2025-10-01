@@ -114,7 +114,7 @@ const PasswordSecuritySettings = () => {
   }
 
   return (
-    <div className="w-full max-w-4xl mx-auto p-4 sm:p-6 lg:p-8 bg-white space-y-8">
+    <div className="w-full h-full   p-4 sm:p-6 lg:p-8 lg:px-12 bg-white space-y-8">
       {/* Change Password Section */}
       <div className="space-y-6">
         <h1 className="text-xl sm:text-2xl font-semibold text-gray-900">
@@ -157,7 +157,7 @@ const PasswordSecuritySettings = () => {
         </div>
 
         <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-2">
-          <Button onClick={changePasswordHandler} className="bg-blue-600 hover:bg-blue-700 px-6 py-2.5">
+          <Button onClick={changePasswordHandler} className="bg-[#4d91ff] hover:bg-blue-700 px-6 py-2.5">
             Save Change
           </Button>
           <Button 

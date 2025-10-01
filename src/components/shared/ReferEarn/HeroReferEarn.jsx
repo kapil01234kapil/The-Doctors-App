@@ -1,7 +1,7 @@
 "use client";
 
 import useGetReferralRecord from "@/hooks/Referral/useGetReferralRecord";
-import { Copy, IndianRupee, Share2, UserPlus } from "lucide-react";
+import { Calendar, Copy, IndianRupee, Share2, UserPlus } from "lucide-react";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
@@ -49,7 +49,7 @@ const HeroReferEarn = () => {
   };
 
   return (
-    <div className="w-full h-full min-h-screen p-4 md:p-6 lg:p-10">
+    <div className="w-full bg-white mt-3 h-full min-h-screen p-4 md:p-6 lg:p-10">
       {/* Heading */}
       <div className="flex justify-center">
         <div className="flex flex-col mt-7 justify-center items-center gap-4 text-center">
@@ -63,7 +63,7 @@ const HeroReferEarn = () => {
 
       {/* Stats Section */}
       <div className="p-5 w-full">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2  gap-5">
           <div className="bg-white border-2 border-slate-400 rounded-md p-4 flex gap-3">
             <IndianRupee />
             <div className="flex flex-col gap-1">
@@ -124,13 +124,13 @@ const HeroReferEarn = () => {
             <div className="flex gap-2 sm:w-1/3 justify-between">
               <button
                 onClick={handleCopyCode}
-                className="flex-1 flex gap-2 p-3 justify-center items-center rounded-md bg-blue-700 text-white text-sm"
+                className="flex-1 flex gap-2 p-3 justify-center items-center cursor-pointer rounded-md bg-blue-700 text-white text-sm"
               >
                 <Copy size={16} />
                 Copy
               </button>
 
-              <button className="flex-1 flex gap-2 p-3 justify-center items-center rounded-md bg-green-700 text-white text-sm">
+              <button className="flex-1 flex gap-2 p-3 justify-center cursor-pointer items-center rounded-md bg-green-700 text-white text-sm">
                 <Share2 size={16} />
                 Share
               </button>
@@ -161,7 +161,7 @@ const HeroReferEarn = () => {
             />
             <button
               onClick={handleAddUpiId}
-              className="bg-blue-600 text-white px-6 py-3 rounded-md"
+              className="bg-blue-600 text-white px-6 py-3 cursor-pointer rounded-md"
             >
               Save
             </button>
@@ -187,7 +187,7 @@ const HeroReferEarn = () => {
 
             <div className="flex flex-col justify-between items-center gap-2">
               <div className="bg-blue-100 rounded-full p-4">
-                <UserPlus className="text-blue-500" size={60} />
+                <Calendar className="text-blue-500" size={60} />
               </div>
               <h1 className="font-bold text-lg">Doctor Completes Booking</h1>
               <p className="text-sm text-slate-600">
@@ -198,7 +198,7 @@ const HeroReferEarn = () => {
 
             <div className="flex flex-col justify-between items-center gap-2">
               <div className="bg-blue-100 rounded-full p-4">
-                <UserPlus className="text-blue-500" size={60} />
+                <IndianRupee className="text-blue-500" size={60} />
               </div>
               <h1 className="font-bold text-lg">Earn Rewards</h1>
               <p className="text-sm text-slate-600">

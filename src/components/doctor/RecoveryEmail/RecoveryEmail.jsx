@@ -60,7 +60,7 @@ const RecoveryEmail = () => {
         </h1>
 
         <p className="text-xs sm:text-xs text-center text-slate-500 max-w-xs sm:max-w-sm">
-          JOIN NOW TO STREAMLINE YOUR EXPERIENCE FROM DAY ONE
+          Join Now To Streamline Your Experience From Day One
         </p>
 
         <div className="flex flex-col gap-2 w-full max-w-xs sm:max-w-sm">
