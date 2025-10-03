@@ -1,8 +1,10 @@
 import { connectDB } from "@/lib/db";
 import { getUserIdFromRequest } from "@/lib/getUserIdFromRequest";
 import DoctorWeeklySlot from "@/models/DoctorWeeklySlot";
+import appointmentModels from "@/models/appointmentModels";
 import userModels from "@/models/userModels";
 import { NextResponse } from "next/server";
+import mongoose from "mongoose";
 
 export async function GET(req, { params }) {
   try {
@@ -24,14 +26,28 @@ export async function GET(req, { params }) {
       );
     }
 
-    const { id } = await params;
-    const now = new Date();
-    const THIRTY_MINUTES = 30 * 60 * 1000;
+    const { id } = await params; // doctorId
+    const doctorId = new mongoose.Types.ObjectId(id);
 
-    // 🔹 Find doctor's latest effective slots
+    // ✅ Define date boundaries (start of today → 7 days later)
+    const startOfToday = new Date();
+    startOfToday.setHours(0, 0, 0, 0);
+
+    const sevenDaysLater = new Date(startOfToday);
+    sevenDaysLater.setDate(startOfToday.getDate() + 7);
+
+    // ✅ Step 1: Remove expired pending appointments (>30 min old)
+    const thirtyMinsAgo = new Date(Date.now() - 30 * 60 * 1000);
+    await appointmentModels.deleteMany({
+      doctor: doctorId,
+      status: "pending",
+      pendingTime: { $lt: thirtyMinsAgo },
+    });
+
+    // ✅ Step 2: Fetch doctor's weekly slot template
     let doctorSlots = await DoctorWeeklySlot.findOne({
-      doctor: id,
-      effectiveFrom: { $lte: now },
+      doctor: doctorId,
+      effectiveFrom: { $lte: new Date() }, // still compare with now for template validity
     }).sort({ effectiveFrom: -1 });
 
     if (!doctorSlots) {
@@ -41,49 +57,44 @@ export async function GET(req, { params }) {
       );
     }
 
-    let updated = false;
-
-    // 🔹 Iterate through slots and reset expired ones
-    doctorSlots.allSlot.forEach((dayObj) => {
-      dayObj.slots.forEach((slot) => {
-        if (
-          slot.isBooked &&
-          slot.status === "waiting" &&
-          slot.isPending &&
-          now - new Date(slot.isPending) > THIRTY_MINUTES
-        ) {
-          slot.isBooked = false;
-          slot.status = "free";
-          slot.isPending = null;
-          updated = true;
-        }
-      });
+    // ✅ Step 3: Fetch all active appointments in next 7 days
+    const activeAppointments = await appointmentModels.find({
+      doctor: doctorId,
+      appointmentDate: { $gte: startOfToday, $lte: sevenDaysLater },
+      status: { $in: ["pending", "confirmed", "completed"] },
     });
 
-    // 🔹 Save only if something changed
-    if (updated) {
-      await doctorSlots.save();
-    }
+    console.log("activeAppointments", activeAppointments);
 
-    // 🔹 Return only free slots
+    // ✅ Step 4: Filter out booked slots
     const filteredSlots = {
       ...doctorSlots.toObject(),
-      allSlot: doctorSlots.allSlot.map((dayObj) => ({
-        ...dayObj.toObject(),
-        slots: dayObj.slots.filter((slot) => slot.isBooked === false),
-      })),
+      allSlot: doctorSlots.allSlot.map((dayObj) => {
+        return {
+          ...dayObj.toObject(),
+          slots: dayObj.slots.filter((slot) => {
+            const slotKey = `${slot.startTime} - ${slot.endTime}`;
+            const isTaken = activeAppointments.some(
+              (app) =>
+                app.appointmentDay === dayObj.day &&
+                app.bookedSlot === slotKey
+            );
+            return !isTaken;
+          }),
+        };
+      }),
     };
 
     return NextResponse.json(
       {
         success: true,
-        message: "Doctor's latest effective slots fetched",
+        message: "Doctor's available slots fetched",
         allSlots: filteredSlots,
       },
       { status: 200 }
     );
   } catch (error) {
-    console.error(error);
+    console.error("getDoctorSlots error:", error);
     return NextResponse.json(
       { success: false, message: "Internal Server Error" },
       { status: 500 }

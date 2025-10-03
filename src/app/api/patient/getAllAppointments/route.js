@@ -25,14 +25,17 @@ export async function GET(req) {
       );
     }
 
+    // 🔹 First fetch appointments (not pending), sorted by appointmentDate DESC
     let confirmedAppointments = await appointmentModels
       .find({ patient: userId, status: { $ne: "pending" } })
       .populate({
         path: "doctor",
         select: "fullName profilePhoto contactDetails age",
       })
-      .sort({ createdAt: -1 });
-      console.log("all the confirmed appointments",confirmedAppointments);
+      .sort({ appointmentDate: -1 });
+
+    console.log("all the confirmed appointments", confirmedAppointments);
+
     if (!confirmedAppointments || confirmedAppointments.length === 0) {
       return NextResponse.json(
         {
@@ -45,36 +48,40 @@ export async function GET(req) {
 
     const now = new Date();
 
-    // Update status to 'completed' if appointmentDate is in the past and status is 'confirmed'
+    // ✅ Update status to 'completed' only if the whole day of appointment has passed
     const updatePromises = confirmedAppointments.map(async (appointment) => {
-      if (
-        appointment.status === "confirmed" &&
-        new Date(appointment.appointmentDate) < now
-      ) {
-        appointment.status = "completed";
-        await appointment.save();
+      if (appointment.status === "confirmed") {
+        const appointmentDate = new Date(appointment.appointmentDate);
+        const endOfAppointmentDay = new Date(appointmentDate);
+        endOfAppointmentDay.setHours(23, 59, 59, 999);
 
-        await notificationModels.create({
-          reciever: userId, // Send notification to the patient
-          sender: appointment?.doctor,
-          title: "Appointment Completed",
-          message: `Your appointment with Dr. ${appointment?.doctor?.fullName} has been marked as completed. You can now provide feedback.`,
-          type: "Feedback",
-          reviewGiven : false
-        });
+        if (now > endOfAppointmentDay) {
+          appointment.status = "completed";
+          await appointment.save();
+
+          await notificationModels.create({
+            reciever: userId, // patient
+            sender: appointment?.doctor,
+            title: "Appointment Completed",
+            message: `Your appointment with Dr. ${appointment?.doctor?.fullName} has been marked as completed. You can now provide feedback.`,
+            type: "Feedback",
+            reviewGiven: false,
+          });
+        }
       }
     });
 
     await Promise.all(updatePromises);
 
-    // Refetch updated appointments after status updates
+    // 🔹 Refetch updated appointments with appointmentDate DESC
     confirmedAppointments = await appointmentModels
       .find({ patient: userId, status: { $ne: "pending" } })
       .populate({
         path: "doctor",
-        select: "fullName profilePhoto contactDetails age doctorsProfile.specializations doctorsProfile.clinic.clinicAddress",
+        select:
+          "fullName profilePhoto contactDetails age doctorsProfile.specializations doctorsProfile.clinic.clinicAddress",
       })
-      .sort({ createdAt: -1 });
+      .sort({ appointmentDate: -1 });
 
     return NextResponse.json(
       {
@@ -91,4 +98,4 @@ export async function GET(req) {
       { status: 500 }
     );
   }
-};
+}

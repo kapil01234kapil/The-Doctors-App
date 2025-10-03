@@ -3,6 +3,8 @@ import { getUserIdFromRequest } from "@/lib/getUserIdFromRequest";
 import { Finance } from "@/models/financeModels";
 import userModels from "@/models/userModels";
 import { NextResponse } from "next/server";
+import appointmentModels from "@/models/appointmentModels"; // ✅ register Appointment model
+
 
 export async function GET(request) {
   try {

@@ -296,7 +296,7 @@ const BookingConfirmed = () => {
               onClick={handleBooking}
               disabled={!isTermsChecked || loading}
               variant="outline"
-              className={`bg-[#4d91ff] h-10 text-lg text-white ${
+              className={`bg-[#4d91ff] cursor-pointer h-10 text-lg text-white ${
                 !isTermsChecked || loading
                   ? "opacity-50 cursor-not-allowed"
                   : ""
