@@ -21,6 +21,7 @@ import axios from "axios";
 import {
   setAllNotifications,
   setSelectedNotification,
+  setUnreadNotificationsCount,
 } from "@/redux/notificationSlice";
 import {
   Dialog,
@@ -57,8 +58,8 @@ const NotificationPage = () => {
       time: moment(notif.createdAt).fromNow(),
       read: notif.isRead,
       priority: notif.highPriority ? "high" : "medium",
-      doctorId: notif.sender, // 👈 store doctor id here
-      reviewGiven: notif.reviewGiven || false, // 👈 carry this over
+      doctorId: notif.sender,
+      reviewGiven: notif.reviewGiven || false,
     }));
     setNotifications(mappedNotifications);
   }, [allNotifications]);
@@ -97,70 +98,62 @@ const NotificationPage = () => {
 
   const { selectedNotification } = useSelector((store) => store.notification);
 
-  const markAsRead = (id) => {
-    setNotifications(
-      notifications.map((notif) =>
-        notif.id === id ? { ...notif, read: true } : notif
-      )
-    );
-  };
-
   const deleteNotification = (id) => {
     setNotifications(notifications.filter((notif) => notif.id !== id));
   };
 
-  const markAllAsRead = () => {
-    setNotifications(notifications.map((notif) => ({ ...notif, read: true })));
-  };
+  // ✅ mark one notification as read
+  // ✅ mark one notification as read
+const markSingleNotification = async (notificationId) => {
+  try {
+    const res = await axios.patch(
+      "/api/notifications/markOneNotification",
+      { notificationId },
+      { withCredentials: true }
+    );
 
-  const filteredNotifications = notifications.filter((notif) => {
-    const matchesFilter =
-      filter === "all" ||
-      (filter === "unread" && !notif.read) ||
-      (filter === "read" && notif.read) ||
-      (filter === "high" && notif.priority === "high");
+    if (res.data.success) {
+      toast.success(res.data.message);
 
-    const matchesSearch =
-      notif.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      notif.message.toLowerCase().includes(searchTerm.toLowerCase());
-
-    return matchesFilter && matchesSearch;
-  });
-
-  const unreadCount = notifications.filter((notif) => !notif.read).length;
-
-  const markSingleNotification = async (notificationId) => {
-    try {
-      if (!notificationId) {
-        toast.error("Notification ID not found");
-        return;
-      }
-
-      const res = await axios.patch(
-        "/api/notifications/markOneNotification",
-        { notificationId },
-        { withCredentials: true }
+      // Update Redux allNotifications → mark this one as read
+      const updated = allNotifications.map((n) =>
+        n._id === notificationId ? { ...n, isRead: true } : n
       );
+      dispatch(setAllNotifications(updated));
 
-      if (res.data.success) {
-        toast.success(res.data.message);
-      } else {
-        toast.error(res.data.message);
-      }
-    } catch (error) {
-      toast.error(error.response?.data?.message || "Internal Server Error");
+      // Decrease unread count by 1 (but not below 0)
+      dispatch(
+        setUnreadNotificationsCount(
+          Math.max(0, unreadNotificationsCount - 1)
+        )
+      );
+    } else {
+      toast.error(res.data.message);
     }
-  };
+  } catch (error) {
+    toast.error(error.response?.data?.message || "Internal Server Error");
+  }
+};
 
+
+  // ✅ mark all notifications as read
   const markAllNotifications = async () => {
     try {
       const res = await axios.patch(
-        "/api/notifications/markUserAllNotifications",
+        "/api/notifications/markUsersAllNotifications",
         {},
         { withCredentials: true }
       );
+
       if (res.data.success) {
         toast.success(res.data.message);
+        // update redux
+        const updated = allNotifications.map((n) => ({
+          ...n,
+          isRead: true,
+        }));
+        dispatch(setAllNotifications(updated));
+        dispatch(setUnreadNotificationsCount(0));
       } else {
         toast.error(res.data.message);
       }
@@ -193,19 +186,13 @@ const NotificationPage = () => {
       toast.error("Please provide both rating and feedback");
       return;
     }
-
     try {
       setLoading(true);
       const res = await axios.post(
         `/api/patient/rateDoctor/${id}`,
-        {
-          rating,
-          feedback,
-          notificationId: currentRatingNotifId,
-        },
+        { rating, feedback, notificationId: currentRatingNotifId },
         { withCredentials: true }
       );
-
       if (res.data.success) {
         toast.success("Review submitted successfully!");
         setRatingDialogOpen(false);
@@ -221,8 +208,24 @@ const NotificationPage = () => {
     }
   };
 
+  const filteredNotifications = notifications.filter((notif) => {
+    const matchesFilter =
+      filter === "all" ||
+      (filter === "unread" && !notif.read) ||
+      (filter === "read" && notif.read) ||
+      (filter === "high" && notif.priority === "high");
+
+    const matchesSearch =
+      notif.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      notif.message.toLowerCase().includes(searchTerm.toLowerCase());
+
+    return matchesFilter && matchesSearch;
+  });
+
+  const unreadCount = notifications.filter((notif) => !notif.read).length;
+
   return (
-    <div  className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50">
       {/* --- Top Navbar --- */}
       <div className="bg-white shadow-sm border-b border-gray-200">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -250,7 +253,7 @@ const NotificationPage = () => {
               </button>
               {unreadCount > 0 && (
                 <button
-                  onClick={markAllAsRead}
+                  onClick={markAllNotifications}
                   className="hidden sm:inline-flex px-4 py-2 lg:cursor-pointer text-sm font-medium text-[#4d91ff] bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors"
                 >
                   Mark all as read
@@ -365,25 +368,23 @@ const NotificationPage = () => {
                         </span>
                       </div>
 
-                      {notification.type === "feedback" && (
-  !notification.reviewGiven ? (
-    <button
-      onClick={() => {
-        setCurrentRatingNotifId(notification.id);
-        setCurrentDoctorId(notification.doctorId);
-        setRatingDialogOpen(true);
-      }}
-      className="mt-3 px-4 py-2 bg-[#4d91ff] text-white text-sm rounded-lg hover:bg-blue-600 transition-colors"
-    >
-      Rate Now
-    </button>
-  ) : (
-    <span className="mt-3 inline-block px-4 py-2 bg-green-100 text-green-700 text-sm rounded-lg">
-      Review Given
-    </span>
-  )
-)}
-
+                      {notification.type === "feedback" &&
+                        (!notification.reviewGiven ? (
+                          <button
+                            onClick={() => {
+                              setCurrentRatingNotifId(notification.id);
+                              setCurrentDoctorId(notification.doctorId);
+                              setRatingDialogOpen(true);
+                            }}
+                            className="mt-3 px-4 py-2 bg-[#4d91ff] text-white text-sm rounded-lg hover:bg-blue-600 transition-colors"
+                          >
+                            Rate Now
+                          </button>
+                        ) : (
+                          <span className="mt-3 inline-block px-4 py-2 bg-green-100 text-green-700 text-sm rounded-lg">
+                            Review Given
+                          </span>
+                        ))}
                     </div>
                   </div>
 
@@ -391,7 +392,6 @@ const NotificationPage = () => {
                     {!notification.read && (
                       <button
                         onClick={() => {
-                          markAsRead(notification.id);
                           dispatch(setSelectedNotification(notification.id));
                           markSingleNotification(notification.id);
                         }}

@@ -118,42 +118,46 @@ const BookingConfirmed = () => {
   return (
     <div className="w-full px-4 sm:px-6 lg:px-12">
       {/* Top Section */}
-      <div className="w-full flex flex-col lg:flex-row justify-center mt-10 gap-8">
-        {/* Doctor Image */}
-        <div className="w-full lg:w-1/3 flex justify-center items-center">
-          <Image
-            height={600}
-            width={400}
-            alt="Doctor's photo"
-            className="rounded-3xl object-cover w-full h-auto max-w-sm"
-            src={selectedDoctor?.profilePhoto}
-          />
-        </div>
-
-        {/* Doctor Details */}
-        <div className="flex flex-col w-full lg:w-2/3 gap-6">
-          <h1 className="font-bold text-2xl">{selectedDoctor?.fullName}</h1>
-          <p className="text-lg text-gray-700">
-            {selectedDoctor?.doctorsProfile?.qualifications?.join(", ")}
-          </p>
-          <p className="pb-3 border-b-2 border-dashed border-gray-400">
-            Speciality in{" "}
-            <span className="font-medium">
-              {selectedDoctor?.doctorsProfile?.specializations}
-            </span>
-          </p>
-          <p className="text-gray-600 text-lg">Working At</p>
-          <h1 className="text-lg font-medium">
-            {selectedDoctor?.doctorsProfile?.clinic?.[0]?.clinicAddress ||
-              "TMMS Medical College & Rafatullah Community Hospital"}
-            , {selectedDoctor?.doctorsProfile?.clinic?.[0]?.city}
-          </h1>
-          <h1 className="font-bold text-xl">
-            Consultation Fees: ₹
-            {selectedDoctor?.doctorsProfile?.consultationFees}
-          </h1>
-        </div>
-      </div>
+    <div className="w-full flex flex-col lg:flex-row justify-center mt-10 gap-8">
+           {/* Doctor Image */}
+           <div className="w-full lg:w-1/3 flex justify-center">
+             <div className="w-full max-w-sm">
+               <Image
+                 height={400}
+                 width={300}
+                 alt="Doctor's photo"
+                 className="rounded-3xl object-contain w-full max-h-[400px]"
+                 src={selectedDoctor?.profilePhoto}
+               />
+             </div>
+           </div>
+   
+           {/* Doctor Details */}
+           <div className="flex flex-col w-full lg:w-2/3 gap-6">
+             <h1 className="font-bold text-4xl">Dr.{selectedDoctor?.fullName}</h1>
+             <p className="text-lg text-gray-700">
+               {selectedDoctor?.doctorsProfile?.qualifications?.join(", ")}
+             </p>
+             <p className="border-b-2 pb-6 border-dashed border-gray-400">
+               Speciality in{" "}
+               <span className="font-medium">
+                 {selectedDoctor?.doctorsProfile?.specializations}
+               </span>
+             </p>
+             <p className="text-gray-600 text-lg">Working At</p>
+             <h1 className="text-lg font-medium border-b-2 border-dashed border-gray-400 pb-6">
+               {selectedDoctor?.doctorsProfile?.clinic?.[0]?.clinicName},{" "}
+               {selectedDoctor?.doctorsProfile?.clinic?.[0]?.city}
+             </h1>
+             <h1 className="font-bold text-2xl">
+               Consultation Fees:{" "}
+               <span className="text-[#4d91ff] ml-3">
+                 ₹{selectedDoctor?.doctorsProfile?.consultationFees}{" "}
+                 <span className="font-semibold"> per consultation</span>
+               </span>
+             </h1>
+           </div>
+         </div>
 
       {/* Booking + Payment Section */}
       <div className="flex flex-col md:flex-row justify-center gap-7 p-4 mt-8">
@@ -236,35 +240,35 @@ const BookingConfirmed = () => {
             <div className="flex flex-col justify-center">
               <p className="text-slate-500 text-xs">27 June</p>
               <p className="font-bold text-lg">Dr. {selectedDoctor?.fullName}</p>
-              <p className="text-sm flex font-bold">
-                <IndianRupee className="h-4 w-4" />
+              <p className="text-sm flex gap-1 font-bold">
+<p>₹</p>
                 <span>{selectedDoctor?.doctorsProfile?.consultationFees}</span>
               </p>
             </div>
           </div>
 
           <div className="flex justify-between text-sm">
-            <p className="text-slate-400">Subtotal</p>
-            <p className="font-bold flex">
-              <IndianRupee className="h-4 w-4" />
+            <p className="text-slate-600">Subtotal</p>
+            <p className="font-bold flex gap-1">
+<p>₹</p>
               <span>{selectedDoctor?.doctorsProfile?.consultationFees}</span>
             </p>
           </div>
 
           <div className="flex justify-between text-sm">
-            <p className="text-slate-400">Appointment Fee (Advance Payment)</p>
-            <p className="font-bold flex">
-              <IndianRupee className="h-4 w-4" />
-              <span>99</span>
+            <p className="text-slate-600">Appointment Fee (Advance Payment)</p>
+            <p className="font-bold flex gap-1">
+<p>₹</p>
+              <span>  99</span>
             </p>
           </div>
 
           <div className="flex justify-between text-sm">
-            <p className="text-slate-400">
+            <p className="text-slate-600">
               Remaining Consultation Fee (Pay to Doctor)
             </p>
-            <p className="font-bold flex">
-              <IndianRupee className="h-4 w-4" />
+            <p className="font-bold flex gap-1">
+<p>₹</p>
               <span>
                 {selectedDoctor?.doctorsProfile?.consultationFees - 99}
               </span>

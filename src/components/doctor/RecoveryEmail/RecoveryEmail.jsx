@@ -92,7 +92,7 @@ const RecoveryEmail = () => {
         <Button
           type="submit"
           variant="outline"
-          className="bg-[#4d91ff] h-12 text-white w-full max-w-xs sm:max-w-sm"
+          className="bg-[#4d91ff] h-12 cursor-pointer text-white w-full max-w-xs sm:max-w-sm"
         >
           NEXT
         </Button>

@@ -151,7 +151,7 @@ const WeeklyCalendar = () => {
 
     if (slot.isBooked) {
       return (
-        <div className="bg-blue-500 text-white px-2 py-1 rounded-md text-xs sm:text-sm font-medium h-full flex items-center justify-center text-center">
+        <div className="bg-blue-500 text-white px-2 py-1 rounded-full text-xs sm:text-sm font-medium h-full flex items-center justify-center text-center">
           {slot.patientName}
         </div>
       );
@@ -159,7 +159,7 @@ const WeeklyCalendar = () => {
 
     // Available slot
     return (
-      <div className="bg-green-100 text-green-800 px-2 py-1 rounded-md text-xs sm:text-sm font-medium h-full flex items-center justify-center text-center">
+      <div className=" bg-green-100 border-green-400 border-1 text-green-800 px-1  py-1 rounded-full text-xs sm:text-sm font-medium h-full flex items-center justify-center text-center">
         Available
       </div>
     );
@@ -254,7 +254,7 @@ const WeeklyCalendar = () => {
                     slotLabel
                   );
                   return (
-                    <div key={dayIndex} className="bg-white p-2 min-h-[60px]">
+                    <div key={dayIndex} className="bg-white p-3 min-h-[60px]">
                       <AppointmentCell slot={slot} />
                     </div>
                   );

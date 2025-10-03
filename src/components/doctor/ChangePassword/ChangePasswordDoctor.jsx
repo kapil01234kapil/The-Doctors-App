@@ -30,7 +30,7 @@ const PasswordInput = ({ label, field, placeholder = "••••••••",
         onClick={() => toggleShow(field)}
         className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
       >
-        {show ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+        {show ? <EyeOff className="h-4 w-4 cursor-pointer" /> : <Eye className="h-4  cursor-pointer w-4" />}
       </button>
     </div>
   </div>
@@ -45,7 +45,7 @@ const TwoFactorOption = ({ title, description, isEnabled, onToggle }) => (
     <Switch
       checked={isEnabled}
       onCheckedChange={onToggle}
-      className="data-[state=checked]:bg-blue-600"
+      className="data-[state=checked]:bg-blue-600 cursor-pointer"
     />
   </div>
 );
@@ -157,12 +157,12 @@ const PasswordSecuritySettings = () => {
         </div>
 
         <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-2">
-          <Button onClick={changePasswordHandler} className="bg-[#4d91ff] hover:bg-blue-700 px-6 py-2.5">
+          <Button onClick={changePasswordHandler} className="bg-[#4d91ff] cursor-pointer hover:bg-blue-700 px-6 py-2.5">
             Save Change
           </Button>
           <Button 
             variant="outline" 
-            className="border-red-300 text-red-600 hover:bg-red-50 hover:border-red-400 px-6 py-2.5"
+            className="border-red-300 text-red-600 cursor-pointer hover:bg-red-50 hover:border-red-400 px-6 py-2.5"
           >
             Cancel
           </Button>

@@ -12,56 +12,58 @@ import {
 } from "lucide-react";
 
 const Faq = () => {
-  const faqs = [
-    {
-      question: "Is there a free trial?",
-      answer:
-        "Yes, we offer a 14-day free trial with full access to all premium features. No credit card required.",
-      icon: HelpCircle,
-    },
-    {
-      question: "How does support work?",
-      answer:
-        "Our support team is available 24/7 via live chat, email, and phone to assist you with any issue.",
-      icon: LifeBuoy,
-    },
-    {
-      question: "What payment methods do you accept?",
-      answer:
-        "We accept credit/debit cards, PayPal, and popular digital wallets for seamless and secure payments.",
-      icon: CreditCard,
-    },
-    {
-      question: "Is my data secure?",
-      answer:
-        "Yes, we use enterprise-grade encryption and follow strict compliance standards to keep your data safe.",
-      icon: ShieldCheck,
-    },
-    {
-      question: "Can I add my team members?",
-      answer:
-        "Yes, you can invite unlimited team members and manage their roles and permissions easily.",
-      icon: Users,
-    },
-    {
-      question: "Do you have a mobile app?",
-      answer:
-        "Yes, our mobile app is available for iOS and Android, giving you access on the go.",
-      icon: Smartphone,
-    },
-    {
-      question: "Where can I find tutorials?",
-      answer:
-        "We provide a complete knowledge base, video tutorials, and guided product tours to help you get started.",
-      icon: BookOpen,
-    },
-    {
-      question: "Can I customize the platform?",
-      answer:
-        "Yes, you can customize settings, branding, and integrations to match your business needs.",
-      icon: Settings,
-    },
-  ];
+ const faqs = [
+  {
+    question: "Is using The Doctors app free for patients?",
+    answer:
+      "Yes, booking an appointment on The Doctors app is completely free for patients. You only pay a ₹100 advance, which is adjusted in your final consultation fee.",
+    icon: HelpCircle,
+  },
+  {
+    question: "How much commission do doctors pay?",
+    answer:
+      "Doctors are charged a small 2.5% commission per appointment booked through The Doctors app. This helps us keep the platform running smoothly while offering free access to patients.",
+    icon: LifeBuoy,
+  },
+  {
+    question: "How does payment work for consultations?",
+    answer:
+      "Patients pay ₹100 as an advance at the time of booking. The remaining consultation fee is paid directly after the appointment, either online or offline depending on the doctor’s preference.",
+    icon: CreditCard,
+  },
+  {
+    question: "Is my personal data secure?",
+    answer:
+      "Absolutely. We use industry-standard encryption and follow strict privacy policies to ensure your health records and payment details remain safe.",
+    icon: ShieldCheck,
+  },
+  {
+    question: "Can doctors manage their schedules?",
+    answer:
+      "Yes, doctors can easily set availability, update schedules, and manage appointments directly through The Doctors app dashboard.",
+    icon: Users,
+  },
+ {
+  question: "Do you have a mobile app?",
+  answer:
+    "No. The Doctors app doesn’t have a native iOS or Android app yet, but our mobile-friendly website works smoothly on any smartphone browser. Native apps are planned for the future.",
+  icon: Smartphone,
+}
+
+,
+  {
+    question: "How can I get help if I face issues?",
+    answer:
+      "Our support team is available 24/7 via chat and email to help patients and doctors with bookings, payments, or any technical issues.",
+    icon: BookOpen,
+  },
+  {
+    question: "Can doctors customize their profiles?",
+    answer:
+      "Yes, doctors can update their profiles with qualifications, specialties, consultation fees, and more to attract the right patients.",
+    icon: Settings,
+  },
+];
 
   const [showAll, setShowAll] = useState(false);
 

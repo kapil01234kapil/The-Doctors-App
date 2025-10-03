@@ -124,8 +124,10 @@ const DashboardSecond = () => {
             </CarouselContent>
 
             {/* Custom styled navigation buttons */}
-            <CarouselPrevious className="absolute -left-8 top-1/2 -translate-y-1/2 w-9 h-9 bg-white border border-gray-200 shadow-lg hover:bg-[#1195FF] hover:text-white hover:border-[#1195FF] transition-all duration-300 hover:scale-110 hidden sm:flex" />
-            <CarouselNext className="absolute -right-8 top-1/2 -translate-y-1/2 w-9 h-9 bg-white border border-gray-200 shadow-lg hover:bg-[#1195FF] hover:text-white hover:border-[#1195FF] transition-all duration-300 hover:scale-110 hidden sm:flex" />
+          {/* Custom styled navigation buttons */}
+<CarouselPrevious className="absolute left-0 sm:-left-8 top-1/2 -translate-y-1/2 w-9 h-9 bg-white border border-gray-200 shadow-lg hover:bg-[#1195FF] hover:text-white hover:border-[#1195FF] transition-all duration-300 hover:scale-110 sm:flex" />
+<CarouselNext className="absolute right-0 sm:-right-8 top-1/2 -translate-y-1/2 w-9 h-9 bg-white border border-gray-200 shadow-lg hover:bg-[#1195FF] hover:text-white hover:border-[#1195FF] transition-all duration-300 hover:scale-110 sm:flex" />
+
           </Carousel>
         </div>
       </div>
@@ -155,6 +157,7 @@ const DashboardSecond = () => {
                     <DashboardCard
                       name={doctor?.fullName}
                       image={doctor?.profilePhoto}
+                      specialization={doctor?.doctorsProfile?.specializations}
                     />
                   </div>
                 </CarouselItem>
@@ -162,8 +165,8 @@ const DashboardSecond = () => {
             </CarouselContent>
 
             {/* Custom styled navigation buttons */}
-            <CarouselPrevious className="absolute -left-8 top-1/2 -translate-y-1/2 w-9 h-9 bg-white border border-gray-200 shadow-lg hover:bg-[#1195FF] hover:text-white hover:border-[#1195FF] transition-all duration-300 hover:scale-110 hidden sm:flex" />
-            <CarouselNext className="absolute -right-8 top-1/2 -translate-y-1/2 w-9 h-9 bg-white border border-gray-200 shadow-lg hover:bg-[#1195FF] hover:text-white hover:border-[#1195FF] transition-all duration-300 hover:scale-110 hidden sm:flex" />
+           <CarouselPrevious className="absolute -left-3 sm:-left-8 top-1/2 -translate-y-1/2 w-9 h-9 bg-white border border-gray-200 shadow-lg hover:bg-[#1195FF] hover:text-white hover:border-[#1195FF] transition-all duration-300 hover:scale-110 sm:flex" />
+<CarouselNext className="absolute -right-3 sm:-right-8 top-1/2 -translate-y-1/2 w-9 h-9 bg-white border border-gray-200 shadow-lg hover:bg-[#1195FF] hover:text-white hover:border-[#1195FF] transition-all duration-300 hover:scale-110 sm:flex" />
           </Carousel>
         </div>
       </div>

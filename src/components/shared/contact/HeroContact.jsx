@@ -156,7 +156,7 @@ const HeroContact = () => {
               <p>Quick help on your WhatsApp</p>
             </CardContent>
             <CardFooter className="flex justify-center">
-              <Link href="https://wa.me/9027226881" target="_blank">
+              <Link href="https://wa.me/9552996023" target="_blank">
                 <Button
                   variant="outline"
                   className="bg-green-600 cursor-pointer text-white w-full"

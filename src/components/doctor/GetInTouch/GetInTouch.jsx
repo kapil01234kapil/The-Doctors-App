@@ -298,7 +298,7 @@ const handleSubmit = async () => {
                     type="button"
                     variant="outline"
                     onClick={handleSubmit}
-                    className="w-full h-12 bg-[#4d91ff] hover:bg-blue-700 text-white font-medium rounded-full transition-colors duration-200"
+                    className="w-full h-12 bg-[#4d91ff] text-white cursor-pointer hover:bg-blue-700 hover:text-white font-medium rounded-full transition-colors duration-200"
                     size="lg"
                   >
                     Submit Form

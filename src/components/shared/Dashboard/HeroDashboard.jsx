@@ -3,6 +3,7 @@ import Navbar from '../Navbar'
 import Link from 'next/link'
 import { Calendar, Search } from 'lucide-react'
 import { Pacifico } from 'next/font/google'
+import Image from 'next/image'
 
  const pacifico = Pacifico({
   weight: "400",
@@ -56,21 +57,23 @@ const HeroDashboard = () => {
         <div className="flex-1 relative order-1 lg:order-2 flex justify-center">
           {/* Doctor Image */}
           <div className="relative w-full max-w-sm lg:max-w-md h-80 lg:h-[500px]">
-            <img
+            <Image
+              height={500}
+              width={500}
               src="/heroHomeDoctor.png"
               alt="Doctor with tablet"
-              className="w-full h-full object-contain object-bottom"
+              className="w-full  h-full object-contain object-bottom"
             />
 
             {/* Welcome Bubble - only for large screens */}
-            <div className="hidden lg:block absolute top-1/3 -left-28 rounded-2xl p-3 w-80">
-              <p className={`${pacifico.className} text-gray-900 text-xl leading-tight text-center`}>
-                Welcome, I'm here to care for you on Doctor.Online
+            <div className="hidden lg:block absolute top-1/4 -left-38 rounded-2xl p-3 w-80">
+              <p className={`${pacifico.className} text-gray-900  text-xl leading-tight text-center`}>
+                Welcome, I'm here to care for you on The Doctor's app
               </p>
             </div>
 
             {/* Faster Booking & Lower Fee Paid - hidden on screens smaller than lg */}
-            <div className="hidden lg:block absolute top-40 right-4 bg-white rounded-xl p-3 shadow-xl">
+            <div className="hidden lg:block absolute top-40 -right-6 bg-white border-2 border-slate-200 rounded-xl p-3 shadow-xl">
               <h3 className="text-sm font-semibold text-gray-800 flex items-center gap-1">
                 Faster Booking
                 <svg
@@ -88,7 +91,7 @@ const HeroDashboard = () => {
               <p className="text-xs text-gray-600">+36% vs last 6 mnths</p>
             </div>
 
-            <div className="hidden lg:block absolute bottom-12 right-4 bg-white rounded-xl p-3 shadow-xl">
+            <div className="hidden lg:block absolute bottom-12 right-4 bg-white border-2 border-slate-200 rounded-xl p-3 shadow-xl">
               <h3 className="text-sm font-semibold text-gray-800 flex items-center gap-1">
                 Lower Fee Paid
                 <svg
@@ -113,11 +116,11 @@ const HeroDashboard = () => {
       <div className="mt-6 lg:mt-0"></div>
 
       {/* Offers Section */}
-      <div className="bg-[#4D91FF] text-white py-3 lg:py-3">
-        <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-center gap-18  px-4">
+      <div className="bg-[#4D91FF] text-white py-5 lg:py-3">
+        <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-center gap-5  px-4">
           <h2 className="text-lg lg:text-xl font-bold">OFFERS :</h2>
           <div className="flex flex-col sm:flex-row gap-7 w-full lg:w-auto">
-            <button className="border-2 cursor-pointer border-white px-4 py-4 rounded-lg hover:bg-white hover:text-blue-500 transition-colors text-sm whitespace-nowrap">
+            <button className="border-2 cursor-pointer border-white px-4 py-2 rounded-lg hover:bg-white hover:text-blue-500 transition-colors text-sm whitespace-nowrap">
               Earn On our Referral Program
             </button>
             <button className="border-2 cursor-pointer border-white px-4 py-2 rounded-lg hover:bg-white hover:text-blue-500 transition-colors text-sm whitespace-nowrap">

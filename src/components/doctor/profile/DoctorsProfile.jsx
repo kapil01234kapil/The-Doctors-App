@@ -161,7 +161,7 @@ const DoctorsProfile = () => {
     <div className="w-full flex flex-col lg:flex-row bg-slate-50 justify-center gap-5 p-4">
       {/* Left Section */}
       <div className="flex bg-white rounded-2xl p-3 flex-col gap-8 w-full lg:w-2/3">
-        <div className="bg-white rounded-xl shadow-2xl flex flex-col md:flex-row justify-between gap-6 p-4">
+        <div className="bg-white rounded-xl shadow-lg flex flex-col md:flex-row justify-between gap-6 p-4">
           {/* Profile + Edit */}
           <div className="w-full md:w-1/3 flex gap-2 items-start">
             <div className="rounded-xl border-black border-2 relative w-full md:w-auto">
@@ -209,14 +209,14 @@ const DoctorsProfile = () => {
                   <Button
                     onClick={() => setIsEditing(false)}
                     variant="outline"
-                    className="rounded-2xl text-sm"
+                    className="rounded-2xl cursor-pointer text-sm"
                   >
                     Cancel
                   </Button>
                   <Button
                     onClick={handleSave}
                     variant="outline"
-                    className="rounded-2xl text-sm"
+                    className="rounded-2xl cursor-pointer text-sm"
                   >
                     Save
                   </Button>
@@ -225,7 +225,7 @@ const DoctorsProfile = () => {
                 <Button
                   onClick={() => setIsEditing(true)}
                   variant="outline"
-                  className="rounded-2xl text-sm"
+                  className="rounded-2xl cursor-pointer text-sm"
                 >
                   <p>Edit Profile</p>
                   <Pen size={18} />
@@ -328,7 +328,7 @@ const DoctorsProfile = () => {
         </div>
 
         {/* ---------------- Consultation Overview Section ---------------- */}
-        <div className="bg-white rounded-lg shadow-xl flex p-5 flex-col gap-7">
+        <div className="bg-white rounded-lg shadow-lg flex p-5 flex-col gap-7">
           <div className="flex items-center gap-2 flex-wrap">
             <Calendar className="text-blue-700 " size={24} />
             <h1 className="font-bold text-2xl md:text-3xl">
@@ -340,7 +340,7 @@ const DoctorsProfile = () => {
             {stats.map((stat, index) => (
               <div
                 key={index}
-                className="bg-white rounded-xl border p-3 flex flex-col gap-3"
+                className="bg-white rounded-xl border-slate-300 border-1 p-3 flex flex-col gap-3"
               >
                 <h1 className="font-bold text-sm md:text-base">{stat.label}</h1>
                 <h1 className="font-bold text-2xl md:text-4xl">{stat.count}</h1>
@@ -375,16 +375,16 @@ const DoctorsProfile = () => {
   </p>
 </div>
             <div className="rounded-lg border border-slate-300 w-full lg:w-1/3 flex flex-col p-4 gap-4">
-              <h1 className="font-semibold">Quick Actions</h1>
+              <h1 className="font-semibold text-center">Quick Actions</h1>
               <Button
                 variant="outline"
-                className="bg-blue-600 h-12 cursor-pointer text-white text-sm md:text-base"
+                className="bg-blue-600 lg:mt-10 h-12 cursor-pointer text-white text-sm md:text-base"
               >
                 View All Appointment
               </Button>
               <Button
                 variant="outline"
-                className="h-12 text-blue-600 border-2 border-blue-600 text-sm md:text-base"
+                className="h-12 text-blue-600 border-2 cursor-pointer border-blue-600 text-sm md:text-base"
               >
                 Change Schedule
               </Button>
@@ -397,7 +397,7 @@ const DoctorsProfile = () => {
       {/* Right Section */}
       <div className="w-full lg:w-1/3 flex flex-col gap-7">
         {/* Education */}
-        <div className="bg-white rounded-xl p-5 flex flex-col gap-3">
+        <div className="bg-white shadow-lg rounded-xl p-5 flex flex-col gap-3">
           <p className="text-sm text-slate-500">Education</p>
           <div className="flex flex-col sm:flex-row gap-2">
             <Avatar>
@@ -430,21 +430,25 @@ const DoctorsProfile = () => {
 
         {/* Experience + Qualification */}
         <div className="flex flex-col md:flex-row justify-center gap-3">
-          <div className="bg-white rounded-2xl p-5 shadow-lg flex flex-col gap-3 w-full md:w-1/2">
-            <p className="text-sm text-slate-500">Experience</p>
-            <div className="flex gap-4 flex-wrap">
-              {isEditing ? (
-                <Input
-                  name="experience"
-                  value={form.experience}
-                  onChange={handleChange}
-                />
-              ) : (
-                <h1 className="font-bold text-2xl md:text-4xl">{form.experience}</h1>
-              )}
-              <p className="text-xs md:text-sm">Years Of Experience since 2001</p>
-            </div>
-          </div>
+        <div className="bg-white rounded-2xl p-5 shadow-lg flex flex-col gap-3 w-full md:w-1/2">
+  <p className="text-sm text-slate-500">Experience</p>
+  <div className="flex gap-4 flex-wrap">
+    {isEditing ? (
+      <Input
+        name="experience"
+        value={form.experience}
+        onChange={handleChange}
+      />
+    ) : (
+      <h1 className="font-bold text-2xl md:text-4xl">{form.experience}</h1>
+    )}
+    <p className="text-xs md:text-sm">
+      Years Of Experience since{" "}
+      {new Date().getFullYear() - Number(form.experience)}
+    </p>
+  </div>
+</div>
+
 
           <div className="bg-white rounded-2xl p-5 shadow-lg flex flex-col gap-3 w-full md:w-1/2">
             <p className="text-sm text-slate-500">Education & Qualifications</p>
@@ -463,7 +467,7 @@ const DoctorsProfile = () => {
         </div>
 
         {/* Ratings */}
-        <div className="bg-white rounded-xl p-5 flex flex-col gap-3">
+        <div className="bg-white rounded-xl shadow-lg p-5 flex flex-col gap-3">
           <p className="text-slate-700 text-md">Overall Ratings </p>
           <div className="flex gap-5 md:gap-9 flex-wrap md:flex-nowrap">
             <h1 className="font-bold text-2xl md:text-4xl">{user?.overAllRating || 0} </h1>

@@ -33,7 +33,7 @@ const FinancePage = () => {
     <div className="p-4 md:p-8 space-y-6">
       {/* --- Summary Section --- */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <Card className="bg-[#4d91ff] text-white shadow-lg rounded-2xl">
+        <Card className="bg-[#4d91ff] cursor-pointer text-white shadow-lg rounded-2xl">
           <CardHeader>
             <CardTitle>Total Earnings</CardTitle>
           </CardHeader>
@@ -41,7 +41,7 @@ const FinancePage = () => {
             ₹{totalEarnings || 0}
           </CardContent>
         </Card>
-        <Card className="shadow rounded-2xl">
+        <Card className="shadow-lg cursor-pointer rounded-2xl">
           <CardHeader>
             <CardTitle>Cleared</CardTitle>
           </CardHeader>
@@ -49,7 +49,7 @@ const FinancePage = () => {
             ₹{clearedAmount || 0}
           </CardContent>
         </Card>
-        <Card className="shadow rounded-2xl">
+        <Card className="shadow-lg cursor-pointer rounded-2xl">
           <CardHeader>
             <CardTitle>Pending</CardTitle>
           </CardHeader>
@@ -57,7 +57,7 @@ const FinancePage = () => {
             ₹{pendingAmount || 0}
           </CardContent>
         </Card>
-        <Card className="shadow rounded-2xl">
+        <Card className="shadow-lg cursor-pointer rounded-2xl">
           <CardHeader>
             <CardTitle>Platform Fees</CardTitle>
           </CardHeader>

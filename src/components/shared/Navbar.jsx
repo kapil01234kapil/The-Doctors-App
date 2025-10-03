@@ -91,11 +91,11 @@ const Navbar = () => {
           className="flex gap-2 mt-5 items-center cursor-pointer"
         >
           <Stethoscope className="text-[#4d91ff]" />
-          <p className="font-bold text-lg">DOCTORS.ONLINE</p>
+          <p className="font-bold text-lg">THE DOCTORS APP</p>
         </div>
 
         {/* Navigation Menu */}
-        <div className="bg-white border-6 mt-4 border-[#4d91ff] rounded-full shadow-xl lg:w-1/2 md:w-3/5 p-4 lg:pl-15 flex justify-between items-center">
+        <div className="bg-white border-6 mt-4 border-[#4d91ff] rounded-full shadow-xl lg:w-1/2 md:w-3/5 p-2 lg:pl-15 flex justify-between items-center">
           <div className="flex gap-2 lg:gap-4">
             {navLinks.map((link) => (
               <Link

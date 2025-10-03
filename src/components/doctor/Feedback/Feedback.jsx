@@ -62,9 +62,7 @@ const Feedback = () => {
     >
       <h1 className="font-bold text-2xl sm:text-3xl">Customer Feedback</h1>
       <p className="text-gray-600 text-sm sm:text-base">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Dicta aliquid
-        odit architecto in, adipisci fugiat officiis doloribus neque pariatur
-        totam?
+        Everything we do is shaped by your feedback, ensuring services that are reliable, personal, and built with you in mind.
       </p>
 
       <div className="flex flex-col gap-2">
@@ -114,7 +112,7 @@ const Feedback = () => {
       ) : (
         <Button
           type="submit"
-          className="bg-[#4d91ff] w-full sm:w-1/2 h-12 text-white"
+          className="bg-[#4d91ff] cursor-pointer w-full sm:w-1/2 h-12 text-white"
           variant="outline"
         >
           Submit Feedback

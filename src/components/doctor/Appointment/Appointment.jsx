@@ -85,9 +85,9 @@ const AppointmentsDashboard = () => {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between p-4 sm:p-6 border-b border-gray-100">
           <div className="flex items-center gap-3 mb-3 sm:mb-0">
             <h2 className="text-lg sm:text-xl font-semibold text-gray-900">Appointments</h2>
-            <Button size="sm" variant="outline" className="p-1.5 h-auto">
+            {/* <Button size="sm" variant="outline" className="p-1.5 h-auto">
               <Plus className="h-4 w-4" />
-            </Button>
+            </Button> */}
           </div>
           <div className="flex items-center gap-2">
             <Button variant="outline" size="sm" className="text-blue-600 border-blue-200 bg-blue-50">

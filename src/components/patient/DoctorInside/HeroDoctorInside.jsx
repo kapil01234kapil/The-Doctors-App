@@ -199,9 +199,9 @@ const HeroDoctorInside = () => {
 
 
       {/* Booking Section */}
-      <div className="w-full flex flex-col lg:flex-row justify-center items-start gap-6 p-4 lg:p-6 xl:p-10">
+      <div className="w-full flex flex-col gap-5 lg:flex-row justify-center items-start  p-4 lg:p-6 xl:p-10">
         {/* Calendar Section */}
-        <div className="flex w-full lg:w-2/3 flex-col gap-5 justify-center items-center">
+        <div className="flex w-full  lg:w-1/2 flex-col gap-5 justify-center items-center">
           <h1 className="font-bold text-lg lg:text-xl">Choose a Date</h1>
           <Calendar
             mode="single"
@@ -230,56 +230,62 @@ const HeroDoctorInside = () => {
         </div>
 
         {/* Slots Section */}
-        <div className="flex w-full lg:w-1/3 flex-col gap-4 lg:pl-6">
-          <h2 className="font-semibold text-lg lg:cursor-pointer lg:text-xl text-center lg:text-left">
-            {formatDateDisplay(selectedDate)}
-          </h2>
+    {/* Slots Section */}
+<div className="flex w-full lg:w-1/3 flex-col gap-4 lg:pl-6">
+  <h2 className="font-semibold text-lg lg:cursor-pointer lg:text-xl text-center lg:text-center">
+    {formatDateDisplay(selectedDate)}
+  </h2>
 
-          {currentDaySlots.length > 0 ? (
-            <div className="max-h-[300px] overflow-y-auto pr-2 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-2 gap-3">
-              {currentDaySlots
-                .filter((s) => {
-                  if (s.isBooked) return false;
-                  const isToday =
-                    selectedDate.toDateString() === new Date().toDateString();
-                  if (isToday) {
-                    const now = new Date();
-                    const [slotHour, slotMinute] = s.startTime
-                      .split(":")
-                      .map(Number);
-                    const slotDateTime = new Date(
-                      selectedDate.getFullYear(),
-                      selectedDate.getMonth(),
-                      selectedDate.getDate(),
-                      slotHour,
-                      slotMinute
-                    );
-                    return slotDateTime > now;
-                  }
-                  return true;
-                })
-                .map((slot, idx) => (
-                  <Badge
-                    key={idx}
-                    onClick={() => setSelectedSlot(slot)}
-                    className={`w-full h-12 cursor-pointer flex items-center justify-center text-sm lg:text-base font-medium transition-colors
-                    ${
-                      selectedSlot?._id === slot._id
-                        ? "bg-blue-500 text-white"
-                        : "bg-white text-blue-500 hover:bg-blue-50"
-                    }`}
-                    variant="outline"
-                  >
-                    {slot.startTime} - {slot.endTime}
-                  </Badge>
-                ))}
-            </div>
-          ) : (
-            <p className="text-gray-500 text-center mt-4">
-              No slots available for {currentDayName}
-            </p>
-          )}
-        </div>
+  {currentDaySlots.length > 0 ? (
+    <div className="flex-1 max-h-[500px] overflow-y-auto pr-2 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-2 gap-4">
+      {currentDaySlots
+        .filter((s) => {
+          if (s.isBooked) return false;
+          const isToday =
+            selectedDate.toDateString() === new Date().toDateString();
+          if (isToday) {
+            const now = new Date();
+            const [slotHour, slotMinute] = s.startTime.split(":").map(Number);
+            const slotDateTime = new Date(
+              selectedDate.getFullYear(),
+              selectedDate.getMonth(),
+              selectedDate.getDate(),
+              slotHour,
+              slotMinute
+            );
+            return slotDateTime > now;
+          }
+          return true;
+        })
+        .map((slot, idx) => (
+          <Badge
+            key={idx}
+            onClick={() => setSelectedSlot(slot)}
+            className={`w-full h-16 cursor-pointer flex items-center justify-center text-sm lg:text-base font-medium transition-colors
+            ${
+              selectedSlot?._id === slot._id
+                ? "bg-blue-500 text-white"
+                : "bg-white text-blue-500 hover:bg-blue-50"
+            }`}
+            variant="outline"
+          >
+            {slot.startTime} - {slot.endTime}
+          </Badge>
+        ))}
+    </div>
+  ) : (
+    <div className="flex flex-col items-center justify-center mt-6 bg-yellow-50 border border-yellow-200 rounded-lg p-4 shadow-sm">
+  <p className="text-base font-semibold text-yellow-700">
+    No slots available for {currentDayName}
+  </p>
+  <p className="text-sm text-gray-600 mt-1">
+    Please try selecting another date to book your appointment.
+  </p>
+</div>
+
+  )}
+</div>
+
       </div>
 
       {/* Message box */}

@@ -80,7 +80,7 @@ const SetStandardHours = () => {
         onChange={(e) => onChange(e.target.value)}
         disabled={disabled}
         className={`
-          appearance-none w-full px-3 py-2.5 pr-8 rounded-md border text-sm
+          appearance-none w-full cursor-pointer px-3 py-2.5 pr-8 rounded-md border text-sm
           ${disabled 
             ? 'bg-gray-50 text-gray-400 border-gray-200 cursor-not-allowed' 
             : 'bg-white text-gray-900 border-gray-300 hover:border-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-200'
@@ -126,7 +126,7 @@ const SetStandardHours = () => {
                     <Switch
                       checked={daySchedule.isOpen}
                       onCheckedChange={() => toggleDay(day)}
-                      className="data-[state=checked]:bg-blue-600"
+                      className="data-[state=checked]:bg-blue-600 cursor-pointer"
                     />
                     <span className={`text-sm ${
                       daySchedule.isOpen ? 'text-gray-900' : 'text-gray-500'
@@ -162,7 +162,7 @@ const SetStandardHours = () => {
         </div>
 
         {/* Action Buttons */}
-        <div className="flex flex-col sm:flex-row gap-3 sm:justify-end pt-4">
+        <div className="flex flex-col cursor-pointer sm:flex-row gap-3 sm:justify-end pt-4">
           <Button 
             variant="outline" 
             className="w-full sm:w-auto order-2 sm:order-1 px-6"
@@ -171,7 +171,7 @@ const SetStandardHours = () => {
           </Button>
           <Button 
             onClick={handleSave}
-            className="w-full sm:w-auto order-1 sm:order-2 bg-blue-600 hover:bg-blue-700 px-6"
+            className="w-full sm:w-auto order-1 cursor-pointer sm:order-2 bg-blue-600 hover:bg-blue-700 px-6"
           >
             Save Schedule
           </Button>
