@@ -7,11 +7,13 @@ import { ClipboardPlus, IndianRupee, Loader2 } from "lucide-react";
 import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { setExistingAppointment } from "@/redux/authSlice";
 
 const BookingConfirmed = () => {
+  const disptach = useDispatch()
   const [loading, setLoading] = useState(false);
   const [isTermsChecked, setIsTermsChecked] = useState(false);
   const { id } = useParams();
@@ -91,6 +93,7 @@ const BookingConfirmed = () => {
             );
 
             if (verifyRes.data.success) {
+              disptach(setExistingAppointment(null))
               toast.success("Payment verified successfully");
               router.push("/patient/myAppointments");
             } else {

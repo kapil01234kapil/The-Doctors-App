@@ -214,10 +214,10 @@ const SideBar = ({ isOpen, onClose }) => {
             <DialogTitle>Are you sure you want to logout?</DialogTitle>
           </DialogHeader>
           <DialogFooter className="flex gap-2 justify-end">
-            <Button variant="outline" onClick={() => setLogoutDialog(false)}>
+            <Button variant="outline" className="cursor-pointer" onClick={() => setLogoutDialog(false)}>
               Cancel
             </Button>
-            <Button variant="destructive" onClick={logoutHandler}>
+            <Button variant="destructive" className="cursor-pointer" onClick={logoutHandler}>
               Logout
             </Button>
           </DialogFooter>

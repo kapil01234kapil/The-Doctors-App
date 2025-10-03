@@ -92,10 +92,10 @@ const HeroSection = () => {
         <Select
           onValueChange={(val) => setLocationFilter(val === "all" ? "" : val)}
         >
-          <SelectTrigger className="pl-10 h-12 bg-white rounded-full w-full">
+          <SelectTrigger className="pl-10 h-12 cursor-pointer bg-white rounded-full w-full">
             <SelectValue placeholder="Location" value={locationFilter} />
           </SelectTrigger>
-          <MapPin className="absolute left-3 top-3 text-gray-400" size={18} />
+          <MapPin className="absolute left-3 top-2.5 text-gray-400" size={16} />
           <SelectContent>
             <SelectItem value="all">All</SelectItem>
             <SelectItem value="delhi">Delhi</SelectItem>
@@ -126,7 +126,7 @@ const HeroSection = () => {
       {/* Search Button */}
       <div className="w-full lg:w-1/4">
         <Button
-          className="bg-[#4d91ff] hover:bg-[#0d7dd1] h-12 text-lg cursor-pointer text-white w-full rounded-full"
+          className="bg-[#4d91ff] cursor-pointer hover:bg-[#0d7dd1] h-12 text-lg  text-white w-full rounded-full"
           onClick={() => {}}
         >
           Search
@@ -137,7 +137,7 @@ const HeroSection = () => {
 </div>
 
       {/* Doctors Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 px-15 bg-white gap-6 pt-7">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 pb-15 px-15 bg-white gap-6 pt-7">
         {filteredDoctors.length > 0 ? (
           filteredDoctors.map((doctor, index) => (
             <DoctorProfileCard

@@ -203,12 +203,12 @@ const NotificationPagePatient = () => {
             <div className="flex items-center space-x-2">
               <button
                 onClick={() => setShowFilters(!showFilters)}
-                className="p-2 text-gray-500 hover:text-[#4d91ff] hover:bg-gray-100 rounded-lg transition-colors"
+                className="p-2 cursor-pointer text-gray-500 hover:text-[#4d91ff] hover:bg-gray-100 rounded-lg transition-colors"
               >
                 <Filter className="w-5 h-5" />
               </button>
               {unreadCount > 0 && (
-                <button className="px-3 py-1.5 sm:px-4 sm:py-2 text-sm font-medium text-[#4d91ff] bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors">
+                <button className="px-3 py-1.5 cursor-pointer sm:px-4 sm:py-2 text-sm font-medium text-[#4d91ff] bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors">
                   Mark all as read
                 </button>
               )}

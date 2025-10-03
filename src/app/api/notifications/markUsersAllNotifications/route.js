@@ -8,7 +8,7 @@ export async function PATCH(req) {
   try {
     await connectDB();
 
-    const userId = await getUserIdFromRequest(req);
+    const userId = await getUserIdFromRequest();
     if (!userId) {
       return NextResponse.json(
         { message: "Token Not Found", success: false },
@@ -25,7 +25,7 @@ export async function PATCH(req) {
     }
 
     const updatedNotifications = await notificationModels.updateMany(
-      { receiver: userId, isRead: false },   // only unread
+      { reciever: userId, isRead: false }, // match schema field spelling
       { $set: { isRead: true } }
     );
 

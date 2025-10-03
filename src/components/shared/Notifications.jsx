@@ -251,7 +251,7 @@ const NotificationPage = () => {
               {unreadCount > 0 && (
                 <button
                   onClick={markAllAsRead}
-                  className="hidden sm:inline-flex px-4 py-2 text-sm font-medium text-[#4d91ff] bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors"
+                  className="hidden sm:inline-flex px-4 py-2 lg:cursor-pointer text-sm font-medium text-[#4d91ff] bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors"
                 >
                   Mark all as read
                 </button>

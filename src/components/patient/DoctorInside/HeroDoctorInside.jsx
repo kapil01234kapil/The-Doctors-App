@@ -182,7 +182,11 @@ const HeroDoctorInside = () => {
     {/* Rating */}
     <div className="flex flex-col gap-2 px-6 lg:border-r lg:border-dotted lg:border-slate-700">
       <h1 className="text-gray-600 font-medium">Rating</h1>
-      <h1 className="font-bold text-xl">{selectedDoctor?.overAllRating} / 5</h1>
+<h1 className="font-bold text-xl">
+  {selectedDoctor?.overAllRating
+    ? `${selectedDoctor.overAllRating} / 5`
+    : "No ratings yet"}
+</h1>
     </div>
 
     {/* Languages */}
@@ -227,7 +231,7 @@ const HeroDoctorInside = () => {
 
         {/* Slots Section */}
         <div className="flex w-full lg:w-1/3 flex-col gap-4 lg:pl-6">
-          <h2 className="font-semibold text-lg lg:text-xl text-center lg:text-left">
+          <h2 className="font-semibold text-lg lg:cursor-pointer lg:text-xl text-center lg:text-left">
             {formatDateDisplay(selectedDate)}
           </h2>
 

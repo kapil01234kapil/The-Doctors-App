@@ -275,7 +275,7 @@ const DoctorsList = () => {
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 relative">
                     <button
                       onClick={() => toggleDropdown(doctor?._id)}
-                      className="text-gray-400 hover:text-gray-500"
+                      className="text-gray-400 cursor-pointer hover:text-gray-500"
                     >
                       <MoreVertical size={18} />
                     </button>

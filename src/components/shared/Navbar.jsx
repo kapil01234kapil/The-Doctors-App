@@ -129,7 +129,7 @@ const Navbar = () => {
               {/* Notification Bell Icon */}
               <button
                 onClick={() => router.push("/patient/notifications")}
-                className="relative text-gray-700 hover:text-[#4d91ff]"
+                className="relative text-gray-700 cursor-pointer hover:text-[#4d91ff]"
               >
                 <Bell size={24} />
 

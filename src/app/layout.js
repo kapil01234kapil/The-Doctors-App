@@ -1,3 +1,4 @@
+import { Toaster } from "react-hot-toast";
 import ClientLayout from "./ClientLayout";
 import "./globals.css";
 
@@ -13,7 +14,44 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className="min-h-screen">
-        <ClientLayout>{children}</ClientLayout>
+        <ClientLayout>{children}
+           <Toaster
+              position="top-right"
+              toastOptions={{
+                style: {
+                  background: "#fff",
+                  color: "#333",
+                  borderRadius: "10px",
+                  padding: "12px 16px",
+                  boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+                },
+                success: {
+                  style: {
+                    background: "#e6f4ff",
+                    border: "1px solid #1195FF",
+                    color: "#1195FF",
+                    fontWeight: "500",
+                  },
+                  iconTheme: {
+                    primary: "#1195FF",
+                    secondary: "#fff",
+                  },
+                },
+                error: {
+                  style: {
+                    background: "#ffe6e6",
+                    border: "1px solid #ff4d4f",
+                    color: "#ff4d4f",
+                    fontWeight: "500",
+                  },
+                  iconTheme: {
+                    primary: "#ff4d4f",
+                    secondary: "#fff",
+                  },
+                },
+              }}
+            />
+        </ClientLayout>
       </body>
     </html>
   );

@@ -76,13 +76,13 @@ const DoctorNavabr = ({ onMenuClick }) => {
             className="w-40 p-2 bg-white shadow-lg rounded-lg"
           >
             <div className="flex flex-col gap-2">
-              <button onClick={() => router.push("/doctor/profile")} className="w-full text-left px-3 py-2 rounded-md hover:bg-gray-100 text-sm">
+              <button onClick={() => router.push("/doctor/profile")} className="w-full cursor-pointer text-left px-3 py-2 rounded-md hover:bg-gray-100 text-sm">
                 Edit Profile
               </button>
-              <button onClick={() => router.push("/doctor/refer-earn")} className="w-full text-left px-3 py-2 rounded-md hover:bg-gray-100 text-sm">
+              <button onClick={() => router.push("/doctor/refer-earn")} className="w-full cursor-pointer text-left px-3 py-2 rounded-md hover:bg-gray-100 text-sm">
                 REFER & EARN
               </button>
-              <button onClick={logoutHandler} className="w-full text-left px-3 py-2 rounded-md hover:bg-gray-100 text-sm text-red-500">
+              <button onClick={logoutHandler} className="w-full text-left px-3 py-2  cursor-pointer rounded-md hover:bg-gray-100 text-sm text-red-500">
                 Logout
               </button>
             </div>

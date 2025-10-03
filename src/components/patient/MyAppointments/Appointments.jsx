@@ -76,7 +76,7 @@ const AppointmentsDashboard = () => {
       {/* Stats Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8">
         {/* Total Appointments */}
-        <div className="bg-white rounded-xl p-4 sm:p-6 shadow-sm border border-gray-100">
+        <div className="bg-white cursor-pointer rounded-xl p-4 sm:p-6 shadow-sm border border-gray-100">
           <div className="flex items-center gap-3 mb-3">
             <div className="p-2 bg-blue-50 rounded-lg">
               <Calendar className="h-5 w-5 text-blue-600" />
@@ -91,7 +91,7 @@ const AppointmentsDashboard = () => {
         </div>
 
         {/* Appointments Served */}
-        <div className="bg-white rounded-xl p-4 sm:p-6 shadow-sm border border-gray-100">
+        <div className="bg-white cursor-pointer rounded-xl p-4 sm:p-6 shadow-sm border border-gray-100">
           <div className="flex items-center gap-3 mb-3">
             <div className="p-2 bg-green-50 rounded-lg">
               <CheckCircle className="h-5 w-5 text-green-600" />
@@ -106,7 +106,7 @@ const AppointmentsDashboard = () => {
         </div>
 
         {/* Appointments Pending */}
-        <div className="bg-white rounded-xl p-4 sm:p-6 shadow-sm border border-gray-100 sm:col-span-2 lg:col-span-1">
+        <div className="bg-white cursor-pointer rounded-xl p-4 sm:p-6 shadow-sm border border-gray-100 sm:col-span-2 lg:col-span-1">
           <div className="flex items-center gap-3 mb-3">
             <div className="p-2 bg-orange-50 rounded-lg">
               <Clock className="h-5 w-5 text-orange-600" />

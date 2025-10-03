@@ -18,7 +18,7 @@ const HeroContact = () => {
   const router = useRouter();
   const {user} = useSelector((store) =>store.auth)
   return (
-    <div className="w-full p-5">
+    <div className="w-full p-5 pb-15">
       <div className="flex flex-col items-center pt-10 justify-center text-center gap-3">
         <h1 className="text-[#1195FF] text-lg font-bold">Contact Us</h1>
         <h1 className="font-bold text-5xl">Get In Touch With Our Team</h1>

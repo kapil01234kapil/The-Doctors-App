@@ -91,7 +91,7 @@ const Sidebar = forwardRef((props, ref) => {
                 <li key={item.id}>
                   <button
                     onClick={() => handleNavigation(item.id)}
-                    className={`flex items-center w-full px-4 py-3 text-left ${
+                    className={`flex cursor-pointer items-center w-full px-4 py-3 text-left ${
                       isActive
                         ? "bg-blue-50 text-[#4d91ff] border-r-4 border-[#4d91ff]"
                         : "text-gray-600 hover:bg-blue-50 hover:text-[#4d91ff]"
@@ -111,7 +111,7 @@ const Sidebar = forwardRef((props, ref) => {
       <div className="mb-4 px-4">
         <button
           onClick={handleLogout}
-          className="flex items-center w-full px-4 py-3 text-left text-gray-600 hover:bg-red-50 hover:text-red-600"
+          className="flex items-center cursor-pointer w-full px-4 py-3 text-left text-gray-600 hover:bg-red-50 hover:text-red-600"
         >
           <LogOut size={20} className="mr-3" />
           <span>Logout</span>

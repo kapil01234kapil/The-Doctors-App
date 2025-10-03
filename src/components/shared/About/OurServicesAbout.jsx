@@ -74,7 +74,7 @@ const OurServicesAbout = () => {
     },
   ];
   return (
-    <div className='w-full '>
+    <div className='w-full pb-20 '>
          <div className="w-full flex flex-col justify-center items-center text-center px-4 sm:px-6 lg:px-10">
                 <p className="text-blue-500">Our Services</p>
                 <h1 className="font-bold text-2xl sm:text-3xl lg:text-4xl mt-2">

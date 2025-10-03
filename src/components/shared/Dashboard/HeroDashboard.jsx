@@ -42,7 +42,7 @@ const HeroDashboard = () => {
 
               {/* Button */}
               <Link href="/allDoctors">
-                <button className="bg-[#4D91FF] hover:bg-blue-600 text-white text-sm sm:text-base font-medium px-5 sm:px-7 py-3 flex items-center gap-2 transition-colors duration-200 rounded-full">
+                <button className="bg-[#4D91FF] cursor-pointer hover:bg-blue-600 text-white text-sm sm:text-base font-medium px-5 sm:px-7 py-3 flex items-center gap-2 transition-colors duration-200 rounded-full">
                   Book Appointment
                   <Calendar className="w-5 h-5" />
                 </button>
@@ -117,16 +117,16 @@ const HeroDashboard = () => {
         <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-center gap-18  px-4">
           <h2 className="text-lg lg:text-xl font-bold">OFFERS :</h2>
           <div className="flex flex-col sm:flex-row gap-7 w-full lg:w-auto">
-            <button className="border-2 border-white px-4 py-4 rounded-lg hover:bg-white hover:text-blue-500 transition-colors text-sm whitespace-nowrap">
+            <button className="border-2 cursor-pointer border-white px-4 py-4 rounded-lg hover:bg-white hover:text-blue-500 transition-colors text-sm whitespace-nowrap">
               Earn On our Referral Program
             </button>
-            <button className="border-2 border-white px-4 py-2 rounded-lg hover:bg-white hover:text-blue-500 transition-colors text-sm whitespace-nowrap">
+            <button className="border-2 cursor-pointer border-white px-4 py-2 rounded-lg hover:bg-white hover:text-blue-500 transition-colors text-sm whitespace-nowrap">
               50% off on Manual Therapy
             </button>
-            <button className="border-2 border-white px-4 py-2 rounded-lg hover:bg-white hover:text-blue-500 transition-colors text-sm whitespace-nowrap">
+            <button className="border-2 cursor-pointer border-white px-4 py-2 rounded-lg hover:bg-white hover:text-blue-500 transition-colors text-sm whitespace-nowrap">
               50% off on Manual Therapy
             </button>
-            <button className="border-2 border-white px-4 py-2 rounded-lg hover:bg-white hover:text-blue-500 transition-colors text-sm whitespace-nowrap">
+            <button className="border-2 cursor-pointer border-white px-4 py-2 rounded-lg hover:bg-white hover:text-blue-500 transition-colors text-sm whitespace-nowrap">
               50% off on Manual Therapy
             </button>
           </div>

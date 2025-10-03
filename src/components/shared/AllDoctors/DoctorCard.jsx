@@ -15,10 +15,10 @@ const DoctorProfileCard = ({
   onClick
 }) => {
   return (
-    <div className="w-full max-w-2xs mx-auto bg-white shadow-2xl rounded-3xl overflow-hidden border border-gray-100" onClick={onClick}>
+    <div className="w-full cursor-pointer max-w-2xs mx-auto bg-white shadow-2xl rounded-3xl overflow-hidden border border-gray-100" onClick={onClick}>
       {/* Doctor Image */}
       <div className="relative">
-        <div className="h-64 sm:h-72 md:h-80 bg-gradient-to-br border-2 rounded-4xl border-blue-400 from-blue-50 to-blue-100 flex items-center justify-center overflow-hidden">
+        <div className="h-64  sm:h-72 md:h-80 bg-gradient-to-br border-2 rounded-4xl border-blue-400 from-blue-50 to-blue-100 flex items-center justify-center overflow-hidden">
           <Image 
             src={photo} 
             alt={name}

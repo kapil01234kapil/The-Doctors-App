@@ -249,13 +249,13 @@ const DoctorVerification = () => {
                 <div className="mt-6 flex justify-end space-x-3">
                   <button
                     onClick={() => handleReject(selectedDoctor._id)}
-                    className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50"
+                    className="px-4 cursor-pointer py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50"
                   >
                     Reject Application
                   </button>
                   <button
                     onClick={() => handleApprove(selectedDoctor._id)}
-                    className="px-4 py-2 bg-[#4d91ff] text-white rounded-lg hover:bg-blue-600"
+                    className="px-4 cursor-pointer py-2 bg-[#4d91ff] text-white rounded-lg hover:bg-blue-600"
                   >
                     Approve & Verify
                   </button>

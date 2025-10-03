@@ -96,6 +96,7 @@ export  async function POST(req) {
     }
     existingUser.doctorsProfile.clinic[0].state = state;
     existingUser.doctorsProfile.clinic[0].clinicName = clinicName
+    existingUser.doctorsProfile.clinic[0].clinicAddress = clinicAddress;
 
     // --- Update DoctorSchedule ---
     // expect weeklySchedule as array of { day, isActive, slots: [{startTime,endTime,isBooked?}], slotDuration? }

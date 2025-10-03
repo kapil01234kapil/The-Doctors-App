@@ -69,14 +69,14 @@ const Faq = () => {
   const displayedFaqs = showAll ? faqs : faqs.slice(0, 6);
 
   return (
-    <div className="w-full mt-10 flex p-4 flex-col bg-white justify-center items-center gap-6 px-4 sm:px-6 lg:px-10">
+    <div className="w-full mt-10 flex p-4 pb-7 flex-col bg-white justify-center items-center gap-6 px-4 sm:px-6 lg:px-10">
       {/* Title */}
       <h1 className="p-4 text-2xl font-bold text-center">
         Frequently Asked Questions
       </h1>
 
       {/* Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full max-w-5xl">
+      <div className="grid grid-cols-1 cursor-pointer sm:grid-cols-2 gap-4 w-full max-w-5xl">
         {displayedFaqs.map((faq, idx) => {
           // Faded only for 5th & 6th when not showing all
           const faded = !showAll && (idx === 4 || idx === 5);

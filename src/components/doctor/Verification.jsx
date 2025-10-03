@@ -130,7 +130,7 @@ export default function DoctorVerification() {
   };
 
   const timeSlots = generateTimeSlots();
-  const durationOptions = ["15", "30", "45", "60"];
+  const durationOptions = [ "30"];
 
   // Handle day activation/deactivation
   const toggleDay = (day) => {
@@ -490,9 +490,9 @@ export default function DoctorVerification() {
                   e.currentTarget.blur();
                   handleAddSlot();
                 }}
-                className="bg-blue-500 hover:bg-blue-600 text-white"
+                className="bg-blue-500 hover:bg-blue-600 cursor-pointer text-white"
               >
-                <Plus className="h-4 w-4" />
+                <Plus className="h-4 w-4 cursor-pointer" />
               </Button>
             </div>
 
@@ -519,7 +519,7 @@ export default function DoctorVerification() {
                         e.currentTarget.blur();
                         removeTimeSlot(day, slot.id);
                       }}
-                      className="text-red-500 hover:text-red-700 hover:bg-red-50"
+                      className="text-red-500 hover:text-red-700 cursor-pointer hover:bg-red-50"
                     >
                       <X className="h-4 w-4" />
                     </Button>
@@ -896,7 +896,7 @@ export default function DoctorVerification() {
         {/* Navigation Buttons */}
         <div className="mt-8 flex justify-between items-center">
           {step > 1 ? (
-            <Button variant="outline" onClick={prevStep}>
+            <Button variant="outline" className="cursor-pointer" onClick={prevStep}>
               Back
             </Button>
           ) : (
@@ -916,13 +916,13 @@ export default function DoctorVerification() {
                   <Button
                     variant="outline"
                     onClick={handleUpdateStep1}
-                    className="bg-green-600 text-white"
+                    className="bg-green-600 cursor-pointer text-white"
                   >
                     Update
                   </Button>
                 )
               ) : loading ? (
-                <Button variant="outline" className="bg-green-500 text-white">
+                <Button variant="outline" className="bg-green-500 cursor-pointer text-white">
                   <Loader2 className="animate-spin mr-2 h-4 w-4" />
                   Saving...
                 </Button>
@@ -930,7 +930,7 @@ export default function DoctorVerification() {
                 <Button
                   variant="outline"
                   onClick={handleSaveStep1}
-                  className="bg-green-500 text-white"
+                  className="bg-green-500 cursor-pointer text-white"
                 >
                   Save
                 </Button>
@@ -938,7 +938,7 @@ export default function DoctorVerification() {
             {step === 2 &&
               (savedSteps[2] ? (
                 loading ? (
-                  <Button variant="outline" className="bg-green-600 text-white">
+                  <Button variant="outline" className="bg-green-600 cursor-pointer text-white">
                     <Loader2 />
                     Updating ...
                   </Button>
@@ -946,13 +946,13 @@ export default function DoctorVerification() {
                   <Button
                     variant="outline"
                     onClick={handleUpdateStep2}
-                    className="bg-green-600 text-white"
+                    className="bg-green-600 cursor-pointer text-white"
                   >
                     Update
                   </Button>
                 )
               ) : loading ? (
-                <Button variant="outline" className="bg-green-500 text-white">
+                <Button variant="outline" className="bg-green-500 cursor-pointer text-white">
                   <Loader2 className="animate-spin mr-2 h-4 w-4" />
                   Saving...
                 </Button>
@@ -960,7 +960,7 @@ export default function DoctorVerification() {
                 <Button
                   variant="outline"
                   onClick={handleSaveStep2}
-                  className="bg-green-500 text-white"
+                  className="bg-green-500 cursor-pointer text-white"
                 >
                   Save
                 </Button>
@@ -973,14 +973,14 @@ export default function DoctorVerification() {
                 disabled={!savedSteps[step]}
                 className={`${
                   savedSteps[step]
-                    ? "bg-[#1195FF] hover:bg-[#0d7dd1] text-white"
+                    ? "bg-[#1195FF] hover:bg-[#0d7dd1] cursor-pointer text-white"
                     : "bg-gray-300 text-gray-500 cursor-not-allowed"
                 }`}
               >
                 Next
               </Button>
             ) : loading ? (
-              <Button className="bg-[#1195FF] hover:bg-[#0d7dd1] text-white">
+              <Button className="bg-[#1195FF] cursor-pointer hover:bg-[#0d7dd1] text-white">
                 <Loader2 className="animate-spin mr-2 h-4 w-4" />
                 Uploading...
               </Button>
@@ -993,7 +993,7 @@ export default function DoctorVerification() {
                   !step3Data.identityProof ||
                   !step3Data.propertyProof
                 }
-                className="bg-[#1195FF] hover:bg-[#0d7dd1] text-white"
+                className="bg-[#1195FF] cursor-pointer hover:bg-[#0d7dd1] text-white"
               >
                 Submit Verification
               </Button>

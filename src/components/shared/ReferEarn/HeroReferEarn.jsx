@@ -15,20 +15,30 @@ const HeroReferEarn = () => {
 
   const [upiId, setUpiId] = useState("");
 
-  const handleCopyCode = () => {
-    if (referDetails?.referralCode) {
-      navigator.clipboard
-        .writeText(referDetails.referralCode)
-        .then(() => {
-          toast.success("Referral code copied to clipboard!");
-        })
-        .catch(() => {
-          toast.error("Failed to copy referral code.");
-        });
+ const handleCopyCode = () => {
+  if (referDetails?.referralCode) {
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(referDetails.referralCode)
+        .then(() => toast.success("Referral code copied to clipboard!"))
+        .catch(() => toast.error("Failed to copy referral code."));
     } else {
-      toast.error("Referral code not available");
+      // Fallback: use a temporary textarea
+      const textArea = document.createElement("textarea");
+      textArea.value = referDetails.referralCode;
+      document.body.appendChild(textArea);
+      textArea.select();
+      try {
+        document.execCommand("copy");
+        toast.success("Referral code copied!");
+      } catch (err) {
+        toast.error("Fallback copy failed.");
+      }
+      document.body.removeChild(textArea);
     }
-  };
+  } else {
+    toast.error("Referral code not available");
+  }
+};
 
   const handleAddUpiId = async () => {
     if (!upiId) {
@@ -42,6 +52,8 @@ const HeroReferEarn = () => {
         toast.success(res.data.message);
         dispatch(setUser({ ...user, upiId: res.data.upiId }));
         setUpiId(""); // clear input
+      } else {
+        toast.error(res.data.message || "Failed to add UPI ID");
       }
     } catch (error) {
       toast.error(error.response?.data?.message || "Failed to add UPI ID");
