@@ -66,14 +66,14 @@ const HeroDashboard = () => {
             />
 
             {/* Welcome Bubble - only for large screens */}
-            <div className="hidden lg:block absolute top-1/4 -left-38 rounded-2xl p-3 w-80">
-              <p className={`${pacifico.className} text-gray-900  text-xl leading-tight text-center`}>
+            4<div className=" lg:block absolute  top-1/5 -left-15 md:top-1/4 md:-left-38 rounded-2xl p-3 w-80">
+              <p className={`${pacifico.className} text-gray-900 text-[14px] w-2/3 md:w-full  md:text-xl leading-tight text-center`}>
                 Welcome, I'm here to care for you on The Doctor's app
               </p>
             </div>
 
             {/* Faster Booking & Lower Fee Paid - hidden on screens smaller than lg */}
-            <div className="hidden lg:block absolute top-40 -right-6 bg-white border-2 border-slate-200 rounded-xl p-3 shadow-xl">
+            <div className=" md:block absolute top-20 md:top-40 -right-10 md:right-2 bg-white border-2 border-slate-200 rounded-xl p-3 shadow-xl">
               <h3 className="text-sm font-semibold text-gray-800 flex items-center gap-1">
                 Faster Booking
                 <svg
@@ -91,7 +91,7 @@ const HeroDashboard = () => {
               <p className="text-xs text-gray-600">+36% vs last 6 mnths</p>
             </div>
 
-            <div className="hidden lg:block absolute bottom-12 right-4 bg-white border-2 border-slate-200 rounded-xl p-3 shadow-xl">
+            <div className=" md:block bottom-12 -right-14 absolute md:bottom-12 md:right-4 bg-white border-2 border-slate-200 rounded-xl p-3 shadow-xl">
               <h3 className="text-sm font-semibold text-gray-800 flex items-center gap-1">
                 Lower Fee Paid
                 <svg

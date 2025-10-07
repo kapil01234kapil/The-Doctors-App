@@ -8,7 +8,6 @@ export default function Home() {
     <div>
       <HeroDashboard/>
       <DashboardSecond/>
-      <DashboardStory/>
       <Faq/>
     </div>
   );

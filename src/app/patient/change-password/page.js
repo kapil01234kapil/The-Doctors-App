@@ -2,7 +2,7 @@ import PasswordSecuritySettings from "@/components/doctor/ChangePassword/ChangeP
 import React from "react";
 
 const page = () => {
-  return <div className="mt-10">
+  return <div className="">
     <PasswordSecuritySettings/>
   </div>;
 };

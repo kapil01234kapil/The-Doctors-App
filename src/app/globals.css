@@ -53,6 +53,13 @@
   scrollbar-width: none;  /* Firefox */
 }
 
+/* --- Fix for DayPicker overriding styles --- */
+
+/* Selected date: use your brand color */
+
+
+
+
 
 :root {
   --radius: 0.625rem;

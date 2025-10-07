@@ -82,7 +82,7 @@ const Navbar = () => {
   };
 
   return (
-    <div>
+    <div className="border-2  bg-white pb-3 shadow-lg ">
       {/* Desktop and Tablet Layout */}
       <div className="hidden md:flex justify-between px-14 items-center w-full">
         {/* Logo */}
@@ -91,11 +91,11 @@ const Navbar = () => {
           className="flex gap-2 mt-5 items-center cursor-pointer"
         >
           <Stethoscope className="text-[#4d91ff]" />
-          <p className="font-bold text-lg">THE DOCTORS APP</p>
+          <p className="font-bold text-[#4d91ff] text-lg">THE DOCTORS APP</p>
         </div>
 
         {/* Navigation Menu */}
-        <div className="bg-white border-6 mt-4 border-[#4d91ff] rounded-full shadow-xl lg:w-1/2 md:w-3/5 p-2 lg:pl-15 flex justify-between items-center">
+        <div className="bg-white border-6 mt-4 border-[#4d91ff] rounded-full  lg:w-2/3 xl:w-1/2 md:w-3/5 p-2 lg:pl-15 flex justify-between items-center">
           <div className="flex gap-2 lg:gap-4">
             {navLinks.map((link) => (
               <Link
@@ -131,10 +131,10 @@ const Navbar = () => {
                 onClick={() => router.push("/patient/notifications")}
                 className="relative text-gray-700 cursor-pointer hover:text-[#4d91ff]"
               >
-                <Bell size={24} />
+                <Bell size={20} />
 
                 {unreadNotificationsCount > 0 && (
-                  <span className="absolute -top-2 -right-2 flex items-center justify-center w-5 h-5 text-xs text-white bg-red-500 rounded-full">
+                  <span className="absolute -top-1 -right-1 flex items-center justify-center w-3 h-3 text-[10px] text-white bg-red-500 rounded-full">
                     {unreadNotificationsCount}
                   </span>
                 )}
@@ -143,8 +143,8 @@ const Navbar = () => {
               {/* Avatar Popover */}
               <Popover>
                 <PopoverTrigger asChild>
-                  <Avatar className="cursor-pointer">
-                    <AvatarImage src={user?.profilePhoto || "/default-avatar.png"} />
+                  <Avatar className="cursor-pointer p-4 text-white bg-[#4d91ff]">
+                    <AvatarImage  src={user?.profilePhoto || "/default-avatar.png"} />
                     <AvatarFallback>
                       {user?.fullName ? user.fullName[0] : "U"}
                     </AvatarFallback>

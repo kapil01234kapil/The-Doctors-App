@@ -161,12 +161,12 @@ const HeroDoctorInside = () => {
         </div>
       </div>
 
-    {/* Stats Section */}
+  {/* Stats Section */}
 <div className="w-full flex justify-center mt-10">
-  <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 bg-[#F7FAFB] p-6 rounded-xl shadow-sm">
+  <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 bg-[#F7FAFB] p-6 rounded-xl shadow-sm divide-y sm:divide-y-0 sm:divide-x lg:divide-x divide-dotted divide-slate-700">
     
     {/* Total Experience */}
-    <div className="flex flex-col gap-2 px-6 lg:border-r lg:border-dotted lg:border-slate-700">
+    <div className="flex flex-col gap-2 px-6 py-4">
       <h1 className="text-gray-600 font-medium">Total Experience</h1>
       <h1 className="font-bold text-xl">
         {selectedDoctor?.doctorsProfile?.experience}+ Years
@@ -174,28 +174,29 @@ const HeroDoctorInside = () => {
     </div>
 
     {/* Contact Details */}
-    <div className="flex flex-col gap-2 px-6 lg:border-r lg:border-dotted lg:border-slate-700">
+    <div className="flex flex-col gap-2 px-6 py-4">
       <h1 className="text-gray-600 font-medium">Contact Details</h1>
       <h1 className="font-bold text-xl">{selectedDoctor?.contactDetails}</h1>
     </div>
 
     {/* Rating */}
-    <div className="flex flex-col gap-2 px-6 lg:border-r lg:border-dotted lg:border-slate-700">
+    <div className="flex flex-col gap-2 px-6 py-4">
       <h1 className="text-gray-600 font-medium">Rating</h1>
-<h1 className="font-bold text-xl">
-  {selectedDoctor?.overAllRating
-    ? `${selectedDoctor.overAllRating} / 5`
-    : "No ratings yet"}
-</h1>
+      <h1 className="font-bold text-xl">
+        {selectedDoctor?.overAllRating
+          ? `${selectedDoctor.overAllRating} / 5`
+          : "No ratings yet"}
+      </h1>
     </div>
 
     {/* Languages */}
-    <div className="flex flex-col gap-2 px-6">
+    <div className="flex flex-col gap-2 px-6 py-4">
       <h1 className="text-gray-600 font-medium">Languages</h1>
       <h1 className="font-bold text-xl">English, Hindi</h1>
     </div>
   </div>
 </div>
+
 
 
       {/* Booking Section */}
@@ -221,7 +222,7 @@ const HeroDoctorInside = () => {
                 fontWeight: "bold",
               },
             }}
-            className="rounded-lg border shadow-sm w-full max-w-[500px]"
+            className="rounded-lg  border shadow-sm w-full max-w-[500px]"
           />
 
           <div className="lg:hidden text-sm text-gray-600 text-center px-4">
@@ -264,8 +265,8 @@ const HeroDoctorInside = () => {
             className={`w-full h-16 cursor-pointer flex items-center justify-center text-sm lg:text-base font-medium transition-colors
             ${
               selectedSlot?._id === slot._id
-                ? "bg-blue-500 text-white"
-                : "bg-white text-blue-500 hover:bg-blue-50"
+                ? "bg-white text-[#4d91ff]"
+                : "bg-[#4d91ff] text-white hover:bg-blue-50 hover:text-[#4d91ff]"
             }`}
             variant="outline"
           >

@@ -27,13 +27,13 @@ const DashboardCard = ({ image, name,specialization }) => {
   height={500}
   src={image}
   alt="Doctor"
-  className="w-full h-48 sm:h-56 md:h-64 object-cover object-top"
+  className="w-full h-85 sm:h-56 md:h-64 object-cover object-top"
 />
 
 
         {/* Content */}
         <div className="flex flex-col items-center justify-center mt-4 gap-2 px-4 pb-4">
-          <h1 className="text-lg sm:text-xl font-semibold text-gray-800 text-center">
+          <h1 className="text-lg xl:text-xl font-semibold text-gray-800 text-center">
             {name}
           </h1>
           <p

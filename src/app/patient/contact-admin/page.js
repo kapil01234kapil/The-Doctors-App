@@ -3,7 +3,7 @@ import GetInTouch from '../../../components/doctor/GetInTouch/GetInTouch'
 
 const page = () => {
   return (
-    <div className='mt-10'>
+    <div >
       <GetInTouch/>
     </div>
   )

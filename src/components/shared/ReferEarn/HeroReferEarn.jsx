@@ -61,7 +61,7 @@ const HeroReferEarn = () => {
   };
 
   return (
-    <div className="w-full bg-white mt-3 h-full min-h-screen p-4 md:p-6 lg:p-10">
+    <div className="w-full bg-white  h-full min-h-screen p-4 md:p-6 lg:p-10">
       {/* Heading */}
       <div className="flex justify-center">
         <div className="flex flex-col mt-7 justify-center items-center gap-4 text-center">

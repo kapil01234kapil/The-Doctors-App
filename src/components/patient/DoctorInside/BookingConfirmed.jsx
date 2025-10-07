@@ -306,7 +306,7 @@ const BookingConfirmed = () => {
                   : ""
               }`}
             >
-              Place Order
+              Confirm Booking
             </Button>
           )}
         </div>
