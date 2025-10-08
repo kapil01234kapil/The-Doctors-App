@@ -82,7 +82,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className="border-2  bg-white pb-3 shadow-lg ">
+    <div className="  bg-white pb-3 shadow-lg ">
       {/* Desktop and Tablet Layout */}
       <div className="hidden md:flex justify-between px-14 items-center w-full">
         {/* Logo */}
@@ -226,9 +226,9 @@ const Navbar = () => {
         {/* Mobile Header */}
         <div className="flex justify-between items-center">
           {/* Logo */}
-          <div className="flex gap-2 items-center">
+          <div className="flex gap-2 pl-3 items-center">
             <Stethoscope className="text-[#4d91ff]" size={20} />
-            <p className="font-bold text-base">DOCTORS.ONLINE</p>
+            <p className="font-bold text-[#4d91ff] text-base">DOCTORS.ONLINE</p>
           </div>
 
           {/* Right side */}
@@ -243,7 +243,7 @@ const Navbar = () => {
             ) : (
              <Popover>
                 <PopoverTrigger asChild>
-                  <Avatar className="cursor-pointer">
+                  <Avatar className="cursor-pointer p-4 text-white bg-[#4d91ff]">
                     <AvatarImage src={user?.profilePhoto || "/default-avatar.png"} />
                     <AvatarFallback>
                       {user?.fullName ? user.fullName[0] : "U"}

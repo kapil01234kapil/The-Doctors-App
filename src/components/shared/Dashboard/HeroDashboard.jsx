@@ -54,7 +54,7 @@ const HeroDashboard = () => {
         </div>
 
         {/* Right Content */}
-        <div className="flex-1 relative order-1 lg:order-2 flex justify-center">
+        <div className="flex-1  relative order-1 lg:order-2 flex justify-center">
           {/* Doctor Image */}
           <div className="relative w-full max-w-sm lg:max-w-md h-80 lg:h-[500px]">
             <Image
@@ -66,15 +66,15 @@ const HeroDashboard = () => {
             />
 
             {/* Welcome Bubble - only for large screens */}
-            4<div className=" lg:block absolute  top-1/5 -left-15 md:top-1/4 md:-left-38 rounded-2xl p-3 w-80">
+            <div className=" lg:block absolute  top-1/5 -left-15 md:top-1/4 md:-left-38 rounded-2xl p-3 w-80">
               <p className={`${pacifico.className} text-gray-900 text-[14px] w-2/3 md:w-full  md:text-xl leading-tight text-center`}>
                 Welcome, I'm here to care for you on The Doctor's app
               </p>
             </div>
 
             {/* Faster Booking & Lower Fee Paid - hidden on screens smaller than lg */}
-            <div className=" md:block absolute top-20 md:top-40 -right-10 md:right-2 bg-white border-2 border-slate-200 rounded-xl p-3 shadow-xl">
-              <h3 className="text-sm font-semibold text-gray-800 flex items-center gap-1">
+            <div className=" md:block absolute top-20 md:top-40 -right-2 md:right-2 bg-white border-2 border-slate-200 rounded-xl p-1 md:p-3 shadow-xl">
+              <h3 className=" text-xs md:text-sm font-semibold text-gray-800 flex items-center gap-1">
                 Faster Booking
                 <svg
                   className="w-3 h-3 text-green-500"
@@ -91,8 +91,8 @@ const HeroDashboard = () => {
               <p className="text-xs text-gray-600">+36% vs last 6 mnths</p>
             </div>
 
-            <div className=" md:block bottom-12 -right-14 absolute md:bottom-12 md:right-4 bg-white border-2 border-slate-200 rounded-xl p-3 shadow-xl">
-              <h3 className="text-sm font-semibold text-gray-800 flex items-center gap-1">
+            <div className=" md:block bottom-10 -right-7 absolute md:bottom-12 md:right-4 bg-white border-2 border-slate-200 rounded-xl p-1 md:p-3 shadow-xl">
+              <h3 className=" text-xs md:text-sm font-semibold text-gray-800 flex items-center gap-1">
                 Lower Fee Paid
                 <svg
                   className="w-3 h-3 text-[#4D91FF]"

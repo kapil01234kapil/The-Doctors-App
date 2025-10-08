@@ -8,10 +8,12 @@ const DoctorProfileCard = ({
   name,
   photo,
   rating = 4.9,
-  reviews = 0,
+  reviews ,
   specialty,
   experience,
   location,
+  consulatationFees,
+  clinicName,
   onClick,
 }) => {
   return (
@@ -46,7 +48,7 @@ const DoctorProfileCard = ({
         <div className="absolute bottom-3 left-3 bg-green-50 rounded-full px-2.5 py-1 flex items-center shadow-sm">
           <Clock className="h-3 w-3 text-green-600" />
           <span className="ml-1 text-xs font-medium text-green-600">
-            Available today
+            Available 
           </span>
         </div>
       </div>
@@ -88,11 +90,11 @@ const DoctorProfileCard = ({
         <div className="flex items-center justify-between mb-4 pt-2 border-t border-gray-100">
           <div>
             <span className="text-xs text-gray-500">Consultation fee</span>
-            <p className="text-sm font-bold text-[#292929]">₹500</p>
+            <p className="text-sm font-bold text-[#292929]">₹{consulatationFees ? consulatationFees : "NA"}</p>
           </div>
           <div className="text-right">
-            <span className="text-xs text-gray-500">Next available</span>
-            <p className="text-sm font-medium text-green-600">Today, 2:00 PM</p>
+            <span className="text-xs text-gray-500">Clinic Name</span>
+            <p className="text-sm font-medium text-green-600">{clinicName || 'NA'}</p>
           </div>
         </div>
 

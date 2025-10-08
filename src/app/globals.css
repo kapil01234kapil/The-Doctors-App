@@ -59,6 +59,28 @@
 
 
 
+@media (min-width: 768px) and (max-width: 1024px) {
+  /* iPad Mini / iPad Air Fix */
+  .ipad-fix {
+    transform: scale(1.15) translateX(-4%);
+    transform-origin: center;
+  }
+
+  .ipad-fix .welcome-bubble {
+    top: 22% !important;
+    left: -10% !important;
+  }
+
+  .ipad-fix .faster {
+    top: 36% !important;
+    right: 0 !important;
+  }
+
+  .ipad-fix .lower {
+    bottom: 12% !important;
+    right: 0 !important;
+  }
+}
 
 
 :root {

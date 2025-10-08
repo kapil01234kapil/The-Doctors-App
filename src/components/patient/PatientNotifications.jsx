@@ -148,37 +148,48 @@ const NotificationPagePatient = () => {
   };
 
   const handleSubmitReview = async () => {
-    if (!rating || !feedback.trim()) {
-      toast.error("Please provide both rating and feedback");
-      return;
-    }
+  if (!rating || !feedback.trim()) {
+    toast.error("Please provide both rating and feedback");
+    return;
+  }
 
-    try {
-      setLoading(true);
-      const res = await axios.post(
-        `/api/patient/rateDoctor/${id}`,
-        {
-          rating,
-          feedback,
-          notificationId: currentRatingNotifId,
-        },
-        { withCredentials: true }
+  try {
+    setLoading(true);
+    const res = await axios.post(
+      `/api/patient/rateDoctor/${id}`,
+      {
+        rating,
+        feedback,
+        notificationId: currentRatingNotifId,
+      },
+      { withCredentials: true }
+    );
+
+    if (res.data.success) {
+      toast.success("Review submitted successfully!");
+
+      // ✅ Update the specific notification locally
+      setNotifications((prev) =>
+        prev.map((notif) =>
+          notif.id === currentRatingNotifId
+            ? { ...notif, reviewGiven: true }
+            : notif
+        )
       );
 
-      if (res.data.success) {
-        toast.success("Review submitted successfully!");
-        setRatingDialogOpen(false);
-        setRating(0);
-        setFeedback("");
-      } else {
-        toast.error(res.data.message || "Something went wrong");
-      }
-    } catch (error) {
-      toast.error(error.response?.data?.message || "Failed to submit review");
-    } finally {
-      setLoading(false);
+      // Reset states and close dialog
+      setRatingDialogOpen(false);
+      setRating(0);
+      setFeedback("");
+    } else {
+      toast.error(res.data.message || "Something went wrong");
     }
-  };
+  } catch (error) {
+    toast.error(error.response?.data?.message || "Failed to submit review");
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <div className="min-h-screen  ">
@@ -329,7 +340,7 @@ const NotificationPagePatient = () => {
                               setCurrentDoctorId(notification.doctorId);
                               setRatingDialogOpen(true);
                             }}
-                            className="mt-2 sm:mt-3 px-3 sm:px-4 py-1.5 sm:py-2 bg-[#4d91ff] text-white text-xs sm:text-sm rounded-lg hover:bg-blue-600 transition-colors"
+                            className="mt-2 sm:cursor-pointer sm:mt-3 px-3 sm:px-4 py-1.5 sm:py-2 bg-[#4d91ff] text-white text-xs sm:text-sm rounded-lg hover:bg-blue-600 transition-colors"
                           >
                             Rate Now
                           </button>
@@ -374,41 +385,65 @@ const NotificationPagePatient = () => {
       </div>
 
       {/* --- Rating Dialog --- */}
-      <Dialog open={ratingDialogOpen} onOpenChange={setRatingDialogOpen}>
-        <DialogContent className="max-w-md w-full">
-          <DialogHeader>
-            <DialogTitle>Rate the Doctor</DialogTitle>
-          </DialogHeader>
+   {/* --- Stylish Rating Dialog --- */}
+<Dialog open={ratingDialogOpen} onOpenChange={setRatingDialogOpen}>
+  <DialogContent className="max-w-md w-full bg-white/95 backdrop-blur-md shadow-xl border border-gray-200 rounded-2xl p-6 animate-in fade-in-50 zoom-in-95">
+    <DialogHeader className="text-center mb-4">
+      <DialogTitle className="text-xl font-semibold text-gray-800">
+        🌟 Rate Your Doctor
+      </DialogTitle>
+      <p className="text-sm text-gray-500 mt-1">
+        We’d love to hear your feedback!
+      </p>
+    </DialogHeader>
 
-          <div className="py-4 flex flex-col gap-4">
-            <label className="text-sm font-medium">Rating (1 to 5)</label>
-            <input
-              type="number"
-              min="1"
-              max="5"
-              value={rating}
-              onChange={(e) => setRating(Number(e.target.value))}
-              className="border p-2 rounded w-full"
+    <div className="flex flex-col gap-5">
+      {/* Star Rating */}
+      <div className="flex flex-col items-center gap-2">
+        <label className="text-sm font-medium text-gray-700">
+          Your Rating
+        </label>
+        <div className="flex space-x-2">
+          {[1, 2, 3, 4, 5].map((star) => (
+            <Star
+              key={star}
+              className={`w-8 h-8 cursor-pointer transition-transform transform hover:scale-110 ${
+                star <= rating
+                  ? "fill-[#4d91ff] text-[#4d91ff]"
+                  : "text-gray-300"
+              }`}
+              onClick={() => setRating(star)}
             />
+          ))}
+        </div>
+      </div>
 
-            <label className="text-sm font-medium">Feedback</label>
-            <textarea
-              value={feedback}
-              onChange={(e) => setFeedback(e.target.value)}
-              className="border p-2 rounded w-full"
-              rows={4}
-            />
+      {/* Feedback Textarea */}
+      <div className="flex flex-col gap-2">
+        <label className="text-sm font-medium text-gray-700">
+          Write Your Feedback
+        </label>
+        <textarea
+          value={feedback}
+          onChange={(e) => setFeedback(e.target.value)}
+          placeholder="Type your experience here..."
+          className="border border-gray-300 p-3 rounded-lg w-full focus:ring-2 focus:ring-[#4d91ff] focus:outline-none resize-none text-sm"
+          rows={4}
+        />
+      </div>
 
-            <Button
-              onClick={handleSubmitReview}
-              disabled={loading}
-              className="bg-[#4d91ff] text-white"
-            >
-              {loading ? "Submitting..." : "Submit Review"}
-            </Button>
-          </div>
-        </DialogContent>
-      </Dialog>
+      {/* Submit Button */}
+      <Button
+        onClick={handleSubmitReview}
+        disabled={loading}
+        className="bg-[#4d91ff] hover:bg-blue-600 text-white font-medium py-2.5 rounded-lg transition-all duration-200"
+      >
+        {loading ? "Submitting..." : "Submit Review"}
+      </Button>
+    </div>
+  </DialogContent>
+</Dialog>
+
     </div>
   );
 };
