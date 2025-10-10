@@ -183,7 +183,7 @@ const weekEnd = addDays(weekStart, 6);
 
 // 4. Calculate amounts
 const consultationFee = existingAppointment.consultationFees || 0;
-const platformFee = consultationFee * 0.05; // adjust % as per your logic
+const platformFee = consultationFee * 0.025; // adjust % as per your logic
 const payable = consultationFee - platformFee;
 
 // 5. Find if a finance record already exists for this doctor in this window

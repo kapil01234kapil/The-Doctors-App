@@ -49,7 +49,7 @@ const BookingConfirmed = () => {
       const consultationFees = Number(
         selectedDoctor?.doctorsProfile?.consultationFees || 0
       );
-      const appointmentFee = 99;
+      const appointmentFee = 100;
       const totalAmount = appointmentFee;
 
       const body = {
@@ -77,7 +77,7 @@ const BookingConfirmed = () => {
           key: "rzp_test_RESUioZgG90aU9",
           amount: res.data.order.amount,
           currency: "INR",
-          name: "Your App Name",
+          name: "The Doctors App",
           order_id: res.data.order.id,
           handler: async function (response) {
             const { razorpay_payment_id } = response;

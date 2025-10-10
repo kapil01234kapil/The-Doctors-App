@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import React from "react";
 import { useSelector } from "react-redux";
 
-const DashboardCard = ({ image, name,specialization }) => {
+const DashboardCard = ({ image, name, specialization }) => {
   const router = useRouter();
   const { user } = useSelector((store) => store.auth);
 
@@ -23,17 +23,20 @@ const DashboardCard = ({ image, name,specialization }) => {
       <div className="flex flex-col  items-center justify-center shadow-lg bg-white rounded-2xl overflow-hidden transition hover:shadow-xl">
         {/* Image */}
         <Image
-  width={500}
-  height={500}
-  src={image}
-  alt="Doctor"
-  className="w-full h-85 sm:h-56 md:h-64 object-cover object-top"
-/>
-
+          onClick={checkAvailability}
+          width={500}
+          height={500}
+          src={image}
+          alt="Doctor"
+          className="w-full cursor-pointer h-85 sm:h-56 md:h-64 object-cover object-top"
+        />
 
         {/* Content */}
-        <div className="flex flex-col items-center justify-center mt-4 gap-2 px-4 pb-4">
-          <h1 className="text-lg xl:text-xl font-semibold text-gray-800 text-center">
+        <div className="flex flex-col cursor-pointer items-center justify-center mt-4 gap-2 px-4 pb-4">
+          <h1
+            onClick={checkAvailability}
+            className="text-lg cursor-pointer xl:text-xl font-semibold text-gray-800 text-center"
+          >
             {name}
           </h1>
           <p

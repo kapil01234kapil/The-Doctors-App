@@ -79,38 +79,38 @@ const HeroSection = () => {
           </div>
 
           {/* Location Select */}
-          <div className="w-1/2 md:w-1/4">
-            <Select
+          <div className="w-1/2  flex items-center h-20 md:w-1/4">
+            <Select  className=""
               onValueChange={(val) =>
                 setLocationFilter(val === "all" ? "" : val)
               }
             >
-              <SelectTrigger className="h-12 rounded-xl border border-gray-200 focus:border-blue-400 focus:ring-2 focus:ring-blue-200 transition-all">
+              <SelectTrigger className=" rounded-xl h-20 cursor-pointer border border-gray-200  focus:border-blue-400 focus:ring-2 focus:ring-blue-200 transition-all">
                 <SelectValue placeholder="Location" value={locationFilter} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">All</SelectItem>
-                <SelectItem value="delhi">Delhi</SelectItem>
-                <SelectItem value="mumbai">Mumbai</SelectItem>
-                <SelectItem value="bangalore">Bangalore</SelectItem>
-                <SelectItem value="hyderabad">Hyderabad</SelectItem>
-                <SelectItem value="chennai">Chennai</SelectItem>
-                <SelectItem value="kolkata">Kolkata</SelectItem>
-                <SelectItem value="pune">Pune</SelectItem>
-                <SelectItem value="ahmedabad">Ahmedabad</SelectItem>
-                <SelectItem value="jaipur">Jaipur</SelectItem>
-                <SelectItem value="lucknow">Lucknow</SelectItem>
-                <SelectItem value="surat">Surat</SelectItem>
-                <SelectItem value="kanpur">Kanpur</SelectItem>
-                <SelectItem value="nagpur">Nagpur</SelectItem>
-                <SelectItem value="indore">Indore</SelectItem>
-                <SelectItem value="bhopal">Bhopal</SelectItem>
-                <SelectItem value="patna">Patna</SelectItem>
-                <SelectItem value="vadodara">Vadodara</SelectItem>
-                <SelectItem value="ludhiana">Ludhiana</SelectItem>
-                <SelectItem value="coimbatore">Coimbatore</SelectItem>
-                <SelectItem value="visakhapatnam">Visakhapatnam</SelectItem>
-                <SelectItem value="agra">Agra</SelectItem>
+                <SelectItem className="cursor-pointer" value="all">All</SelectItem>
+                <SelectItem className="cursor-pointer" value="delhi">Delhi</SelectItem>
+                <SelectItem className="cursor-pointer" value="mumbai">Mumbai</SelectItem>
+                <SelectItem className="cursor-pointer" value="bangalore">Bangalore</SelectItem>
+                <SelectItem className="cursor-pointer" value="hyderabad">Hyderabad</SelectItem>
+                <SelectItem className="cursor-pointer" value="chennai">Chennai</SelectItem>
+                <SelectItem className="cursor-pointer" value="kolkata">Kolkata</SelectItem>
+                <SelectItem className="cursor-pointer" value="pune">Pune</SelectItem>
+                <SelectItem className="cursor-pointer" value="ahmedabad">Ahmedabad</SelectItem>
+                <SelectItem className="cursor-pointer" value="jaipur">Jaipur</SelectItem>
+                <SelectItem className="cursor-pointer" value="lucknow">Lucknow</SelectItem>
+                <SelectItem className="cursor-pointer" value="surat">Surat</SelectItem>
+                <SelectItem className="cursor-pointer" value="kanpur">Kanpur</SelectItem>
+                <SelectItem className="cursor-pointer" value="nagpur">Nagpur</SelectItem>
+                <SelectItem className="cursor-pointer" value="indore">Indore</SelectItem>
+                <SelectItem className="cursor-pointer" value="bhopal">Bhopal</SelectItem>
+                <SelectItem className="cursor-pointer" value="patna">Patna</SelectItem>
+                <SelectItem className="cursor-pointer" value="vadodara">Vadodara</SelectItem>
+                <SelectItem className="cursor-pointer" value="ludhiana">Ludhiana</SelectItem>
+                <SelectItem className="cursor-pointer" value="coimbatore">Coimbatore</SelectItem>
+                <SelectItem className="cursor-pointer" value="visakhapatnam">Visakhapatnam</SelectItem>
+                <SelectItem className="cursor-pointer" value="agra">Agra</SelectItem>
               </SelectContent>
             </Select>
           </div>

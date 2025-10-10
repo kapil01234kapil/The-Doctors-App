@@ -6,7 +6,7 @@ import Image from "next/image";
 
 const Banner = () => {
   return (
-    <section className="w-full bg-gradient-to-b from-blue-700 to-blue-300 rounded-2xl overflow-hidden relative">
+    <section className="w-full bg-gradient-to-r from-blue-700 to-blue-600 rounded-2xl overflow-hidden relative">
       {/* Grid pattern overlay */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:14px_14px]" />
 

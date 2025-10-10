@@ -228,7 +228,7 @@ const Navbar = () => {
           {/* Logo */}
           <div className="flex gap-2 pl-3 items-center">
             <Stethoscope className="text-[#4d91ff]" size={20} />
-            <p className="font-bold text-[#4d91ff] text-base">DOCTORS.ONLINE</p>
+            <p className="font-bold text-[#4d91ff] text-base">The Doctors App</p>
           </div>
 
           {/* Right side */}

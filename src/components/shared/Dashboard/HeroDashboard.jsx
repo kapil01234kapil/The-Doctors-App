@@ -54,87 +54,106 @@ const HeroDashboard = () => {
         </div>
 
         {/* Right Content */}
-        <div className="flex-1  relative order-1 lg:order-2 flex justify-center">
-          {/* Doctor Image */}
-          <div className="relative w-full max-w-sm lg:max-w-md h-80 lg:h-[500px]">
-            <Image
-              height={500}
-              width={500}
-              src="/heroHomeDoctor.png"
-              alt="Doctor with tablet"
-              className="w-full  h-full object-contain object-bottom"
-            />
+{/* Right Content */}
+<div className="flex-1 relative order-1 lg:order-2 flex justify-center">
+  {/* Doctor Image and Elements */}
+  <div className="relative w-full max-w-sm lg:max-w-md h-80 lg:h-[500px] overflow-visible z-10">
+    <Image
+      height={500}
+      width={500}
+      src="/heroHomeDoctor.png"
+      alt="Doctor with tablet"
+      className="w-full h-full object-contain object-bottom"
+    />
 
-            {/* Welcome Bubble - only for large screens */}
-            <div className=" lg:block absolute  top-1/5 -left-15 md:top-1/4 md:-left-38 rounded-2xl p-3 w-80">
-              <p className={`${pacifico.className} text-gray-900 text-[14px] w-2/3 md:w-full  md:text-xl leading-tight text-center`}>
-                Welcome, I'm here to care for you on The Doctor's app
-              </p>
-            </div>
+    {/* Fade effect only on mobile */}
+    <div className="absolute bottom-0 left-0 w-full h-20 bg-gradient-to-t from-white to-transparent block lg:hidden pointer-events-none"></div>
 
-            {/* Faster Booking & Lower Fee Paid - hidden on screens smaller than lg */}
-            <div className=" md:block absolute top-20 md:top-40 -right-2 md:right-2 bg-white border-2 border-slate-200 rounded-xl p-1 md:p-3 shadow-xl">
-              <h3 className=" text-xs md:text-sm font-semibold text-gray-800 flex items-center gap-1">
-                Faster Booking
-                <svg
-                  className="w-3 h-3 text-green-500"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M3.293 9.707a1 1 0 010-1.414l6-6a1 1 0 011.414 0l6 6a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L4.707 9.707a1 1 0 01-1.414 0z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              </h3>
-              <p className="text-xs text-gray-600">+36% vs last 6 mnths</p>
-            </div>
+    {/* Welcome Bubble - only for large screens */}
+    <div className="lg:block absolute top-1/5 -left-29 md:top-1/6 md:-left-38 rounded-2xl p-3 w-80">
+      <p
+        className={`${pacifico.className} text-gray-900 text-[14px] w-2/3 md:w-full md:text-xl leading-tight text-center`}
+      >
+        Welcome, I'm here to care for you on The Doctor's app
+      </p>
+    </div>
 
-            <div className=" md:block bottom-10 -right-7 absolute md:bottom-12 md:right-4 bg-white border-2 border-slate-200 rounded-xl p-1 md:p-3 shadow-xl">
-              <h3 className=" text-xs md:text-sm font-semibold text-gray-800 flex items-center gap-1">
-                Lower Fee Paid
-                <svg
-                  className="w-3 h-3 text-[#4D91FF]"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              </h3>
-              <p className="text-xs text-gray-600">-24% vs last 6 mnths</p>
-            </div>
-          </div>
-        </div>
+    {/* Faster Booking & Lower Fee Paid - hidden on small screens */}
+    <div className="md:block absolute top-18 md:top-25 -right-17 md:right-2 bg-white border-2 border-slate-200 rounded-xl p-1 md:p-3 shadow-xl">
+      <h3 className="text-xs md:text-sm font-semibold text-gray-800 flex items-center gap-1">
+        Faster Booking
+        <svg
+          className="w-3 h-3 text-green-500"
+          fill="currentColor"
+          viewBox="0 0 20 20"
+        >
+          <path
+            fillRule="evenodd"
+            d="M3.293 9.707a1 1 0 010-1.414l6-6a1 1 0 011.414 0l6 6a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L4.707 9.707a1 1 0 01-1.414 0z"
+            clipRule="evenodd"
+          />
+        </svg>
+      </h3>
+      <p className="text-xs text-gray-600">+36% vs last 6 mnths</p>
+    </div>
+
+    <div className="md:block bottom-10 -right-25 absolute md:bottom-16 md:-right-4 bg-white border-2 border-slate-200 rounded-xl p-1 md:p-3 shadow-xl">
+      <h3 className="text-xs md:text-sm font-semibold text-gray-800 flex items-center gap-1">
+        Lower Fee Paid
+        <svg
+          className="w-3 h-3 text-[#4D91FF]"
+          fill="currentColor"
+          viewBox="0 0 20 20"
+        >
+          <path
+            fillRule="evenodd"
+            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+            clipRule="evenodd"
+          />
+        </svg>
+      </h3>
+      <p className="text-xs text-gray-600">-24% vs last 6 mnths</p>
+    </div>
+  </div>
+</div>
+
+
       </div>
 
       {/* Add spacing before offers on small screens */}
       <div className="mt-6 lg:mt-0"></div>
 
       {/* Offers Section */}
-      <div className="bg-[#4D91FF] text-white py-5 lg:py-3">
-        <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-center gap-5  px-4">
-          <h2 className="text-lg lg:text-xl font-bold">OFFERS :</h2>
-          <div className="flex flex-col sm:flex-row gap-7 w-full lg:w-auto">
-            <button className="border-2 cursor-pointer border-white px-4 py-2 rounded-lg hover:bg-white hover:text-blue-500 transition-colors text-sm whitespace-nowrap">
-              Earn On our Referral Program
-            </button>
-            <button className="border-2 cursor-pointer border-white px-4 py-2 rounded-lg hover:bg-white hover:text-blue-500 transition-colors text-sm whitespace-nowrap">
-              50% off on Manual Therapy
-            </button>
-            <button className="border-2 cursor-pointer border-white px-4 py-2 rounded-lg hover:bg-white hover:text-blue-500 transition-colors text-sm whitespace-nowrap">
-              50% off on Manual Therapy
-            </button>
-            <button className="border-2 cursor-pointer border-white px-4 py-2 rounded-lg hover:bg-white hover:text-blue-500 transition-colors text-sm whitespace-nowrap">
-              50% off on Manual Therapy
-            </button>
-          </div>
-        </div>
-      </div>
+     {/* Offers Section */}
+<div className="bg-[#4D91FF] text-white py-5 lg:py-3">
+  <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-center gap-5 px-4">
+    <h2 className="text-lg lg:text-xl font-bold">OFFERS :</h2>
+
+    {/* Desktop & Tablet: Show all 4 offers */}
+    <div className="hidden sm:flex flex-col sm:flex-row gap-7 w-full lg:w-auto">
+      <button className="border-2 cursor-pointer border-white px-4 py-2 rounded-lg hover:bg-white hover:text-blue-500 transition-colors text-sm whitespace-nowrap">
+        Earn On our Referral Program
+      </button>
+      <button className="border-2 cursor-pointer border-white px-4 py-2 rounded-lg hover:bg-white hover:text-blue-500 transition-colors text-sm whitespace-nowrap">
+        50% off on Manual Therapy
+      </button>
+      <button className="border-2 cursor-pointer border-white px-4 py-2 rounded-lg hover:bg-white hover:text-blue-500 transition-colors text-sm whitespace-nowrap">
+        50% off on Manual Therapy
+      </button>
+      <button className="border-2 cursor-pointer border-white px-4 py-2 rounded-lg hover:bg-white hover:text-blue-500 transition-colors text-sm whitespace-nowrap">
+        50% off on Manual Therapy
+      </button>
+    </div>
+
+    {/* Mobile: Show only the first offer */}
+    <div className="flex sm:hidden w-full justify-center">
+      <button className="border-2 cursor-pointer border-white px-4 py-2 rounded-lg hover:bg-white hover:text-blue-500 transition-colors text-sm whitespace-nowrap">
+        Earn On our Referral Program
+      </button>
+    </div>
+  </div>
+</div>
+
     </div>
   )
 }
