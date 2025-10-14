@@ -117,9 +117,9 @@ const userSchema = new Schema(
             ref: "DoctorSchedule",
           },
 
-          appointmentApproval: {
-            type: Boolean,
-            default: false,
+          totalNumberOfAppointments : {
+            type : Number,
+            default : 0
           },
           consultationFees: {
             type: Number,

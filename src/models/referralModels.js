@@ -1,6 +1,7 @@
 import mongoose, { Schema } from "mongoose";
 
 const referralSchema = new Schema({
+  
   user: {
     type: Schema.Types.ObjectId,
     ref: "User",
@@ -13,6 +14,10 @@ const referralSchema = new Schema({
     required: true,
     trim: true,
   },
+  referKrneWaala : {
+    type : Schema.Types.ObjectId,
+    ref : "User"
+  },
   totalNumberOfReferrals : {
     type : Number,
     default : 0
@@ -24,6 +29,10 @@ const referralSchema = new Schema({
   bonusEarned: {
     type: Number,
     default: 0, // total bonus in rupees
+  },
+  amountCredited : {
+    type: Number,
+    default: 0,
   },
   referredUsers: [
     {

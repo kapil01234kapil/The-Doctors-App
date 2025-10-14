@@ -30,7 +30,7 @@ export async function GET(req) {
     const getAllFeedbacks = await feedbackModels
       .find()
       .sort({ createdAt: -1 })
-      .populate({ path: "user", select: "role profilePhoto" });
+      .populate({ path: "user", select: "role profilePhoto email fullName" });
 
     if (!getAllFeedbacks || getAllFeedbacks.length === 0) {
       return NextResponse.json(

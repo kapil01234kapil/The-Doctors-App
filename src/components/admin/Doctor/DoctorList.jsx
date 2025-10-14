@@ -29,11 +29,39 @@ const DoctorsList = () => {
   const [selectedDoctor, setSelectedDoctor] = useState(null);
   const [showBlockDialog, setShowBlockDialog] = useState(false);
 
+  // 🔹 New State for Filters
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedSpecialization, setSelectedSpecialization] = useState("all");
+  const [selectedStatus, setSelectedStatus] = useState("all");
+
+  // Pagination setup
   const itemsPerPage = 5;
+
+  // 🔹 Apply Filters
+  const filteredDoctors = allDoctors?.filter((doctor) => {
+    const matchesSearch =
+      doctor?.fullName?.toLowerCase().includes(searchTerm.toLowerCase());
+
+    const matchesSpecialization =
+      selectedSpecialization === "all" ||
+      doctor?.doctorsProfile?.specializations
+        ?.toLowerCase()
+        .includes(selectedSpecialization.toLowerCase());
+
+    const matchesStatus =
+      selectedStatus === "all" ||
+      (selectedStatus === "active" && doctor?.doctorsProfile?.verifiedDoctor) ||
+      (selectedStatus === "inactive" &&
+        !doctor?.doctorsProfile?.verifiedDoctor);
+
+    return matchesSearch && matchesSpecialization && matchesStatus;
+  });
+
   const indexOfLastDoctor = currentPage * itemsPerPage;
   const indexOfFirstDoctor = indexOfLastDoctor - itemsPerPage;
-  const currentDoctors = allDoctors?.slice(indexOfFirstDoctor, indexOfLastDoctor) || [];
-  const totalPages = Math.ceil((allDoctors?.length || 0) / itemsPerPage);
+  const currentDoctors =
+    filteredDoctors?.slice(indexOfFirstDoctor, indexOfLastDoctor) || [];
+  const totalPages = Math.ceil((filteredDoctors?.length || 0) / itemsPerPage);
 
   const toggleDropdown = (id) => {
     if (showDropdown === id) {
@@ -52,13 +80,11 @@ const DoctorsList = () => {
 
       if (res.data.success) {
         toast.success(res.data.message || "Doctor approved successfully!");
-
         const updatedDoctors = allDoctors.map((doc) =>
           doc._id === res.data.existingDoctor._id
             ? res.data.existingDoctor
             : doc
         );
-
         dispatch(setAllDoctors(updatedDoctors));
       } else {
         toast.error(res.data.message);
@@ -114,7 +140,6 @@ const DoctorsList = () => {
 
       if (res.data.success) {
         toast.success(res.data.message);
-
         const updatedDoctors = allDoctors.map((doc) =>
           doc._id === doctor._id ? { ...doc, blocked: false } : doc
         );
@@ -138,10 +163,16 @@ const DoctorsList = () => {
 
       <div className="bg-white rounded-lg shadow">
         <div className="p-4 border-b flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+          {/* 🔹 Search Input */}
           <div className="relative w-full sm:w-64">
             <input
               type="text"
               placeholder="Search doctors..."
+              value={searchTerm}
+              onChange={(e) => {
+                setSearchTerm(e.target.value);
+                setCurrentPage(1);
+              }}
               className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#4d91ff] focus:border-transparent"
             />
             <Search
@@ -149,12 +180,22 @@ const DoctorsList = () => {
               size={18}
             />
           </div>
+
           <div className="flex items-center gap-2 w-full sm:w-auto">
             <button className="flex items-center gap-2 px-3 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50">
               <Filter size={16} />
               <span>Filter</span>
             </button>
-            <select className="px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#4d91ff] focus:border-transparent">
+
+            {/* 🔹 Specialization Filter */}
+            <select
+              value={selectedSpecialization}
+              onChange={(e) => {
+                setSelectedSpecialization(e.target.value);
+                setCurrentPage(1);
+              }}
+              className="px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#4d91ff] focus:border-transparent"
+            >
               <option value="all">All Specializations</option>
               <option value="cardiologist">Cardiologist</option>
               <option value="neurologist">Neurologist</option>
@@ -163,7 +204,16 @@ const DoctorsList = () => {
               <option value="gynecologist">Gynecologist</option>
               <option value="orthopedic">Orthopedic</option>
             </select>
-            <select className="px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#4d91ff] focus:border-transparent">
+
+            {/* 🔹 Status Filter */}
+            <select
+              value={selectedStatus}
+              onChange={(e) => {
+                setSelectedStatus(e.target.value);
+                setCurrentPage(1);
+              }}
+              className="px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#4d91ff] focus:border-transparent"
+            >
               <option value="all">All Status</option>
               <option value="active">Active</option>
               <option value="inactive">Inactive</option>
@@ -171,6 +221,7 @@ const DoctorsList = () => {
           </div>
         </div>
 
+        {/* 🔹 Table Section (unchanged) */}
         <div className="overflow-x-auto">
           <table className="min-w-full divide-y divide-gray-200">
             <thead>
@@ -190,13 +241,10 @@ const DoctorsList = () => {
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Appointments
                 </th>
-                {/* <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Status
-                </th> */}
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Verification
                 </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   UPI ID
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -243,19 +291,6 @@ const DoctorsList = () => {
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                     {doctor?.successfullAppointments || 0}
                   </td>
-                  {/* <td className="px-6 py-4 whitespace-nowrap">
-                    <span
-                      className={`inline-flex px-2 text-xs font-semibold leading-5 rounded-full ${
-                        doctor?.doctorsProfile?.verifiedDoctor
-                          ? "bg-green-100 text-green-800"
-                          : "bg-red-100 text-red-800"
-                      }`}
-                    >
-                      {doctor?.doctorsProfile?.verifiedDoctor === true
-                        ? "Verified"
-                        : "Not Verified"}
-                    </span>
-                  </td> */}
                   <td className="px-6 py-4 whitespace-nowrap">
                     {doctor?.doctorsProfile?.verifiedDoctor ? (
                       <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
@@ -269,7 +304,7 @@ const DoctorsList = () => {
                       </span>
                     )}
                   </td>
-                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                     {doctor?.upiId || "Not Provided"}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 relative">
@@ -283,7 +318,6 @@ const DoctorsList = () => {
                     {showDropdown === doctor?._id && (
                       <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10 border border-gray-200">
                         <div className="py-1">
-                          {/* View Details */}
                           <button
                             onClick={() =>
                               router.push("/admin/doctor-verification")
@@ -294,7 +328,6 @@ const DoctorsList = () => {
                             View Details
                           </button>
 
-                          {/* Verify */}
                           {!doctor?.doctorsProfile?.verifiedDoctor && (
                             <button
                               onClick={() => handleApprove(doctor?._id)}
@@ -305,7 +338,6 @@ const DoctorsList = () => {
                             </button>
                           )}
 
-                          {/* Block / Unblock */}
                           {doctor?.blocked ? (
                             <button
                               onClick={() => handleUnblockDoctor(doctor)}
@@ -339,14 +371,15 @@ const DoctorsList = () => {
         {/* Pagination */}
         <div className="px-4 py-3 border-t flex items-center justify-between">
           <div className="text-sm text-gray-700">
-            Showing <span className="font-medium">{indexOfFirstDoctor + 1}</span>{" "}
-            to{" "}
+            Showing{" "}
+            <span className="font-medium">{indexOfFirstDoctor + 1}</span> to{" "}
             <span className="font-medium">
-              {indexOfLastDoctor > allDoctors?.length
-                ? allDoctors?.length
+              {indexOfLastDoctor > filteredDoctors?.length
+                ? filteredDoctors?.length
                 : indexOfLastDoctor}
             </span>{" "}
-            of <span className="font-medium">{allDoctors?.length}</span> doctors
+            of <span className="font-medium">{filteredDoctors?.length}</span>{" "}
+            doctors
           </div>
 
           <div className="flex space-x-2">
@@ -376,7 +409,7 @@ const DoctorsList = () => {
         </div>
       </div>
 
-      {/* Block Reason Modal */}
+      {/* Block Modal (unchanged) */}
       {showBlockDialog && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-30 z-50">
           <div className="bg-white p-6 rounded-lg w-96 shadow-lg">

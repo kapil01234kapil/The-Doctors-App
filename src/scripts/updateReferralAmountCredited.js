@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import userModels from "../models/userModels.js";
+import Referral from "../models/referralModels.js"; // ✅ use relative path
 import { connectDB } from "../lib/db.js";
 import dotenv from "dotenv";
 import path from "path";
@@ -14,23 +14,23 @@ dotenv.config({ path: path.resolve(__dirname, "../../.env") });
 
 console.log("MONGO_URI:", process.env.MONGO_URI);
 
-async function addOverAllRatingToDoctors() {
+async function addAmountCreditedToReferrals() {
   try {
     await connectDB();
 
-    const result = await userModels.updateMany(
-      { role: "doctor", overAllRating: { $exists: false } },
-      { $set: { overAllRating: 0 } }
+    const result = await Referral.updateMany(
+      { amountCredited: { $exists: false } },
+      { $set: { amountCredited: 0 } }
     );
 
-    console.log(`Matched: ${result.matchedCount}, Modified: ${result.modifiedCount}`);
-    console.log("overAllRating field added successfully to all doctor users.");
+    console.log(`✅ Matched: ${result.matchedCount}, Modified: ${result.modifiedCount}`);
+    console.log("amountCredited field added successfully to all referral records.");
 
     process.exit(0);
   } catch (error) {
-    console.error("Error:", error);
+    console.error("❌ Error updating referrals:", error);
     process.exit(1);
   }
 }
 
-addOverAllRatingToDoctors();
+addAmountCreditedToReferrals();

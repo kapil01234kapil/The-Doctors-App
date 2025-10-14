@@ -15,21 +15,23 @@ const BlockedUsers = () => {
 
   const [filter, setFilter] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
-
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedUserId, setSelectedUserId] = useState(null);
 
+  // ✅ Proper Filtering Logic (case-insensitive + safe)
   const filteredUsers = blockedUsers
-    .filter(
-      (user) =>
-        filter === "all" || user.type.toLowerCase() === filter.toLowerCase()
-    )
-    .filter(
-      (user) =>
-        user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        user.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        user.id.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+    ?.filter((user) => {
+      if (filter === "all") return true;
+      return user.type?.toLowerCase() === filter.toLowerCase();
+    })
+    ?.filter((user) => {
+      const query = searchQuery.toLowerCase();
+      return (
+        user?.name?.toLowerCase().includes(query) ||
+        user?.email?.toLowerCase().includes(query) ||
+        user?.id?.toLowerCase().includes(query)
+      );
+    });
 
   const openUnblockDialog = (userId) => {
     setSelectedUserId(userId);
@@ -43,7 +45,7 @@ const BlockedUsers = () => {
 
   const handleUnblockConfirm = async () => {
     try {
-      console.log("this is the id",selectedUserId)
+      console.log("this is the id", selectedUserId);
       const res = await axios.post("/api/admin/unblockUser", {
         id: selectedUserId,
       });
@@ -73,19 +75,20 @@ const BlockedUsers = () => {
       <div className="bg-white rounded-lg shadow">
         {/* Search + Filter */}
         <div className="p-4 border-b flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+          {/* ✅ Search Input */}
           <div className="relative w-full sm:w-64">
             <input
               type="text"
               placeholder="Search users..."
-              className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#4d91ff] focus:border-transparent"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 
+                         focus:outline-none focus:ring-2 focus:ring-[#4d91ff] focus:border-transparent"
             />
-            <Search
-              className="absolute left-3 top-2.5 text-gray-400"
-              size={18}
-            />
+            <Search className="absolute left-3 top-2.5 text-gray-400" size={18} />
           </div>
+
+          {/* Filter Buttons */}
           <div className="flex items-center gap-2">
             <button
               className={`px-3 py-2 rounded-lg flex items-center gap-2 ${
@@ -124,9 +127,13 @@ const BlockedUsers = () => {
         </div>
 
         {/* Blocked Users List */}
-        {filteredUsers.length === 0 ? (
+        {filteredUsers?.length === 0 ? (
           <div className="p-8 text-center">
-            <p className="text-gray-500">No blocked users found.</p>
+            <p className="text-gray-500">
+              {blockedUsers?.length === 0
+                ? "🎉 No blocked users found."
+                : "No users match your search."}
+            </p>
           </div>
         ) : (
           <div className="divide-y divide-gray-200">

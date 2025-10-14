@@ -11,17 +11,21 @@ const AdminFeedbackPanel = () => {
 
   useGetAllFeedback();
   const { allFeedbacks } = useSelector((store) => store.admin);
+  console.log("feedback structure", allFeedbacks);
 
-  const filteredFeedback = allFeedbacks?.filter(
-    (feedback) =>
-      feedback.fullName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      feedback.email.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  // ✅ Updated search logic to use user.fullName and user.email
+  const filteredFeedback = allFeedbacks?.filter((feedback) => {
+    const name = feedback?.user?.fullName?.toLowerCase() || "";
+    const email = feedback?.user?.email?.toLowerCase() || "";
+    const query = searchTerm.toLowerCase();
+    return name.includes(query) || email.includes(query);
+  });
 
   return (
     <div className="p-6 space-y-6">
       <h1 className="text-2xl font-bold text-gray-800">Feedback Management</h1>
 
+      {/* 🔍 Search Bar */}
       <div className="relative w-full max-w-md">
         <input
           type="text"
@@ -33,13 +37,14 @@ const AdminFeedbackPanel = () => {
         <Search className="absolute left-3 top-2.5 text-gray-400" size={18} />
       </div>
 
+      {/* Feedback Section */}
       {filteredFeedback?.length === 0 ? (
         <div className="flex flex-col items-center justify-center text-center py-20 bg-white rounded-lg shadow">
           <p className="text-gray-500">No feedbacks available.</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* User List */}
+          {/* 🧑 User List */}
           <div className="bg-white rounded-lg shadow max-h-[calc(100vh-200px)] overflow-y-auto">
             {filteredFeedback?.map((user) => (
               <div
@@ -50,29 +55,38 @@ const AdminFeedbackPanel = () => {
                 onClick={() => setSelectedUser(user)}
               >
                 <img
-                  src={user.user.profilePhoto}
-                  alt={user.fullName}
+                  src={user?.user?.profilePhoto || "/default-user.png"}
+                  alt={user?.user?.fullName || "User"}
                   className="w-12 h-12 rounded-full"
                 />
                 <div>
                   <p className="text-sm font-medium text-gray-900">
-                    {user.fullName}
+                    {user?.user?.fullName || "Unnamed User"}
                   </p>
-                  <p className="text-xs text-gray-500">{user.user.role}</p>
+                  {/* ✅ Email made visible */}
+                  <p className="text-xs text-gray-500">
+                    {user?.user?.email || "No email"}
+                  </p>
+                  <p className="text-xs text-gray-500 capitalize">
+                    {user?.user?.role || "N/A"}
+                  </p>
                 </div>
               </div>
             ))}
           </div>
 
-          {/* Feedback Detail */}
+          {/* 💬 Feedback Detail */}
           <div className="lg:col-span-2 bg-white rounded-lg shadow p-6 max-h-[calc(100vh-200px)] overflow-y-auto">
             {selectedUser ? (
               <>
                 <h2 className="text-lg font-semibold text-gray-900 mb-4">
-                  Feedback for {selectedUser.fullName}
+                  Feedback from {selectedUser?.user?.fullName}
                 </h2>
+                <p className="text-sm text-gray-600 mb-4">
+                  Email: {selectedUser?.user?.email}
+                </p>
 
-                {selectedUser.feedback.length > 0 ? (
+                {selectedUser?.feedback?.length > 0 ? (
                   selectedUser.feedback.map((item, idx) => (
                     <div key={idx} className="mb-4 p-4 bg-gray-50 rounded-lg">
                       <p className="text-sm text-gray-800">{item.message}</p>

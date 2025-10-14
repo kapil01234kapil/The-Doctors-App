@@ -123,16 +123,19 @@ export async function POST(req) {
         { day: "Sunday", isActive: false, slots: [], slotDuration: 30 },
       ],
     });
-    await referralModels.create({
-      user: newUser._id,
-      referralCode,
-    });
+   
 
   if (couponCode) {
   const referrerReferralDoc = await referralModels.findOne({
     referralCode: couponCode,
   });
 
+   if(!referrerReferralDoc){
+    await referralModels.create({
+      user: newUser._id,
+      referralCode,
+    });
+   }
   if (referrerReferralDoc) {
     referrerReferralDoc.referredUsers.push({
       referredUser: newUser._id,
@@ -140,6 +143,12 @@ export async function POST(req) {
     });
     referrerReferralDoc.totalNumberOfReferrals += 1;
 
+    await referralModels.create({
+      user: newUser._id,
+      referralCode,
+      referKrneWaala : referrerReferralDoc?.user
+    });
+    
     await referrerReferralDoc.save();
   }
 }

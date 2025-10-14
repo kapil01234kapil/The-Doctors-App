@@ -17,72 +17,9 @@ import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 
 const PatientsList = () => {
-  const router = useRouter()
+  const router = useRouter();
   useGetAllPatients();
   const { allPatients } = useSelector((store) => store.admin);
-
-  const [patients, setPatients] = useState([
-    {
-      id: "PAT-2001",
-      name: "Rahul Sharma",
-      email: "rahul.sharma@example.com",
-      phone: "+91 9876543220",
-      joinDate: "2023-08-15",
-      appointments: 8,
-      status: "Active",
-      image: "https://randomuser.me/api/portraits/men/11.jpg",
-    },
-    {
-      id: "PAT-2002",
-      name: "Ananya Singh",
-      email: "ananya.singh@example.com",
-      phone: "+91 9876543221",
-      joinDate: "2023-08-22",
-      appointments: 5,
-      status: "Active",
-      image: "https://randomuser.me/api/portraits/women/12.jpg",
-    },
-    {
-      id: "PAT-2003",
-      name: "Amit Kumar",
-      email: "amit.kumar@example.com",
-      phone: "+91 9876543222",
-      joinDate: "2023-09-01",
-      appointments: 3,
-      status: "Active",
-      image: "https://randomuser.me/api/portraits/men/13.jpg",
-    },
-    {
-      id: "PAT-2004",
-      name: "Priya Mehta",
-      email: "priya.mehta@example.com",
-      phone: "+91 9876543223",
-      joinDate: "2023-09-08",
-      appointments: 6,
-      status: "Inactive",
-      image: "https://randomuser.me/api/portraits/women/14.jpg",
-    },
-    {
-      id: "PAT-2005",
-      name: "Rajiv Kapoor",
-      email: "rajiv.kapoor@example.com",
-      phone: "+91 9876543224",
-      joinDate: "2023-09-15",
-      appointments: 2,
-      status: "Active",
-      image: "https://randomuser.me/api/portraits/men/15.jpg",
-    },
-    {
-      id: "PAT-2006",
-      name: "Meera Reddy",
-      email: "meera.reddy@example.com",
-      phone: "+91 9876543225",
-      joinDate: "2023-09-22",
-      appointments: 4,
-      status: "Active",
-      image: "https://randomuser.me/api/portraits/women/16.jpg",
-    },
-  ]);
 
   const [showDropdown, setShowDropdown] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
@@ -92,6 +29,10 @@ const PatientsList = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedPatient, setSelectedPatient] = useState(null);
   const [blockReason, setBlockReason] = useState("");
+
+  // 🔹 New: Filtering states
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedStatus, setSelectedStatus] = useState("all");
 
   const toggleDropdown = (id) => {
     setShowDropdown(showDropdown === id ? null : id);
@@ -116,7 +57,6 @@ const PatientsList = () => {
     }
 
     try {
-      
       const res = await axios.post("/api/admin/blockUser", {
         id: selectedPatient._id,
         name: selectedPatient.fullName,
@@ -128,7 +68,7 @@ const PatientsList = () => {
       if (res.data.success) {
         toast.success(res.data.message);
         closeBlockDialog();
-        router.push("/admin/blockedUser")
+        router.push("/admin/blockedUser");
       } else {
         toast.error(res.data.message);
       }
@@ -138,11 +78,25 @@ const PatientsList = () => {
     }
   };
 
+  // 🔹 Filtering logic
+  const filteredPatients = allPatients?.filter((patient) => {
+    const matchesSearch =
+      patient?.fullName?.toLowerCase().includes(searchTerm.toLowerCase());
+
+    const matchesStatus =
+      selectedStatus === "all" ||
+      (selectedStatus === "active" && patient?.blocked === false) ||
+      (selectedStatus === "inactive" && patient?.blocked === true);
+
+    return matchesSearch && matchesStatus;
+  });
+
+  // Pagination setup (on filtered results)
   const indexOfLastPatient = currentPage * itemsPerPage;
   const indexOfFirstPatient = indexOfLastPatient - itemsPerPage;
   const currentPatients =
-    allPatients?.slice(indexOfFirstPatient, indexOfLastPatient) || [];
-  const totalPages = Math.ceil(allPatients?.length / itemsPerPage || 1);
+    filteredPatients?.slice(indexOfFirstPatient, indexOfLastPatient) || [];
+  const totalPages = Math.ceil((filteredPatients?.length || 0) / itemsPerPage);
 
   return (
     <div className="space-y-4">
@@ -154,10 +108,16 @@ const PatientsList = () => {
 
       <div className="bg-white rounded-lg shadow">
         <div className="p-4 border-b flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+          {/* 🔹 Search Input */}
           <div className="relative w-full sm:w-64">
             <input
               type="text"
               placeholder="Search patients..."
+              value={searchTerm}
+              onChange={(e) => {
+                setSearchTerm(e.target.value);
+                setCurrentPage(1);
+              }}
               className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#4d91ff] focus:border-transparent"
             />
             <Search
@@ -166,13 +126,21 @@ const PatientsList = () => {
             />
           </div>
 
+          {/* 🔹 Filter Controls */}
           <div className="flex items-center gap-2 w-full sm:w-auto">
             <button className="flex items-center gap-2 px-3 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50">
               <Filter size={16} />
               <span>Filter</span>
             </button>
 
-            <select className="px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#4d91ff] focus:border-transparent">
+            <select
+              value={selectedStatus}
+              onChange={(e) => {
+                setSelectedStatus(e.target.value);
+                setCurrentPage(1);
+              }}
+              className="px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#4d91ff] focus:border-transparent"
+            >
               <option value="all">All Status</option>
               <option value="active">Active</option>
               <option value="inactive">Inactive</option>
@@ -180,6 +148,7 @@ const PatientsList = () => {
           </div>
         </div>
 
+        {/* 🔹 Table Section */}
         <div className="overflow-x-auto">
           <table className="min-w-full divide-y divide-gray-200">
             <thead>
@@ -232,9 +201,7 @@ const PatientsList = () => {
                   </td>
 
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-900">
-                      {patient?.email}
-                    </div>
+                    <div className="text-sm text-gray-900">{patient?.email}</div>
                     <div className="text-sm text-gray-500">
                       {patient?.contactDetails}
                     </div>
@@ -248,7 +215,7 @@ const PatientsList = () => {
                     {patient?.successfullAppointments || 0}
                   </td>
 
-                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                     {patient?.upiId || "Not Provided"}
                   </td>
 
@@ -309,16 +276,17 @@ const PatientsList = () => {
           </table>
         </div>
 
+        {/* Pagination */}
         <div className="px-4 py-3 border-t flex items-center justify-between">
           <div className="text-sm text-gray-700">
             Showing{" "}
             <span className="font-medium">{indexOfFirstPatient + 1}</span> to{" "}
             <span className="font-medium">
-              {indexOfLastPatient > allPatients?.length
-                ? allPatients?.length
+              {indexOfLastPatient > filteredPatients?.length
+                ? filteredPatients?.length
                 : indexOfLastPatient}
             </span>{" "}
-            of <span className="font-medium">{allPatients?.length}</span>{" "}
+            of <span className="font-medium">{filteredPatients?.length}</span>{" "}
             patients
           </div>
 

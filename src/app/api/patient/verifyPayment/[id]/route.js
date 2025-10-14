@@ -8,6 +8,7 @@ import { NextResponse } from "next/server";
 import notificationModels from "@/models/notificationModels";
 import { Finance } from "@/models/financeModels";
 import { addDays } from "date-fns";
+import referralModels from "@/models/referralModels";
 
 export async function POST(req) {
   try {
@@ -29,16 +30,9 @@ export async function POST(req) {
       );
     }
 
-    console.log("this is user id", userId);
-
     const body = await req.json();
     const { razorpay_order_id, razorpay_payment_id, appointmentId } = body;
-    console.log(
-      "data recieved",
-      razorpay_order_id,
-      razorpay_payment_id,
-      appointmentId
-    );
+
     if (!razorpay_order_id || !razorpay_payment_id) {
       return NextResponse.json(
         { message: "Payment verification details missing", success: false },
@@ -46,7 +40,6 @@ export async function POST(req) {
       );
     }
 
-    // ✅ Find appointment
     const existingAppointment = await appointmentModels.findById(appointmentId);
     if (!existingAppointment) {
       return NextResponse.json(
@@ -55,11 +48,9 @@ export async function POST(req) {
       );
     }
 
-    // ✅ Mark appointment as confirmed
     existingAppointment.status = "confirmed";
     existingAppointment.paymentStatus = "confirmed";
 
-    // ✅ Reset spamBooking
     if (!existingUser.spamBooking) {
       existingUser.spamBooking = {
         count: 0,
@@ -71,7 +62,6 @@ export async function POST(req) {
       existingUser.spamBooking.firstAttemptAt = null;
     }
 
-    // ✅ Update slot in doctor's schedule
     const appointmentDay = existingAppointment.appointmentDay;
     const slotId = existingAppointment.bookedSlot;
     const doctorId = existingAppointment.doctor;
@@ -79,6 +69,7 @@ export async function POST(req) {
     const existingDoctor = await userModels
       .findById(doctorId)
       .select("-password");
+
     if (!existingDoctor) {
       return NextResponse.json(
         { message: "No Such Doctor Found", success: false },
@@ -88,11 +79,6 @@ export async function POST(req) {
 
     existingDoctor.doctorsProfile.earning +=
       existingDoctor?.doctorsProfile?.consultationFees || 0;
-    console.log(
-      "this is the fees ",
-      existingDoctor?.doctorsProfile?.consultationFees
-    );
-    console.log("this is the earning", existingDoctor?.doctorsProfile?.earning);
 
     await existingDoctor.save();
 
@@ -107,14 +93,11 @@ export async function POST(req) {
     }
 
     const now = new Date();
-
-    // Step 1️⃣: Find the nearest valid DoctorWeeklySlot
-    // Step 1️⃣: Find the nearest valid DoctorWeeklySlot
     const nearestWeeklySlot = await DoctorWeeklySlot.findOne({
       doctor: doctorId,
       effectiveFrom: { $lte: now },
     }).sort({ effectiveFrom: -1 });
-    console.log("nearestWeeklySlot", nearestWeeklySlot);
+
     if (!nearestWeeklySlot) {
       return NextResponse.json(
         { message: "No valid weekly slot configuration found", success: false },
@@ -122,11 +105,10 @@ export async function POST(req) {
       );
     }
 
-    // Step 2️⃣: Find the correct day object
     const dayObj = nearestWeeklySlot.allSlot.find(
       (d) => d.day === appointmentDay
     );
-    console.log("dayobject", dayObj);
+
     if (!dayObj) {
       return NextResponse.json(
         { message: "No such day slot found", success: false },
@@ -134,16 +116,13 @@ export async function POST(req) {
       );
     }
 
-    // Step 3️⃣: Find the correct slot object
-    // Step 3️⃣: Parse bookedSlot
     const [slotStartTime, slotEndTime] =
       existingAppointment.bookedSlot.split(" - ");
 
-    // Step 4️⃣: Find the correct slot object
     const slotObj = dayObj.slots.find(
       (s) => s.startTime === slotStartTime && s.endTime === slotEndTime
     );
-    console.log("slotobject", slotObj);
+
     if (!slotObj) {
       return NextResponse.json(
         { message: "No such time slot found", success: false },
@@ -151,14 +130,11 @@ export async function POST(req) {
       );
     }
 
-    // Step 5️⃣: Update the slot
     slotObj.status = "confirmed";
     slotObj.patientName = existingAppointment.patientProfile.name;
 
-    // Step 6️⃣: Save the document
     await nearestWeeklySlot.save();
 
-    // ✅ Mark payment as verified (no signature for now)
     await Payment.findOneAndUpdate(
       { razorpayOrderId: razorpay_order_id },
       {
@@ -168,49 +144,84 @@ export async function POST(req) {
       }
     );
 
-   // 1. Take the appointmentDate
-const appointmentDate = new Date(existingAppointment.appointmentDate);
+    const appointmentDate = new Date(existingAppointment.appointmentDate);
+    const weekStart = new Date(
+      appointmentDate.getFullYear(),
+      appointmentDate.getMonth(),
+      appointmentDate.getDate()
+    );
+    const weekEnd = addDays(weekStart, 6);
 
-// 2. Define weekStart = appointmentDate at midnight
-const weekStart = new Date(
-  appointmentDate.getFullYear(),
-  appointmentDate.getMonth(),
-  appointmentDate.getDate()
-);
+    const consultationFee = existingAppointment.consultationFees || 0;
+    const platformFee = consultationFee * 0.025;
+    const payable = consultationFee - platformFee;
 
-// 3. weekEnd = weekStart + 6 days
-const weekEnd = addDays(weekStart, 6);
+    let financeRecord = await Finance.findOne({
+      doctor: doctorId,
+      weekStart: { $lte: appointmentDate },
+      weekEnd: { $gte: appointmentDate },
+    });
 
-// 4. Calculate amounts
-const consultationFee = existingAppointment.consultationFees || 0;
-const platformFee = consultationFee * 0.025; // adjust % as per your logic
-const payable = consultationFee - platformFee;
+    if (financeRecord) {
+      financeRecord.appointments.push(existingAppointment._id);
+      financeRecord.totalAmount += consultationFee;
+      financeRecord.platformFees += platformFee;
+      financeRecord.payableAmount += payable;
+      await financeRecord.save();
+    } else {
+      financeRecord = await Finance.create({
+        doctor: doctorId,
+        weekStart,
+        weekEnd,
+        appointments: [existingAppointment._id],
+        totalAmount: consultationFee,
+        platformFees: platformFee,
+        payableAmount: payable,
+      });
+    }
 
-// 5. Find if a finance record already exists for this doctor in this window
-let financeRecord = await Finance.findOne({
-  doctor: doctorId,
-  weekStart: { $lte: appointmentDate },
-  weekEnd: { $gte: appointmentDate },
-});
+    // 🩺 Increment doctor's total appointments
+    if (existingDoctor?.doctorsProfile?.totalNumberOfAppointments !== undefined) {
+      existingDoctor.doctorsProfile.totalNumberOfAppointments += 1;
+      await existingDoctor.save();
+    }
 
-if (financeRecord) {
-  financeRecord.appointments.push(existingAppointment._id);
-  financeRecord.totalAmount += consultationFee;
-  financeRecord.platformFees += platformFee;
-  financeRecord.payableAmount += payable;
-  await financeRecord.save();
-} else {
-  financeRecord = await Finance.create({
-    doctor: doctorId,
-    weekStart,
-    weekEnd,
-    appointments: [existingAppointment._id],
-    totalAmount: consultationFee,
-    platformFees: platformFee,
-    payableAmount: payable,
-  });
-}
+    // 💰 Referral Bonus Logic
+    if (existingDoctor?.doctorsProfile?.totalNumberOfAppointments <= 25) {
+      const doctorReferralRecord = await referralModels
+        .findOne({ user: doctorId })
+        .select("referKrneWaala");
 
+      if (doctorReferralRecord?.referKrneWaala) {
+        const referKrneWaalaKaRecord = await referralModels.findOne({
+          user: doctorReferralRecord.referKrneWaala,
+        });
+
+        if (referKrneWaalaKaRecord) {
+          const referredUserObj = referKrneWaalaKaRecord.referredUsers.find(
+            (r) => r.referredUser.toString() === doctorId.toString()
+          );
+
+          if (referredUserObj) {
+            // Increase numberOfAppointment
+            referredUserObj.numberOfAppointment += 1;
+
+            // If doctor completed 25 appointments, credit bonus
+            if (
+              referredUserObj.numberOfAppointment >= 25 &&
+              !referredUserObj.bonusCredited
+            ) {
+              referredUserObj.bonusCredited = true;
+              referredUserObj.status = "Completed";
+              referKrneWaalaKaRecord.bonusEarned += 100;
+              referKrneWaalaKaRecord.successfullReferrals += 1; 
+            }
+
+            await referKrneWaalaKaRecord.save();
+          }
+        }
+      }
+    }
 
     await existingAppointment.save();
     await existingUser.save();
@@ -221,8 +232,7 @@ if (financeRecord) {
       sender: userId,
       type: "Appointment",
       highPriority: true,
-
-      message: `${existingUser.fullName} booked a appointment with you for the time slot ${slotStartTime} on ${dayObj.day} `,
+      message: `${existingUser.fullName} booked an appointment with you for the time slot ${slotStartTime} on ${dayObj.day}`,
     });
 
     await notificationModels.create({
@@ -231,7 +241,7 @@ if (financeRecord) {
       sender: doctorId,
       type: "Appointment",
       highPriority: true,
-      message: `You have a booked a appointment with Dr ${existingDoctor?.fullName} for the time slot ${slotStartTime} on ${dayObj.day}`,
+      message: `You have booked an appointment with Dr. ${existingDoctor?.fullName} for the time slot ${slotStartTime} on ${dayObj.day}`,
     });
 
     return NextResponse.json(
@@ -239,7 +249,7 @@ if (financeRecord) {
         message: "Payment Verified & Appointment Confirmed",
         success: true,
         appointmentId: existingAppointment._id,
-        slotUpdated: true, // ✅ fixed
+        slotUpdated: true,
       },
       { status: 200 }
     );

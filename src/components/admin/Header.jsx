@@ -28,12 +28,12 @@ const Header = ({ onMenuClick }) => {
 
       {/* Right section */}
       <div className="flex items-center space-x-4">
-        <div className="relative">
+        {/* <div className="relative">
           <button className="p-1 rounded-full hover:bg-gray-100">
             <BellIcon className="text-gray-600" size={20} />
             <span className="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></span>
           </button>
-        </div>
+        </div> */}
 
         <div className="flex items-center">
           <div className="w-8 h-8 rounded-full bg-[#4d91ff] flex items-center justify-center text-white mr-2">

@@ -51,7 +51,7 @@ export default function ProfileSubmitted() {
 
         <button
           onClick={handleLogout}
-          className="w-full bg-[#1195FF] text-white font-medium py-3 rounded-xl shadow hover:bg-blue-600 transition"
+          className="w-full bg-[#1195FF] cursor-pointer text-white font-medium py-3 rounded-xl shadow hover:bg-blue-600 transition"
         >
           Logout
         </button>

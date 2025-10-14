@@ -44,20 +44,26 @@ export async function GET(req) {
 
     const blockedUser = await userModels.countDocuments({ blocked: true });
 
+    // ✅ Updated aggregation — added bonusEarned and amountCredited
     const result = await referralModels.aggregate([
       {
         $group: {
           _id: null,
           totalReferrals: { $sum: "$totalNumberOfReferrals" },
           successfullReferrals: { $sum: "$successfullReferrals" },
+          totalBonusEarned: { $sum: "$bonusEarned" },
+          totalAmountCredited: { $sum: "$amountCredited" },
         },
       },
     ]);
 
     const totalReferrals = result[0]?.totalReferrals || 0;
     const successfullReferrals = result[0]?.successfullReferrals || 0;
+    const totalBonusEarned = result[0]?.totalBonusEarned || 0;
+    const totalAmountCredited = result[0]?.totalAmountCredited || 0;
+
     const distributedRewards = existingAdmin?.rewards?.rewardsDistributed;
-    const pendingRewards = existingAdmin?.rewards?.pendingRewards
+    const pendingRewards = existingAdmin?.rewards?.pendingRewards;
 
     return NextResponse.json({
       message: "Admin Data Fetched Successfully",
@@ -69,8 +75,10 @@ export async function GET(req) {
         totalAppointments,
         totalReferrals,
         successfullReferrals,
+        totalBonusEarned,      // ✅ added
+        totalAmountCredited,   // ✅ added
         distributedRewards,
-        pendingRewards
+        pendingRewards,
       },
     });
   } catch (error) {

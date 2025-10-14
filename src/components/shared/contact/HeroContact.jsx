@@ -138,7 +138,7 @@ const HeroContact = () => {
                   variant="outline"
                   className="bg-blue-700 p-2 cursor-pointer text-xs text-white w-full"
                 >
-                  privacydoctoronline336@gmail.com
+                  thedoctorsapp.org@gmail.com
                 </Button>
               </a>
             </CardFooter>

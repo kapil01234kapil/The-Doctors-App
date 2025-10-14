@@ -30,7 +30,7 @@ export async function GET(req) {
     const getAllQueries = await supportModel
       .find()
       .sort({ createdAt: -1 })
-      .populate({ path: "user", select: "role profilePhoto" });
+      .populate({ path: "user", select: "role profilePhoto fullName email" });
 
     if (!getAllQueries || getAllQueries.length === 0) {
       return NextResponse.json(

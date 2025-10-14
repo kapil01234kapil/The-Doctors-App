@@ -18,6 +18,7 @@ const DoctorVerification = () => {
   useGetAllUnverifiedDoctors();
   const { unverifiedDoctors } = useSelector((store) => store.admin);
   const [selectedDoctor, setSelectedDoctor] = useState(null);
+  const [searchTerm, setSearchTerm] = useState(""); // ✅ Added
   const dispatch = useDispatch();
 
   // ✅ Approve Doctor
@@ -68,6 +69,11 @@ const DoctorVerification = () => {
     }
   };
 
+  // ✅ Filter doctors by name
+  const filteredDoctors = unverifiedDoctors?.filter((doctor) =>
+    doctor?.fullName?.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <div className="space-y-4">
       <h1 className="text-2xl font-bold text-gray-800">Doctor Verification</h1>
@@ -76,11 +82,16 @@ const DoctorVerification = () => {
         <div className="lg:col-span-1 bg-white rounded-lg shadow">
           <div className="p-4 border-b">
             <h2 className="text-lg font-semibold">Pending Verification</h2>
+
+            {/* ✅ Search input working */}
             <div className="mt-2 relative">
               <input
                 type="text"
                 placeholder="Search doctors..."
-                className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#4d91ff] focus:border-transparent"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 
+                           focus:outline-none focus:ring-2 focus:ring-[#4d91ff] focus:border-transparent"
               />
               <Search
                 className="absolute left-3 top-2.5 text-gray-400"
@@ -89,14 +100,16 @@ const DoctorVerification = () => {
             </div>
           </div>
 
-          {/* ✅ Show message if no unverified doctors */}
+          {/* ✅ Filtered doctor list */}
           <div className="divide-y divide-gray-200 max-h-[calc(100vh-300px)] overflow-y-auto">
-            {unverifiedDoctors?.length === 0 ? (
+            {filteredDoctors?.length === 0 ? (
               <div className="p-6 text-center text-gray-500">
-                🎉 All doctors are verified. No pending requests.
+                {unverifiedDoctors?.length === 0
+                  ? "🎉 All doctors are verified. No pending requests."
+                  : "No doctors match your search."}
               </div>
             ) : (
-              unverifiedDoctors?.map((doctor) => (
+              filteredDoctors?.map((doctor) => (
                 <div
                   key={doctor._id}
                   className={`p-4 cursor-pointer hover:bg-gray-50 ${

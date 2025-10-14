@@ -14,10 +14,10 @@ const HeroDashboard = () => {
   return (
     <div>
       {/* Main Content */}
-      <div className="flex flex-col lg:flex-row items-center justify-between px-4 md:px-8 lg:px-16 relative gap-8 lg:gap-0">
+      <div className="flex flex-col-reverse lg:flex-row items-center justify-between px-4 md:px-8 lg:px-16 relative gap-8 lg:gap-0">
         
         {/* Left Content */}
-        <div className="flex-1 text-center lg:text-left order-2 lg:order-1 z-10">
+        <div className="flex-1 py-10 text-center lg:text-left order-2 lg:order-1 z-10">
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-800 mb-2">
             Book Appointments
           </h1>
