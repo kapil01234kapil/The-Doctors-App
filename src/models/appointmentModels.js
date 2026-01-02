@@ -17,7 +17,7 @@ const appointmentSchema = new Schema(
     },
     paymentStatus : {
       type : String,
-      enum : ["pending","confirmed","refunded"]
+      enum : ["pending","confirmed","refunded","free"]
     },
     patient: {
       type: Schema.Types.ObjectId,

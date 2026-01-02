@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { ClipboardPlus, IndianRupee, Loader2 } from "lucide-react";
+import { ClipboardPlus, Loader2 } from "lucide-react";
 import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
 import React, { useState } from "react";
@@ -11,15 +11,17 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { setExistingAppointment } from "@/redux/authSlice";
+import { ENABLE_PAYMENTS } from "@/lib/config";
 
 const BookingConfirmed = () => {
-  const disptach = useDispatch()
+  const dispatch = useDispatch();
+  const router = useRouter();
+  const { id } = useParams(); // appointmentId
+
+  const { selectedDoctor } = useSelector((store) => store.auth);
+
   const [loading, setLoading] = useState(false);
   const [isTermsChecked, setIsTermsChecked] = useState(false);
-  const { id } = useParams();
-  const { selectedDoctor } = useSelector((store) => store.auth);
-  const [razorpayOrderId, setRazorpayOrderId] = useState(null);
-  const router = useRouter();
 
   const [formData, setFormData] = useState({
     name: "",
@@ -33,6 +35,7 @@ const BookingConfirmed = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  /* ---------------- Razorpay Loader (KEPT) ---------------- */
   const loadRazorpayScript = () => {
     return new Promise((resolve) => {
       const script = document.createElement("script");
@@ -43,18 +46,54 @@ const BookingConfirmed = () => {
     });
   };
 
+  /* ---------------- Main Handler ---------------- */
   const handleBooking = async () => {
     try {
       setLoading(true);
-      const consultationFees = Number(
-        selectedDoctor?.doctorsProfile?.consultationFees || 0
-      );
+
+      // basic validation
+      if (
+        !formData.name ||
+        !formData.phoneNumber ||
+        !formData.age ||
+        !formData.gender
+      ) {
+        toast.error("Please fill all patient details");
+        return;
+      }
+
+      /* ==========================
+         🟢 FREE FLOW (NO PAYMENT)
+      ========================== */
+      if (!ENABLE_PAYMENTS) {
+        const res = await axios.post(
+          "/api/patient/confirmFreeAppointment",
+          {
+            appointmentId: id,
+            patientProfile: formData,
+          },
+          { withCredentials: true }
+        );
+
+        if (res.data.success) {
+          dispatch(setExistingAppointment(null));
+          toast.success("Appointment confirmed successfully");
+          router.push("/patient/myAppointments");
+        } else {
+          toast.error(res.data.message || "Failed to confirm appointment");
+        }
+
+        return;
+      }
+
+      /* ==========================
+         🔵 RAZORPAY FLOW (UNCHANGED)
+      ========================== */
       const appointmentFee = 100;
-      const totalAmount = appointmentFee;
 
       const body = {
         ...formData,
-        amount: totalAmount,
+        amount: appointmentFee,
         clinicAddress:
           selectedDoctor?.doctorsProfile?.clinic?.[0]?.clinicAddress,
       };
@@ -63,51 +102,49 @@ const BookingConfirmed = () => {
         withCredentials: true,
       });
 
-      if (res.data.success) {
-        toast.success("Order created successfully");
-        setRazorpayOrderId(res.data.order.id);
-
-        const isRazorpayLoaded = await loadRazorpayScript();
-        if (!isRazorpayLoaded) {
-          toast.error("Failed to load Razorpay SDK. Are you online?");
-          return;
-        }
-
-        const options = {
-          key: "rzp_test_RESUioZgG90aU9",
-          amount: res.data.order.amount,
-          currency: "INR",
-          name: "The Doctors App",
-          order_id: res.data.order.id,
-          handler: async function (response) {
-            const { razorpay_payment_id } = response;
-
-            const verifyRes = await axios.post(
-              `/api/patient/verifyPayment/${id}`,
-              {
-                razorpay_order_id: res.data.order.id,
-                razorpay_payment_id,
-                appointmentId: id,
-              },
-              { withCredentials: true }
-            );
-
-            if (verifyRes.data.success) {
-              disptach(setExistingAppointment(null))
-              toast.success("Payment verified successfully");
-              router.push("/patient/myAppointments");
-            } else {
-              toast.error(verifyRes.data.message);
-            }
-          },
-          theme: { color: "#4d7ded" },
-        };
-
-        const rzp = new window.Razorpay(options);
-        rzp.open();
-      } else {
+      if (!res.data.success) {
         toast.error(res.data.message);
+        return;
       }
+
+      toast.success("Order created successfully");
+
+      const isRazorpayLoaded = await loadRazorpayScript();
+      if (!isRazorpayLoaded) {
+        toast.error("Failed to load Razorpay SDK");
+        return;
+      }
+
+      const options = {
+        key: "rzp_test_RESUioZgG90aU9",
+        amount: res.data.order.amount,
+        currency: "INR",
+        name: "The Doctors App",
+        order_id: res.data.order.id,
+        handler: async function (response) {
+          const verifyRes = await axios.post(
+            `/api/patient/verifyPayment/${id}`,
+            {
+              razorpay_order_id: res.data.order.id,
+              razorpay_payment_id: response.razorpay_payment_id,
+              appointmentId: id,
+            },
+            { withCredentials: true }
+          );
+
+          if (verifyRes.data.success) {
+            dispatch(setExistingAppointment(null));
+            toast.success("Payment verified successfully");
+            router.push("/patient/myAppointments");
+          } else {
+            toast.error(verifyRes.data.message);
+          }
+        },
+        theme: { color: "#4d7ded" },
+      };
+
+      const rzp = new window.Razorpay(options);
+      rzp.open();
     } catch (error) {
       toast.error(error.response?.data?.message || "Something went wrong");
     } finally {
@@ -118,197 +155,104 @@ const BookingConfirmed = () => {
   return (
     <div className="w-full px-4 sm:px-6 lg:px-12">
       {/* Top Section */}
-    <div className="w-full flex flex-col lg:flex-row justify-center mt-10 gap-8">
-           {/* Doctor Image */}
-           <div className="w-full lg:w-1/3 flex justify-center">
-             <div className="w-full max-w-sm">
-               <Image
-                 height={400}
-                 width={300}
-                 alt="Doctor's photo"
-                 className="rounded-3xl object-contain w-full max-h-[400px]"
-                 src={selectedDoctor?.profilePhoto}
-               />
-             </div>
-           </div>
-   
-           {/* Doctor Details */}
-           <div className="flex flex-col w-full lg:w-2/3 gap-6">
-             <h1 className="font-bold text-4xl">Dr.{selectedDoctor?.fullName}</h1>
-             <p className="text-lg text-gray-700">
-               {selectedDoctor?.doctorsProfile?.qualifications?.join(", ")}
-             </p>
-             <p className="border-b-2 pb-6 border-dashed border-gray-400">
-               Speciality in{" "}
-               <span className="font-medium">
-                 {selectedDoctor?.doctorsProfile?.specializations}
-               </span>
-             </p>
-             <p className="text-gray-600 text-lg">Working At</p>
-             <h1 className="text-lg font-medium border-b-2 border-dashed border-gray-400 pb-6">
-               {selectedDoctor?.doctorsProfile?.clinic?.[0]?.clinicName},{" "}
-               {selectedDoctor?.doctorsProfile?.clinic?.[0]?.city}
-             </h1>
-             <h1 className="font-bold text-2xl">
-               Consultation Fees:{" "}
-               <span className="text-[#4d91ff] ml-3">
-                 ₹{selectedDoctor?.doctorsProfile?.consultationFees}{" "}
-                 <span className="font-semibold"> per consultation</span>
-               </span>
-             </h1>
-           </div>
-         </div>
+      <div className="w-full flex flex-col lg:flex-row justify-center mt-10 gap-8">
+        <div className="w-full lg:w-1/3 flex justify-center">
+          <Image
+            height={400}
+            width={300}
+            alt="Doctor's photo"
+            className="rounded-3xl object-contain w-full max-h-[400px]"
+            src={selectedDoctor?.profilePhoto}
+          />
+        </div>
 
-      {/* Booking + Payment Section */}
+        <div className="flex flex-col w-full lg:w-2/3 gap-6">
+          <h1 className="font-bold text-4xl">
+            Dr. {selectedDoctor?.fullName}
+          </h1>
+          <p className="text-lg text-gray-700">
+            {selectedDoctor?.doctorsProfile?.qualifications?.join(", ")}
+          </p>
+          <p className="border-b-2 pb-6 border-dashed border-gray-400">
+            Speciality in{" "}
+            <span className="font-medium">
+              {selectedDoctor?.doctorsProfile?.specializations}
+            </span>
+          </p>
+          <h1 className="font-bold text-2xl">
+            Consultation Fees:{" "}
+            <span className="text-[#4d91ff] ml-3">
+              ₹{selectedDoctor?.doctorsProfile?.consultationFees}
+            </span>
+          </h1>
+        </div>
+      </div>
+
+      {/* Booking Section */}
       <div className="flex flex-col md:flex-row justify-center gap-7 p-4 mt-8">
-        {/* Form Section */}
+        {/* Form */}
         <div className="flex flex-col w-full md:w-1/2 bg-white p-4 rounded-lg gap-4">
-          <h1 className="font-bold">Payment Details</h1>
-          <p>Fill in your information to complete the appointment</p>
+          <h1 className="font-bold">
+            {ENABLE_PAYMENTS ? "Payment Details" : "Patient Details"}
+          </h1>
 
           <div className="flex flex-col sm:flex-row gap-4">
-            <div className="flex flex-col flex-1 gap-2">
-              <Label>Full Name</Label>
-              <Input
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                className="rounded-xl bg-white"
-              />
-            </div>
-
-            <div className="flex flex-col flex-1 gap-2">
-              <Label>Phone Number</Label>
-              <Input
-                name="phoneNumber"
-                value={formData.phoneNumber}
-                onChange={handleChange}
-                className="rounded-xl bg-white"
-              />
-            </div>
+            <Input
+              placeholder="Full Name"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+            />
+            <Input
+              placeholder="Phone Number"
+              name="phoneNumber"
+              value={formData.phoneNumber}
+              onChange={handleChange}
+            />
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4">
-            <div className="flex flex-col flex-1 gap-2">
-              <Label>Age</Label>
-              <Input
-                name="age"
-                value={formData.age}
-                onChange={handleChange}
-                className="rounded-xl bg-white"
-              />
-            </div>
-
-            <div className="flex flex-col flex-1 gap-2">
-              <Label>Gender</Label>
-              <Input
-                name="gender"
-                value={formData.gender}
-                onChange={handleChange}
-                className="rounded-xl bg-white"
-              />
-            </div>
+            <Input
+              placeholder="Age"
+              name="age"
+              value={formData.age}
+              onChange={handleChange}
+            />
+            <Input
+              placeholder="Gender"
+              name="gender"
+              value={formData.gender}
+              onChange={handleChange}
+            />
           </div>
 
-          <div className="flex flex-col gap-2">
-            <p className="text-sm">Payment Methods</p>
-            <div className="flex gap-1 p-2 border justify-center items-center w-fit border-black rounded-xl">
-              <ClipboardPlus className="h-4 w-4" />
-              <p className="text-xs">Pay To Doctor</p>
-            </div>
-          </div>
-          <h1 className="text-sm">Payment Information</h1>
           <p className="text-xs">
-            ₹99 will be charged now to lock your appointment. The remaining
-            consultation fee (₹
-            {selectedDoctor?.doctorsProfile?.consultationFees - 99}) will be
-            paid directly to the doctor during consultation.
+            {ENABLE_PAYMENTS
+              ? "₹99 will be charged now to lock your appointment."
+              : "This appointment is currently FREE."}
           </p>
         </div>
 
-        {/* Order Summary */}
+        {/* Summary */}
         <div className="bg-[#f8fbfe] w-full md:w-1/2 rounded-lg p-5 flex flex-col gap-5">
-          <h1 className="font-bold">Appointment Details</h1>
-          <div className="flex flex-col sm:flex-row gap-2">
-            <Image
-              height={140}
-              width={100}
-              alt="Doctor's photo"
-              className="rounded-3xl object-cover h-28 w-24"
-              src={selectedDoctor?.profilePhoto}
-            />
-            <div className="flex flex-col justify-center">
-              <p className="text-slate-500 text-xs">27 June</p>
-              <p className="font-bold text-lg">Dr. {selectedDoctor?.fullName}</p>
-              <p className="text-sm flex gap-1 font-bold">
-<p>₹</p>
-                <span>{selectedDoctor?.doctorsProfile?.consultationFees}</span>
-              </p>
-            </div>
-          </div>
-
-          <div className="flex justify-between text-sm">
-            <p className="text-slate-600">Subtotal</p>
-            <p className="font-bold flex gap-1">
-<p>₹</p>
-              <span>{selectedDoctor?.doctorsProfile?.consultationFees}</span>
-            </p>
-          </div>
-
-          <div className="flex justify-between text-sm">
-            <p className="text-slate-600">Appointment Fee (Advance Payment)</p>
-            <p className="font-bold flex gap-1">
-<p>₹</p>
-              <span>  99</span>
-            </p>
-          </div>
-
-          <div className="flex justify-between text-sm">
-            <p className="text-slate-600">
-              Remaining Consultation Fee (Pay to Doctor)
-            </p>
-            <p className="font-bold flex gap-1">
-<p>₹</p>
-              <span>
-                {selectedDoctor?.doctorsProfile?.consultationFees - 99}
-              </span>
-            </p>
-          </div>
-
-          <div className="flex px-3 items-center w-full gap-2">
+          <div className="flex items-center gap-2">
             <Input
               type="checkbox"
               checked={isTermsChecked}
               onChange={(e) => setIsTermsChecked(e.target.checked)}
               className="w-5"
             />
-            <p className="text-sm">
-              I agree to the{" "}
-              <span className="underline text-blue-600">
-                terms and conditions
-              </span>
-            </p>
+            <p className="text-sm">I agree to the terms and conditions</p>
           </div>
 
-          {loading ? (
-            <Button className="bg-[#4d7ded] h-10 text-lg text-white disabled">
-              <Loader2 className="animate-spin mr-2 h-4 w-4" />
-              Please Await...
-            </Button>
-          ) : (
-            <Button
-              onClick={handleBooking}
-              disabled={!isTermsChecked || loading}
-              variant="outline"
-              className={`bg-[#4d91ff] cursor-pointer h-10 text-lg text-white ${
-                !isTermsChecked || loading
-                  ? "opacity-50 cursor-not-allowed"
-                  : ""
-              }`}
-            >
-              Confirm Booking
-            </Button>
-          )}
+          <Button
+            onClick={handleBooking}
+            disabled={!isTermsChecked || loading}
+            className="bg-[#4d91ff] cursor-pointer h-10 text-lg text-white"
+          >
+            {loading && <Loader2 className="animate-spin mr-2 h-4 w-4" />}
+            {ENABLE_PAYMENTS ? "Confirm Booking" : "Confirm Free Booking"}
+          </Button>
         </div>
       </div>
     </div>
