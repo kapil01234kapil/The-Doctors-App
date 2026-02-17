@@ -148,7 +148,7 @@ const DashboardSecond = () => {
             className="w-full"
           >
             <CarouselContent className="-ml-2 md:-ml-4">
-              {allDoctors.map((doctor) => (
+              {allDoctors?.map((doctor) => (
                 <CarouselItem
                   key={doctor?._id}
                   className="pl-2 md:pl-4 basis-full sm:basis-1/2 lg:basis-1/4"

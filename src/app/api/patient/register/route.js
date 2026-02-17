@@ -28,8 +28,8 @@ export async function POST(req) {
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
-        user: process.env.EMAIL_THEDOCTORSAPP,
-        pass: process.env.PASSWORD_THEDOCTORSAPP,
+        user: process.env.EMAIL_NEXTCONNECTHUB,
+        pass: process.env.PASSWORD_NEXTCONNECTHUB,
       },
     });
 
@@ -55,7 +55,7 @@ export async function POST(req) {
         await existingUser.save();
 
         await transporter.sendMail({
-          from: process.env.EMAIL_THEDOCTORSAPP,
+          from: process.env.EMAIL_NEXTCONNECTHUB,
           to: email,
           subject: "Your OTP Code",
           text: `Your OTP is ${otp}. It is valid for 10 minutes.`,
@@ -100,7 +100,7 @@ export async function POST(req) {
     await newUser.save();
 
     await transporter.sendMail({
-      from: process.env.EMAIL_THEDOCTORSAPP,
+      from: process.env.EMAIL_NEXTCONNECTHUB,
       to: email,
       subject: "Your OTP Code",
       text: `Your OTP is ${otp}. It is valid for 10 minutes.`,
